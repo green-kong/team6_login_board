@@ -29,6 +29,22 @@
   color: white;
   padding: 140px 0;
   box-sizing: border-box;
+  z-index: 3;
+}
+
+#side_menu > .sidemenu_btn {
+  position: absolute;
+  top: 60px;
+  left: 60px;
+}
+
+#side_menu > .sidemenu_btn > div {
+  transform: rotate(45deg);
+}
+
+#side_menu > .sidemenu_btn > div:nth-child(2) {
+  transform: rotate(-45deg);
+  top: 0;
 }
 
 #sidemenu_check:checked ~ #side_menu {

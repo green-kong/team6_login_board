@@ -1,11 +1,17 @@
 #header {
-  width: 100%;
+  width: 1200px;
   height: 100px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 0;
   box-sizing: border-box;
+  top: 0;
+  background-color: #fff;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  position: fixed;
 }
 
 #logo {
@@ -17,7 +23,7 @@
   display: none;
 }
 
-#sidemenu_btn {
+.sidemenu_btn {
   width: 30px;
   height: 30px;
   background-color: transparent;
@@ -26,18 +32,18 @@
   z-index: 10;
 }
 
-#sidemenu_btn > div {
+.sidemenu_btn > div {
   position: absolute;
   width: 100%;
   height: 5px;
   background-color: black;
 }
 
-#sidemenu_btn > div:nth-child(2) {
+.sidemenu_btn > div:nth-child(2) {
   top: 50%;
   transform: translateY(-50%);
 }
 
-#sidemenu_btn > div:nth-child(3) {
+.sidemenu_btn > div:nth-child(3) {
   bottom: 0;
 }
