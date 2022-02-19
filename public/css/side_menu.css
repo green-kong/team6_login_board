@@ -11,6 +11,7 @@
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.4);
+  z-index: 98;
 }
 
 #side_menu {
@@ -29,7 +30,7 @@
   color: white;
   padding: 140px 0;
   box-sizing: border-box;
-  z-index: 3;
+  z-index: 99;
 }
 
 #side_menu > .sidemenu_btn {
@@ -39,6 +40,7 @@
 }
 
 #side_menu > .sidemenu_btn > div {
+  border: none;
   transform: rotate(45deg);
 }
 
