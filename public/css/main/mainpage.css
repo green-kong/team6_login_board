@@ -36,16 +36,9 @@
   height: 100vh;
 }
 
-#slide_img_list > li:nth-child(2) > div {
-  background-color: darkolivegreen;
-}
-
-#slide_img_list > li:nth-child(3) > div {
-  background-color: tomato;
-}
-
-#slide_img_list > li:nth-child(4) > div {
-  background-color: lightsalmon;
+.slide_img {
+  width: 100vw;
+  height: 100vh;
 }
 
 #middle_content {
