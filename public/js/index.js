@@ -4,6 +4,7 @@ const topTxT = document.querySelector('#top_text');
 const slideImg = document.querySelector('.slide_img');
 const firstImg = document.querySelector('#first_img');
 const imgFrame = document.querySelector('#slide_img_list');
+const blockInfo = document.querySelectorAll('.block_info');
 
 const imgWidth = slideImg.getBoundingClientRect().width;
 
@@ -66,7 +67,21 @@ window.addEventListener('scroll', () => {
     isSlide = false;
   }
 
+  if (window.scrollY > 1060) {
+    blockInfo[0].classList.add('scroll');
+    setTimeout(() => {
+      blockInfo[1].classList.add('scroll');
+    }, 200);
+    setTimeout(() => {
+      blockInfo[2].classList.add('scroll');
+    }, 400);
+  } else {
+    blockInfo.forEach((v) => v.classList.remove('scroll'));
+  }
+
   if (window.scrollY > 1280) {
     header.classList.remove('scroll');
+    clearInterval(slideInterval);
+    isSlide = false;
   }
 });

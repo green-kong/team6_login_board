@@ -74,7 +74,7 @@
   justify-content: space-between;
 }
 
-#block_list > li {
+.block_info {
   display: flex;
   flex-direction: column;
   background-color: #107af2;
@@ -84,6 +84,14 @@
   height: 240px;
   border-radius: 20px;
   color: white;
+  opacity: 0;
+  transform: translateY(200px);
+  transition: all 400ms ease-in;
+}
+
+.block_info.scroll {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 #block_list > li:nth-child(2) {
