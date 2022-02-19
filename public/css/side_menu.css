@@ -91,8 +91,11 @@
 #category_menu {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   height: 35vh;
+}
+
+#category_menu > li {
+  margin-bottom: 40px;
 }
 
 #category_menu > li > a {
