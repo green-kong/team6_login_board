@@ -16,6 +16,7 @@
 
 #top_text.scroll {
   color: white;
+  z-index: 3;
 }
 
 #top_text.fix {
@@ -38,6 +39,7 @@
   height: 100vh;
   background-color: dodgerblue;
   display: flex;
+  transition: all 350ms ease-in;
 }
 
 #slide_img_list > li > div {
