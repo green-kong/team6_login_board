@@ -7,6 +7,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="../public/css/index.css" />
     <link rel="stylesheet" href="../public/css/header.css" />
+    <link rel="stylesheet" href="../public/css/side_menu.css" />
   </head>
   <body>
     <div id="wrap">
@@ -16,12 +17,29 @@
             <img src="../public/img/LOGO/Logo.png" id="logo" />
           </a>
         </h1>
-        <input type="checkbox" id="sidemenu_check" />
         <label for="sidemenu_check" id="sidemenu_btn">
           <div></div>
           <div></div>
           <div></div>
         </label>
+      </div>
+      <input type="checkbox" id="sidemenu_check" />
+      <div id="side_menu_container"></div>
+      <div id="side_menu">
+        <div id="user_menu">
+          <div>
+            <img src="../public/img/icon/usericon.png" alt="" />
+            <span> 로그인 해주세요.</span>
+          </div>
+          <ul>
+            <li><a href="#">로그인</a></li>
+            <li><a href="#">회원가입</a></li>
+          </ul>
+        </div>
+        <ul id="category_menu">
+          <li><a href="#">HOME</a></li>
+          <li><a href="#">BOARD</a></li>
+        </ul>
       </div>
       <div id="content"></div>
       <div id="footer"></div>

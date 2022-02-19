@@ -20,9 +20,10 @@
 #sidemenu_btn {
   width: 30px;
   height: 30px;
-  background-color: #fff;
+  background-color: transparent;
   position: relative;
   cursor: pointer;
+  z-index: 10;
 }
 
 #sidemenu_btn > div {
