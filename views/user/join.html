@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../../public/css/index.css" />
+    <link rel="stylesheet" href="../../public/css/header.css" />
+    <link rel="stylesheet" href="../../public/css/side_menu.css" />
+    <link rel="stylesheet" href="../../public/css/user/user_bg.css" />
+  </head>
+  <body>
+    <div id="wrap">
+      <div id="header">
+        <div id="header_wrap">
+          <h1>
+            <a href="#">
+              <img src="../../public/img/LOGO/Logo_transparent.png" id="logo" />
+            </a>
+          </h1>
+          <label for="sidemenu_check" class="sidemenu_btn">
+            <div></div>
+            <div></div>
+            <div></div>
+          </label>
+        </div>
+      </div>
+      <input type="checkbox" id="sidemenu_check" />
+      <div id="side_menu_container"></div>
+      <div id="side_menu">
+        <label for="sidemenu_check" class="sidemenu_btn">
+          <div></div>
+          <div></div>
+        </label>
+        <div id="user_menu">
+          <div>
+            <img src="../../public/img/icon/usericon.png" alt="" />
+            <span> 로그인 해주세요.</span>
+          </div>
+          <ul>
+            <li><a href="#">로그인</a></li>
+            <li><a href="#">회원가입</a></li>
+          </ul>
+        </div>
+        <ul id="category_menu">
+          <li><a href="#">HOME</a></li>
+          <li><a href="#">BOARD</a></li>
+        </ul>
+      </div>
+      <div id="content">
+        <form action="#" method="post">
+          <ul id="join_list">
+            <li>
+              <label for="userid">아이디</label>
+              <div>
+                <input type="text" name="userid" id="userid" />
+                <button
+                  type="button"
+                  id="id_check_btn"
+                  class="join_btn"
+                  onclick="idCheckPopup()"
+                >
+                  중복확인
+                </button>
+              </div>
+            </li>
+            <li>
+              <label for="username">이름</label>
+              <input type="text" name="username" id="username" />
+            </li>
+            <li>
+              <label for="useralias">닉네임</label>
+              <input type="text" name="useralias" id="useralias" />
+            </li>
+            <li>
+              <label for="userpw">비밀번호</label>
+              <input type="password" name="userpw" id="userpw" />
+            </li>
+            <li>
+              <label for="userpw_check">비밀번호 확인</label>
+              <input type="password" id="userpw_check" />
+            </li>
+            <li>
+              <label for="useremail">이메일</label>
+              <input type="text" name="useremail" id="useremail" />
+            </li>
+            <li>
+              <label for="user_birth_year">생년월일</label>
+              <div>
+                <input
+                  type="text"
+                  name="userBirthYear"
+                  id="user_birth_year"
+                  placeholder="년(4자)"
+                  class="one_third_input"
+                />
+                <input
+                  type="text"
+                  name="userBirthMonth"
+                  placeholder="월"
+                  class="one_third_input"
+                />
+                <input
+                  type="text"
+                  name="userBirthDay"
+                  placeholder="일"
+                  class="one_third_input"
+                />
+              </div>
+            </li>
+            <li>
+              <label for="usergender">성별</label>
+              <select name="usergender" id="usergender">
+                <option value="남자">남자</option>
+                <option value="여자">여자</option>
+              </select>
+            </li>
+            <li>
+              <label for="usermobile1">핸드폰 번호</label>
+              <div>
+                <input
+                  type="text"
+                  name="usermobile1"
+                  id="usermobile1"
+                  class="one_third_input"
+                />
+                <input
+                  type="text"
+                  name="usermobile2"
+                  id="usermobile2"
+                  class="one_third_input"
+                />
+                <input
+                  type="text"
+                  name="usermobile3"
+                  id="usermobile3"
+                  class="one_third_input"
+                />
+              </div>
+            </li>
+            <li>
+              <label for="usertel">전화번호(선택)</label>
+              <div>
+                <input
+                  type="text"
+                  name="usertel1"
+                  id="usertel1"
+                  class="one_third_input"
+                />
+                <input
+                  type="text"
+                  name="usertel2"
+                  id="usertel2"
+                  class="one_third_input"
+                />
+                <input
+                  type="text"
+                  name="usertel3"
+                  id="usertel3"
+                  class="one_third_input"
+                />
+              </div>
+            </li>
+            <button type="submit" class="join_btn" id="join_submit_btn">
+              회원가입
+            </button>
+          </ul>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
