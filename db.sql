@@ -13,8 +13,8 @@ CREATE TABLE user (
     email VARCHAR(64) NOT NULL,
     tel CHAR(32) ,
     mobile CHAR(32) NOT NULL,
-    level INT NOT NULL,
-    isActive BOOLEAN NOT NULL
+    level INT NOT NULL DEFAULT 3,
+    isActive BOOLEAN NOT NULL DEFAULT 1,
 );
 
 INSERT INTO user 
