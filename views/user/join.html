@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../public/css/header.css" />
     <link rel="stylesheet" href="../../public/css/side_menu.css" />
     <link rel="stylesheet" href="../../public/css/user/user_bg.css" />
+    <script src="../../public/js/user/join.js" defer></script>
   </head>
   <body>
     <div id="wrap">
@@ -64,6 +65,7 @@
                   중복확인
                 </button>
               </div>
+              <span id="id_span"></span>
             </li>
             <li>
               <label for="username">이름</label>
@@ -80,10 +82,12 @@
             <li>
               <label for="userpw_check">비밀번호 확인</label>
               <input type="password" id="userpw_check" />
+              <span id="pw_span"></span>
             </li>
             <li>
               <label for="useremail">이메일</label>
               <input type="text" name="useremail" id="useremail" />
+              <span></span>
             </li>
             <li>
               <label for="user_birth_year">생년월일</label>
@@ -108,6 +112,7 @@
                   class="one_third_input"
                 />
               </div>
+              <span></span>
             </li>
             <li>
               <label for="usergender">성별</label>
@@ -138,6 +143,7 @@
                   class="one_third_input"
                 />
               </div>
+              <span></span>
             </li>
             <li>
               <label for="usertel">전화번호(선택)</label>
@@ -161,6 +167,7 @@
                   class="one_third_input"
                 />
               </div>
+              <span></span>
             </li>
             <button type="submit" class="join_btn" id="join_submit_btn">
               회원가입
