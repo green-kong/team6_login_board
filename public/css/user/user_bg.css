@@ -3,6 +3,12 @@ body {
   background-size: cover;
 }
 
+span {
+  font-size: 13px;
+  color: red;
+  margin-left: 5px;
+}
+
 #header {
   background-color: transparent;
 }
@@ -69,6 +75,13 @@ body {
   border: 1px solid #fff;
   border-radius: 10px;
   cursor: pointer;
+}
+
+.join_btn.non_btn {
+  background-color: #ececec;
+  color: black;
+  line-height: 40px;
+  text-align: center;
 }
 
 .join_btn:hover {
