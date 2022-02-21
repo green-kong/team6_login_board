@@ -21,7 +21,7 @@ table {
   margin: 0 auto;
   border-top: 2px solid #333;
   border-collapse: collapse;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 tr {
@@ -55,6 +55,30 @@ td {
 
 #author {
   width: 120px;
+}
+
+#btn_container {
+  display: flex;
+  justify-content: right;
+  width: 1000px;
+  margin: 0 auto;
+}
+
+#write_btn {
+  width: 100px;
+  height: 35px;
+  background-color: #107af2;
+  color: white;
+  text-align: center;
+  line-height: 35px;
+  border-radius: 5px;
+}
+
+#write_btn:hover {
+  background-color: #fff;
+  color: #107af2;
+  border: 2px solid #107af2;
+  box-sizing: border-box;
 }
 
 #pagenation {
