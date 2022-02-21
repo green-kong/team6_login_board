@@ -40,30 +40,87 @@
 
 - GET join
 - POST join
+  - 아이디 userid
+  - 비밀번호 userpw
+  - 이름 username
+  - 닉네임 useralias
+  - 생년월일 userBirthYear, userBirthMonth, userBirthDay
+  - 이메일 useremail
+  - 성별 usergender
+  - 핸드폰번호 usermobile1, usermobile2, usermobile3
+  - 집번호 usertel1, usertel2, usertel3
 - GET login
 - POST login
+  - 아이디 userid
+  - 비번 userpw
 - GET profile
-- POST quit
+- POST profile
+  - 비밀번호 userpw
+  - 닉네임 useralias
+  - 생년월일 userBirthYear, userBirthMonth, userBirthDay
+  - 이메일 useremail
+  - 성별 usergender
+  - 핸드폰번호 usermobile1, usermobile2, usermobile3
+  - 집번호 usertel1, usertel2, usertel3
+- GET quit
+  - url 에 쿼리스트링으로 할거임ㅇㅋ?
+  ```html
+  <a href="/user/quit?user_id=??">회원탈퇴</a>
+  ```
+  - user_id
 
 ## board
 
 - GET list
 - GET write
 - POST write
+  - req.body.??
+  - 제목 subject
+  - 글쓴이 author
+  - 내용 content
 - GET view
+  - url 쿼리스트링으로 보낼거임
+  - req.query.??
+  - /board/view?\_id=??
+  - \_id
 - GET edit
+  - url 쿼리스트링으로 보낼거임
+  - req.query.??
+  - /board/edit?\_id=??
+  - \_id
 - POST edit
+  - req.body.??
+  - 제목 subject
+  - 글쓴이 author
+  - 내용 content
 - POST delete
+  - 글번호 board_id
 
 ## admin
 
 - GET /
 - POST /
+  - 아이디 adminid
+  - 비밀번호 adminpw
 - GET user
 - GET user/edit
+  - url 쿼리스트링
+  - /admin/user/edit?user_id=??
+  - user_id
+  - req.query
 - POST user/edit
+  - 등급 level
+  - 계정상태 isActive
+  - 닉네임 useralias
+  - 생년월일 userBirthYear, userBirthMonth, userBirthDay
+  - 이메일 useremail
+  - 성별 usergender
+  - 핸드폰번호 usermobile1, usermobile2, usermobile3
+  - 집번호 usertel1, usertel2, usertel3
 - GET board
 - POST board
+  - req.body.??
+  - board_id
 
 # Coding-Convention
 
