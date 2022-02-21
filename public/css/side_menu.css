@@ -67,6 +67,10 @@
   margin-right: 10px;
 }
 
+#user_menu > div > #side_menu_span {
+  color: white;
+}
+
 #user_menu > ul {
   display: flex;
   justify-content: space-between;
