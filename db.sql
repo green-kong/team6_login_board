@@ -14,7 +14,7 @@ CREATE TABLE user (
     tel CHAR(32) ,
     mobile CHAR(32) NOT NULL,
     level INT NOT NULL DEFAULT 3,
-    isActive BOOLEAN NOT NULL DEFAULT 1,
+    isActive BOOLEAN NOT NULL DEFAULT 1
 );
 
 INSERT INTO user 
@@ -48,7 +48,7 @@ CREATE TABLE board (
     content TEXT,
     date TIMESTAMP NOT NULL,
     author INT NOT NULL,
-    hit INT
+    hit INT DEFAULT 0
 );
 
 INSERT INTO board
