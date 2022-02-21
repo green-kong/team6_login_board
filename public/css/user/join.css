@@ -1,6 +1,6 @@
 body {
   background: url('../../img/bg/gradation_bg.jpg');
-  background-size: cover;
+  background-position: cover;
 }
 
 span {
