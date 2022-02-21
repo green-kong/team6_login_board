@@ -24,7 +24,6 @@ const mobileSpan = document.querySelector('#mobile_span');
 const telSpan = document.querySelector('#tel_span');
 
 const joinBtn = document.querySelector('#btn_container');
-
 const idCompare = [];
 
 let isIdCheck = false;
@@ -49,8 +48,11 @@ const btnActive = () => {
 };
 
 inputList.forEach((v) => {
-  v.addEventListener('keypress', (e) => {
-    if (e.keyCode === 32) alert('공백은 입력이 불가능합니다.');
+  v.addEventListener('keydown', (e) => {
+    if (e.keyCode === 32) {
+      e.preventDefault();
+      alert('공백은 입력이 불가능합니다.');
+    }
   });
 });
 
@@ -61,6 +63,24 @@ idCheckBtn.addEventListener('click', () => {
   idPass = true;
   btnActive();
 });
+
+const checkKor = (str) => {
+  const regExp = /[ㄱ-ㅎㅏ-ㅣ가-힣]/g;
+  if (regExp.test(str)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+const checkEngNum = (str) => {
+  const regExp = /[a-zA-Z0-9]/g;
+  if (regExp.test(str)) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
 userid.addEventListener('blur', () => {
   idCompare.push(userid.value);
@@ -78,6 +98,14 @@ userid.addEventListener('blur', () => {
     isIdCheck = false;
     btnActive();
 
+    return;
+  }
+
+  if (checkKor(userid.value)) {
+    userid.style.background = 'pink';
+    idSpan.innerHTML = '영어와 숫자만 사용 가능합니다.';
+    idPass = false;
+    btnActive();
     return;
   }
 
@@ -101,12 +129,21 @@ username.addEventListener('blur', () => {
     nameSpan.innerHTML = '이름을 입력해주세요.';
     namePass = false;
     btnActive();
-  } else {
-    username.style.background = '';
-    nameSpan.innerHTML = '';
-    namePass = true;
-    btnActive();
+    return;
   }
+
+  if (checkEngNum(username.value)) {
+    username.style.background = 'pink';
+    nameSpan.innerHTML = '한글만 입력 가능합니다.';
+    namePass = false;
+    btnActive();
+    return;
+  }
+
+  username.style.background = '';
+  nameSpan.innerHTML = '';
+  namePass = true;
+  btnActive();
 });
 
 userAlias.addEventListener('blur', () => {
@@ -170,6 +207,14 @@ userEmail.addEventListener('blur', () => {
     return;
   }
 
+  if (checkKor(userEmail.value)) {
+    userEmail.style.background = 'pink';
+    emailSpan.innerHTML = '올바른 이메일을 입력해주세요.';
+    emailPass = false;
+    btnActive();
+    return;
+  }
+
   const atCheck = userEmail.value.split('@');
   if (atCheck.length !== 2) {
     userEmail.style.background = 'pink';
@@ -196,16 +241,6 @@ userEmail.addEventListener('blur', () => {
 
 numberInputList.forEach((v) => {
   v.addEventListener('blur', (e) => {
-    for (let i = 0; i < numberInputList.length; i++) {
-      console.log(i);
-      if (i < 6 && numberInputList[i].value === '') {
-        console.log('check', i);
-        numberPass = false;
-        btnActive();
-        return;
-      }
-    }
-
     const idx = [...numberInputList].indexOf(e.target);
     if (isNaN(v.value)) {
       if (idx < 3) {
@@ -219,6 +254,14 @@ numberInputList.forEach((v) => {
       numberPass = false;
       btnActive();
       return;
+    } else {
+      e.target.style.background = '';
+      e.target.style.background = '';
+      birthSpan.innerHTML = '';
+      mobileSpan.innerHTML = '';
+      telSpan.innerHTML = '';
+      numberPass = true;
+      btnActive();
     }
 
     if (v.value === '') {
@@ -234,6 +277,27 @@ numberInputList.forEach((v) => {
       btnActive();
       return;
     }
+
+    for (let i = 0; i < numberInputList.length; i++) {
+      if (i < 6 && numberInputList[i].value === '') {
+        numberPass = false;
+        btnActive();
+        return;
+      }
+
+      if (numberInputList[1].value < 1 || numberInputList[1].value > 12) {
+        numberInputList[1].style.background = 'pink';
+        birthSpan.innerHTML = '올바른 날짜를 입력해주세요.';
+        return;
+      }
+
+      if (numberInputList[2].value < 1 || numberInputList[2].value > 31) {
+        numberInputList[2].style.background = 'pink';
+        birthSpan.innerHTML = '올바른 날짜를 입력해주세요.';
+        return;
+      }
+    }
+
     console.log('check2');
     e.target.style.background = '';
     e.target.style.background = '';
