@@ -5,7 +5,7 @@
 #board_top {
   width: 100%;
   height: 25vh;
-  background-image: url('../../img/bg/board_top_bgbg.jpg');
+  background-image: url('/img/bg/board_top_bgbg.jpg');
   background-size: 110% 220px;
   border-top: none;
   box-sizing: border-box;
@@ -69,4 +69,5 @@ td {
   font-size: 18px;
   font-weight: 900;
   color: #107af2;
+  border-bottom: 1px solid #107af2;
 }

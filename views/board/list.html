@@ -1,119 +1,101 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../../public/css/index.css" />
-    <link rel="stylesheet" href="../../public/css/header.css" />
-    <link rel="stylesheet" href="../../public/css/board/list.css" />
-    <title>Document</title>
-  </head>
-  <body>
-    <div id="header">
-      <div id="header_wrap">
-        <h1>
-          <a href="#">
-            <img src="../../public/img/LOGO/Logo_transparent.png" id="logo" />
-          </a>
-        </h1>
-        <label for="sidemenu_check" class="sidemenu_btn">
-          <div></div>
-          <div></div>
-          <div></div>
-        </label>
-      </div>
-    </div>
-    <div id="content">
-      <div id="board_top">자유게시판</div>
-      <table>
-        <tr id="category">
-          <td id="_id">번호</td>
-          <td id="subject">제목</td>
-          <td id="author">작성자</td>
-          <td id="date">등록일</td>
-          <td id="hit">조회수</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td class="subject_align"><a href="#">안녕하세요</a></td>
-          <td>작성자</td>
-          <td>2022.01.26</td>
-          <td>12</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td class="subject_align"><a href="#">안녕하세요</a></td>
-          <td>작성자</td>
-          <td>2022.01.26</td>
-          <td>12</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td class="subject_align"><a href="#">안녕하세요</a></td>
-          <td>작성자</td>
-          <td>2022.01.26</td>
-          <td>12</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td class="subject_align"><a href="#">안녕하세요</a></td>
-          <td>작성자</td>
-          <td>2022.01.26</td>
-          <td>12</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td class="subject_align"><a href="#">안녕하세요</a></td>
-          <td>작성자</td>
-          <td>2022.01.26</td>
-          <td>12</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td class="subject_align"><a href="#">안녕하세요</a></td>
-          <td>작성자</td>
-          <td>2022.01.26</td>
-          <td>12</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td class="subject_align"><a href="#">안녕하세요</a></td>
-          <td>작성자</td>
-          <td>2022.01.26</td>
-          <td>12</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td class="subject_align"><a href="#">안녕하세요</a></td>
-          <td>작성자</td>
-          <td>2022.01.26</td>
-          <td>12</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td class="subject_align"><a href="#">안녕하세요</a></td>
-          <td>작성자</td>
-          <td>2022.01.26</td>
-          <td>12</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td class="subject_align"><a href="#">안녕하세요</a></td>
-          <td>작성자</td>
-          <td>2022.01.26</td>
-          <td>12</td>
-        </tr>
-      </table>
-      <ul id="pagenation">
-        <li><a href="#"><</a></li>
-        <li><a href="#" id="emphasis">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li><a href="#">></a></li>
-      </ul>
-    </div>
-  </body>
-</html>
+{% extends "../template/_layout.html" %}
+<!--  -->
+{% block css %}
+<link rel="stylesheet" href="/css/board/list.css" />
+{% endblock %}
+<!--  -->
+{% block js %} {% endblock%}
+<!--  -->
+{% block content %}
+<div id="content">
+  <div id="board_top">자유게시판</div>
+  <table>
+    <tr id="category">
+      <td id="_id">번호</td>
+      <td id="subject">제목</td>
+      <td id="author">작성자</td>
+      <td id="date">등록일</td>
+      <td id="hit">조회수</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td class="subject_align"><a href="#">안녕하세요</a></td>
+      <td>작성자</td>
+      <td>2022.01.26</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td class="subject_align"><a href="#">안녕하세요</a></td>
+      <td>작성자</td>
+      <td>2022.01.26</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td class="subject_align"><a href="#">안녕하세요</a></td>
+      <td>작성자</td>
+      <td>2022.01.26</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td class="subject_align"><a href="#">안녕하세요</a></td>
+      <td>작성자</td>
+      <td>2022.01.26</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td class="subject_align"><a href="#">안녕하세요</a></td>
+      <td>작성자</td>
+      <td>2022.01.26</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td class="subject_align"><a href="#">안녕하세요</a></td>
+      <td>작성자</td>
+      <td>2022.01.26</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td class="subject_align"><a href="#">안녕하세요</a></td>
+      <td>작성자</td>
+      <td>2022.01.26</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td class="subject_align"><a href="#">안녕하세요</a></td>
+      <td>작성자</td>
+      <td>2022.01.26</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td class="subject_align"><a href="#">안녕하세요</a></td>
+      <td>작성자</td>
+      <td>2022.01.26</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td class="subject_align"><a href="#">안녕하세요</a></td>
+      <td>작성자</td>
+      <td>2022.01.26</td>
+      <td>12</td>
+    </tr>
+  </table>
+  <ul id="pagenation">
+    <li><a href="#"><</a></li>
+    <li><a href="#" id="emphasis">1</a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+    <li><a href="#">></a></li>
+  </ul>
+</div>
+{% endblock %}
