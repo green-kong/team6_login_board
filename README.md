@@ -1,158 +1,42 @@
-# 업무분담
+<div align="center">
+  
+![header](https://capsule-render.vercel.app/api?type=waving&color=timeGradient&height=200&section=header&text=안녕하세요!%20Team6입니다.%20🙌&fontSize=36&fontAlign=50&fontAlignY=40)
 
----
+# ✨ Team6 Project ✨
 
-## 동훈 : 팀장 / 프론트엔드 / DB관리 / Github관리
+로그인기능과 게시판 기능 관리자기능이 있는 웹페이지 구현 
+ 
+# 👫 Team Goal 👫
 
-## 수환 : 백엔드 / 메인 / USER
+한주 간 프로젝트를 진행하면서, 두달동안 배운 내용들을 적극적으로 활용하고
+  
+**코딩을 즐길 줄 아는 사람**이 되는 것이 목표입니다.
 
-- 회원가입
-- 로그인
-- 회원 탈퇴
-- 회원정보 수정
-- 게시판 접근권한
-- 관리자페이지 접근권한
-- 글 수정 / 삭제 권한
+|  이름  |   직책   |   역할    |                                                                                                  Github                                                                                                   |
+| :----: | :------: | :-------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| 이동훈 | **팀장** | 지옥에서 돌아온 Front-End  |        <a href="https://github.com/green-kong"><img src="https://img.shields.io/badge/dev%2D%2Dkong-339933?style=flat-square&logo=github&logoColor=white&link=https://github.com/green-kong"/></a>        |
+| 안수환 |   팀원   | 잘생긴 에이스 말랑말랑 뇌 Back-End | <a href="https://github.com/ash991213"><img src="https://img.shields.io/badge/ash991213-EA4AAA?style=flat-square&logo=github&logoColor=white&link=https://github.com/ash991213"/></a> |
+| 홍종남 |   팀원   | 노력의 천재 코딩계의 록리 Back-End |    <a href="https://github.com/Hongjongnam"><img src="https://img.shields.io/badge/Hongjongnam-F5792A?style=flat-square&logo=github&logoColor=white&link=https://github.com/Hongjongnam"/></a>     |
+| 강귀현 |   팀원   | 잠재력 1등 가능성 1등 Back-End  |            <a href="https://github.com/kangcodeis"><img src="https://img.shields.io/badge/kangcodeis-512BD4?style=flat-square&logo=github&logoColor=white&link=https://github.com/kangcodeis"/></a>             |
 
-## 종남 : 백엔드 / ADMIN
+## 🛠 사용 기술 🛠
 
-- 관리자 로그인
-- 사용자 등급 조정
-- 사용자 계정 활성화/ 비활성화
-- 게시글 삭제
+### 🎨 Front-End 🎨
 
-## 귀현 : 백엔드 / BOARD
+<img src="https://img.shields.io/badge/HTML-E34F26?style=flat-square&logo=html5&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/CSS-1572B6?style=flat-square&logo=css3&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/Javascript-FFCD00?style=flat-square&logo=JavaScript&logoColor=white"/></a>
 
-- 게시글 목록
-- 글 작성
-- 게시글 수정
-- 게시글 삭제
+### 🧩 Back-End 🧩
 
-# API 설계
+<img src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white"/></a>
+<img src="https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white"/></a>
 
----
+# 📚 Wiki 📚
 
-## 메인페이지
+[**Wiki Home**](https://github.com/green-kong/team6_login_board/wiki)
 
-- GET /
+![footer](https://capsule-render.vercel.app/api?type=waving&color=timeGradient&height=170&section=footer&reversal=true&fontSize=26&fontAlign=85&animation=twinkling&fontAlignY=70&text=Cheers!)
 
-## user
-
-- GET join
-- POST join
-  - 아이디 userid
-  - 비밀번호 userpw
-  - 이름 username
-  - 닉네임 useralias
-  - 생년월일 userBirthYear, userBirthMonth, userBirthDay
-  - 이메일 useremail
-  - 성별 usergender
-  - 핸드폰번호 usermobile1, usermobile2, usermobile3
-  - 집번호 usertel1, usertel2, usertel3
-- GET login
-- POST login
-  - 아이디 userid
-  - 비번 userpw
-- GET profile
-- POST profile
-  - 비밀번호 userpw
-  - 닉네임 useralias
-  - 생년월일 userBirthYear, userBirthMonth, userBirthDay
-  - 이메일 useremail
-  - 성별 usergender
-  - 핸드폰번호 usermobile1, usermobile2, usermobile3
-  - 집번호 usertel1, usertel2, usertel3
-- GET quit
-  - url 에 쿼리스트링으로 할거임ㅇㅋ?
-  ```html
-  <a href="/user/quit?user_id=??">회원탈퇴</a>
-  ```
-  - user_id
-
-## board
-
-- GET list
-- GET write
-- POST write
-  - req.body.??
-  - 제목 subject
-  - 글쓴이 author
-  - 내용 content
-- GET view
-  - url 쿼리스트링으로 보낼거임
-  - req.query.??
-  - /board/view?\_id=??
-  - \_id
-- GET edit
-  - url 쿼리스트링으로 보낼거임
-  - req.query.??
-  - /board/edit?\_id=??
-  - \_id
-- POST edit
-  - req.body.??
-  - 제목 subject
-  - 글쓴이 author
-  - 내용 content
-- POST delete
-  - 글번호 board_id
-
-## admin
-
-- GET /
-- POST /
-  - 아이디 adminid
-  - 비밀번호 adminpw
-- GET user
-- GET user/edit
-  - url 쿼리스트링
-  - /admin/user/edit?user_id=??
-  - user_id
-  - req.query
-- POST user/edit
-  - 등급 level
-  - 계정상태 isActive
-  - 닉네임 useralias
-  - 생년월일 userBirthYear, userBirthMonth, userBirthDay
-  - 이메일 useremail
-  - 성별 usergender
-  - 핸드폰번호 usermobile1, usermobile2, usermobile3
-  - 집번호 usertel1, usertel2, usertel3
-- GET board
-- POST board
-  - req.body.??
-  - board_id
-
-# Coding-Convention
-
----
-
-### 들여쓰기 :
-
-### 변수와 함수 선언 : Camel-Case
-
-### 세미콜론: 안붙이면 사형
-
-### String 표기 : Single quote
-
-### 콜백지옥: 사형
-
-# Commit-message
-
----
-
-- feat: 새로운 기능 추가
-- fix: 버그수정
-- docs: 문서(주석) 수정
-- style: 코드 스타일 변경(오타 수정 포함)
-- design: 사용자 UI 디자인 변경(CSS)
-
-# Used-package
-
----
-
-- express
-- express-session
-- memorystore
-- mysql2
-- nunjucks
-- dotenv
+</div>
