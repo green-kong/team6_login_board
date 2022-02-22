@@ -10,7 +10,7 @@
 <!--  -->
 {% block content %}
 <div id="content">
-  <form action="#" method="post">
+  <form action="/user/profile" method="post">
     <ul id="join_list">
       <li>
         <label for="userid">아이디</label>
@@ -21,7 +21,7 @@
             id="userid"
             maxlength="16"
             value="{{user.userid}}"
-            disabled
+            readonly
           />
         </div>
         <span id="id_span"></span>
