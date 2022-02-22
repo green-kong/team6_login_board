@@ -42,13 +42,12 @@ exports.logincheck = async (req,res)=>{
     try {
         const { userid,userpw } = req.body;
         const sql = `SELECT * FROM user WHERE userid = "${userid}"`
-        let result = await conn.query(sql)
-        let [result2] = result[0].filter((a)=> a.userid == userid && a.userpw == userpw)
-        console.log(result2)
-        if ( userid == result2.userid ) {
-            if ( userpw == result2.userpw ) {
-                if (result2.isActive === 1) {
-                    req.session.user = result2;
+        let [result] = await conn.query(sql)
+        console.log(result[0])
+        if ( userid == result[0].userid ) {
+            if ( userpw == result[0].userpw ) {
+                if (result[0].isActive === 1) {
+                    req.session.user = result[0];
                     res.redirect('/') 
                 } else {
                     res.send(alertmove('/user/login','사용이 정지된 계정입니다.'))
