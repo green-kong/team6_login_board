@@ -5,11 +5,13 @@ exports.join = (req, res) => {
   res.render('user/join.html');
 };
 
+
 exports.joincheck = async (req, res) => {
   const { body } = req;
   const conn = await pool.getConnection();
   try {
     const sql = `INSERT INTO user
+
                 (userid, userpw, username, alias, birthdate, email, gender, mobile, tel)
                 values
                 ("${body.userid}", "${body.userpw}", "${body.username}", "${body.useralias}", "${body.userBirthYear}-${body.userBirthMonth}-${body.userBirthDay}", "${body.useremail}", "${body.usergender}",
@@ -19,6 +21,7 @@ exports.joincheck = async (req, res) => {
                 values
                 ("${body.userid}", "${body.userpw}", "${body.username}", "${body.useralias}", "${body.userBirthYear}-${body.userBirthMonth}-${body.userBirthDay}", "${body.useremail}", "${body.usergender}",
                 "${body.usermobile1}-${body.usermobile2}-${body.usermobile3}")`;
+
     if (body.usertel1 == '' || body.usertel2 == '' || body.usertel3 == '') {
       await conn.query(sql2);
     } else {
@@ -79,21 +82,20 @@ exports.profilecheck = (req, res) => {
   res.send('hello world');
 };
 
-exports.quit = async (req, res) => {
-  const { body } = req;
-  const conn = await pool.getConnection();
-  try {
-    const sql = `DELETE FORM user WHERE userid = "${body.userid}"`;
-    await conn.query(sql);
-  } catch (error) {
-    throw error;
-  } finally {
-    conn.release();
-  }
-  res.send(alertmove('/', '회원탈퇴가 완료되었습니다.'));
+exports.quit = async (req,res)=>{
+    const { body } = req;
+    const conn = await pool.getConnection()
+    try {
+        const sql = `DELETE FROM user WHERE userid = "${ body.userid }"`
+        await conn.query(sql)
+    } catch (error){
+        throw error;
+    } finally {
+        conn.release();
+    }
+    res.send(alertmove('/user/logout','회원탈퇴가 완료되었습니다.'));
 };
 
-exports.welcome = (req, res) => {
-  const { user } = req.session;
-  res.render('user/welcome.html');
-};
+exports.welcome = (req,res)=>{
+    const { user } = req.session;
+    res.render('user/welcome.html'), { user };
