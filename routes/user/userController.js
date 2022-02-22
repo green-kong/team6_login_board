@@ -44,16 +44,16 @@ exports.logincheck = async (req, res) => {
     const { userid, userpw } = req.body;
     const sql = `SELECT * FROM user WHERE userid = "${userid}" AND userpw = "${userpw}"`;
     let [result] = await conn.query(sql);
-    if (result[0].length === 0) {
-        if (result[0].isActive === 1) {
-          req.session.user = result[0];
-          res.redirect('/');
-        } else {
-          res.send(alertmove('/user/login', '사용이 정지된 계정입니다.'));
-        }
+    if (result.length === 0) {
+      if (result[0].isActive === 1) {
+        req.session.user = result[0];
+        res.redirect('/');
       } else {
-        res.send(alertmove('/user/login', '존재하지 않는 계정입니다.'));
+        res.send(alertmove('/user/login', '사용이 정지된 계정입니다.'));
       }
+    } else {
+      res.send(alertmove('/user/login', '존재하지 않는 계정입니다.'));
+    }
   } catch (error) {
     throw error;
   } finally {
@@ -68,16 +68,16 @@ exports.logout = (req, res) => {
   res.send(alertmove('/', '로그아웃이 완료되었습니다.'));
 };
 
-exports.profile = (req,res)=>{
-    const { user } = req.session;
-    res.render('user/profile', { user });
+exports.profile = (req, res) => {
+  const { user } = req.session;
+  res.render('user/profile', { user });
 };
 
-exports.profilecheck = async (req,res)=>{
-    const { body } = req;
-    const conn = await pool.getConnection();
-    try {
-        const sql = `UPDATE user SET userpw = '${body.userpw}',
+exports.profilecheck = async (req, res) => {
+  const { body } = req;
+  const conn = await pool.getConnection();
+  try {
+    const sql = `UPDATE user SET userpw = '${body.userpw}',
                 alias = '${body.useralias}',
                 email = '${body.useremail}',
                 birthdate = '${body.userBirthYear}-${body.userBirthMonth}-${body.userBirthDay}',       
@@ -85,7 +85,7 @@ exports.profilecheck = async (req,res)=>{
                 mobile = '${body.usermobile1}-${body.usermobile2}-${body.usermobile3}',
                 tel = '${body.usertel1}-${body.usertel2}-${body.usertel3}'
                 where userid = '${body.userid}'`;
-        const sql2 = `UPDATE user SET userpw = '${body.userpw}',
+    const sql2 = `UPDATE user SET userpw = '${body.userpw}',
                 alias = '${body.useralias}',
                 email = '${body.useremail}',
                 birthdate = '${body.userBirthYear}-${body.userBirthMonth}-${body.userBirthDay}',       
@@ -93,18 +93,18 @@ exports.profilecheck = async (req,res)=>{
                 mobile = '${body.usermobile1}-${body.usermobile2}-${body.usermobile3}',
                 tel = 'NULL'
                 where userid = '${body.userid}'`;
-        if (body.usertel1 == '' || body.usertel2 == '' || body.usertel3 == '') {
-            await conn.query(sql2);
-        } else {
-            await conn.query(sql);
-        }
-    } catch (error) {
-        throw error;
-    } finally {
-        conn.release();
+    if (body.usertel1 == '' || body.usertel2 == '' || body.usertel3 == '') {
+      await conn.query(sql2);
+    } else {
+      await conn.query(sql);
     }
-    res.send(alertmove('/user/profile','회원정보수정이 완료되었습니다. '))
-}
+  } catch (error) {
+    throw error;
+  } finally {
+    conn.release();
+  }
+  res.send(alertmove('/user/profile', '회원정보수정이 완료되었습니다. '));
+};
 
 exports.quit = async (req, res) => {
   const { body } = req;
@@ -120,8 +120,7 @@ exports.quit = async (req, res) => {
   res.send(alertmove('/user/logout', '회원탈퇴가 완료되었습니다.'));
 };
 
-
-exports.welcome = (req,res)=>{
-    const { user } = req.session;
-    res.render('user/welcome.html'), { user };
-}
+exports.welcome = (req, res) => {
+  const { user } = req.session;
+  res.render('user/welcome.html'), { user };
+};
