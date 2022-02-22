@@ -1,10 +1,11 @@
 {
   "name": "team6",
   "version": "1.0.0",
-  "description": "",
+  "description": "---",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
@@ -14,7 +15,16 @@
     "express": "^4.17.3",
     "express-session": "^1.17.2",
     "memorystore": "^1.6.7",
+    "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
     "nunjucks": "^3.2.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/green-kong/team6_login_board.git"
+  },
+  "bugs": {
+    "url": "https://github.com/green-kong/team6_login_board/issues"
+  },
+  "homepage": "https://github.com/green-kong/team6_login_board#readme"
 }

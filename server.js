@@ -1,6 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const nunjucks = require('nunjucks');
+const data = require('./data') //
+const list = [...data.list] //
 const session = require('express-session');
 const MemoryStore = require('memorystore')(session);
 const router = require('./routes/index.js');
@@ -24,8 +26,9 @@ nunjucks.configure('views', { express: app });
 
 app.use(session(sessionObj));
 
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));//post 요청 사용할때 header body로 오는 텍스트 읽어줌
 
-app.use(router);
+app.use(router); //라우터 받는 파일 
+
 
 app.listen(PORT);
