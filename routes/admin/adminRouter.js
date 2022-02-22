@@ -1,6 +1,8 @@
 const express = require('express');
+const { redirect } = require('express/lib/response');
 const router = express.Router();
 const pool = require('../../models/db/db.js');
+const { alertmove } = require('../../util/alertmove.js');
 
 //http://localhost:3000/admin <- 로그인페이지
 //router.get('/admin')
@@ -18,6 +20,7 @@ router.post('/', async (req, res) => {
         if (result[0].userpw === userpw) {
             if (result[0].level !== 1) {
                 res.send(alertmove('/admin', '접근권한이 없습니다.'))
+                res.redirect('/admin')
             } else {
                 res.redirect('/')
             }
@@ -26,52 +29,34 @@ router.post('/', async (req, res) => {
         } else {
             res.send(alertmove('/admin'), '관리자 비밀번호가 일치하지 않습니다.')
         }
-        res.send(result); // 
-        conn.release;
     } catch (error) {
-        console.log(error);
-        conn.release;
+        throw error;
+    } finally {
+        conn.release();
     }
-    res.send()
 })
 
-// router.post('/', async (req, res) => {  // 로그인 하려면 admin계정 정보랑 일치하는지 확인 
-//     const { userid, userpw } = req.body;
-//     const conn = await pool.getConnection();
-//     try {
-//         const conn = await pool.getConnection();
-//         const [result] = await conn.query(`SELECT * FROM user WHERE userid = admin`, (error, result) => {
-//             if (error) return console.log(error);
-//             if (result) {
-//                 console.log(result)
-//             }
-//         })
-//         res.send(result)
-//         conn.release();
-//         res.redirect('/')
-//     } catch (error) {
-//         console.log(error)
-//         conn.release();
-//         res.redirect('/')
-//     }
-// })
 
 router.get('/user', async (req, res) => {
-    const { userid, username, alias, email, tel, mobile, level, isActive } = req.body;
     const conn = await pool.getConnection();
     try {
         const [result] = await conn.query(`SELECT * FROM user`);
-        res.send(result)
-        conn.release();
+        res.render('admin/user.html', { result })
     } catch (error) {
-        console.log(error)
+        throw error;
+    } finally {
         conn.release();
     }
-});    // userlist 목록만 보이는곳 
-
+});
+// userlist 목록만 보이는곳 
 
 router.get('/user/edit', async (req, res) => {
-
+    const conn = await pool.getConnection();
+    try {
+        const [result] = await conn.query(`SELECT * FROM user`);
+    } catch (error) {
+        throw error;
+    }
 })  // userlist목록에서 '수정'버튼을 누르면 회원정보 수정하는곳 
 
 
