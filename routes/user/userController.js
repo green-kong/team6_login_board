@@ -76,9 +76,8 @@ exports.profile = (req,res)=>{
 exports.profilecheck = async (req,res)=>{
     const { body } = req;
     const conn = await pool.getConnection();
-    console.log(body)
     try {
-        const sql = `update user set userpw = '${body.userpw}',
+        const sql = `UPDATE user SET userpw = '${body.userpw}',
                 alias = '${body.useralias}',
                 email = '${body.useremail}',
                 birthdate = '${body.userBirthYear}-${body.userBirthMonth}-${body.userBirthDay}',       
@@ -86,7 +85,18 @@ exports.profilecheck = async (req,res)=>{
                 mobile = '${body.usermobile1}-${body.usermobile2}-${body.usermobile3}',
                 tel = '${body.usertel1}-${body.usertel2}-${body.usertel3}'
                 where userid = '${body.userid}'`;
-        await conn.query(sql);
+        const sql2 = `UPDATE user SET userpw = '${body.userpw}',
+                alias = '${body.useralias}',
+                email = '${body.useremail}',
+                birthdate = '${body.userBirthYear}-${body.userBirthMonth}-${body.userBirthDay}',       
+                gender = '${body.usergender}',
+                mobile = '${body.usermobile1}-${body.usermobile2}-${body.usermobile3}',
+                where userid = '${body.userid}'`;
+        if (body.usertel1 == '' || body.usertel2 == '' || body.usertel3 == '') {
+            await conn.query(sql2);
+        } else {
+            await conn.query(sql);
+        }
     } catch (error) {
         throw error;
     } finally {
