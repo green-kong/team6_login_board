@@ -43,10 +43,10 @@ exports.logincheck = async (req, res) => {
   const conn = await pool.getConnection();
   try {
     const { userid, userpw } = req.body;
-    const sql = `SELECT * FROM user WHERE userid = "${userid}"`;
+    const sql = `SELECT * FROM user WHERE userid = "${userid}" AND userpw = "${userpw}"`;
     let [result] = await conn.query(sql);
-    if (userid == result[0].userid) {
-      if (userpw == result[0].userpw) {
+    console.log(result)
+    if (result[0].length === 0) {
         if (result[0].isActive === 1) {
           req.session.user = result[0];
           res.redirect('/');
@@ -54,11 +54,8 @@ exports.logincheck = async (req, res) => {
           res.send(alertmove('/user/login', '사용이 정지된 계정입니다.'));
         }
       } else {
-        res.send(alertmove('/user/login', '비밀번호가 일치하지 않습니다.'));
+        res.send(alertmove('/user/login', '존재하지 않는 계정입니다.'));
       }
-    } else {
-      res.send(alertmove('/user/login', '아이디가 일치하지 않습니다.'));
-    }
   } catch (error) {
     throw error;
   } finally {
