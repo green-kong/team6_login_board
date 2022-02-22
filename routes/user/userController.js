@@ -20,10 +20,10 @@ exports.joincheck = async (req,res)=>{
                 values
                 ("${body.userid}", "${body.userpw}", "${body.username}", "${body.useralias}", "${body.userBirthYear}-${body.userBirthMonth}-${body.userBirthDay}", "${body.useremail}", "${body.usergender}",
                 "${body.usermobile1}-${body.usermobile2}-${body.usermobile3}")`;
-        if ( usertel == undefined ) {
-            await conn.query(sql);
-        } else {
+        if ( body.usertel1 === undefined || body.usertel2 === undefined || body.usertel3 === undefined) {
             await conn.query(sql2);
+        } else {
+            await conn.query(sql);
         };
     } catch (error){
         throw error;
