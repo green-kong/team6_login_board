@@ -37,8 +37,33 @@ exports.login = (req,res)=>{
     res.render('user/login.html')
 };
 
-exports.logincheck = (req,res)=>{
-    res.send('hello world');
+exports.logincheck = async (req,res)=>{
+    const conn = await pool.getConnection();
+    try {
+        const { userid,userpw } = req.body;
+        const sql = `SELECT * FROM user WHERE userid = "${userid}"`
+        let result = await conn.query(sql)
+        let [result2] = result[0].filter((a)=> a.userid == userid && a.userpw == userpw)
+        console.log(result2)
+        if ( userid == result2.userid ) {
+            if ( userpw == result2.userpw ) {
+                if (result2.isActive === 1) {
+                    req.session.user = result2;
+                    res.redirect('/') 
+                } else {
+                    res.send(alertmove('/user/login','사용이 정지된 계정입니다.'))
+                }
+            } else {
+                res.send(alertmove('/user/login','비밀번호가 일치하지 않습니다.'))
+            }
+        } else {
+            res.send(alertmove('/user/login','아이디가 일치하지 않습니다.'))
+        }
+    } catch (error) {
+        throw error;
+    } finally {
+        conn.release();
+    }
 };
 
 exports.logout = (req,res) => {
@@ -50,16 +75,25 @@ exports.logout = (req,res) => {
 
 exports.profile = (req,res)=>{
     const { user } = req.session;
-    res.render('/user/profile', { user });
+    res.render('user/profile', { user });
 };
 
 exports.profilecheck = (req,res)=>{
     res.send('hello world');
 };
 
-exports.quit = (req,res)=>{
-    const { user } = req.session;
-    res.send(alertmove('/','회원탈퇴가 완료되었습니다.'))
+exports.quit = async (req,res)=>{
+    const { body } = req;
+    const conn = await pool.getConnection()
+    try {
+        const sql = `DELETE FORM user WHERE userid = "${ body.userid }"`
+        await conn.query(sql)
+    } catch (error){
+        throw error;
+    } finally {
+        conn.release();
+    }
+    res.send(alertmove('/','회원탈퇴가 완료되었습니다.'));
 };
 
 exports.welcome = (req,res)=>{
