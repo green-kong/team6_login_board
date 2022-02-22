@@ -10,7 +10,7 @@ router.use('/user', userRouter);
 // router.use('/admin', adminRouter);
 
 router.get('/', (req, res) => {
-  res.render('index');
+  res.render('index.html');
 });
 
 module.exports = router;

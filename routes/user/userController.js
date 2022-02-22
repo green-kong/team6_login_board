@@ -1,19 +1,19 @@
-const pool = require('../../models/db/db');
-const { alertmove } = require('../../util/alertmove');
+const pool = require('../../models/db/db.js');
+const { alertmove } = require('../../util/alertmove.js');
 
 exports.join = (req,res)=>{
-    res.render('user/join');
+    res.render('user/join.html');
 };
 
 exports.joincheck = async (req,res)=>{
     const { body } = req;
-    console.log(body.userid);
     const conn = await pool.getConnection();
     try {
         const sql = `INSERT INTO user
                 (userid, userpw, username, alias, birthdate, email, gender, mobile, tel)
                 values
-                ("${body.userid}", "${body.userpw}", "${body.username}", "${body.useralias}", "${body.userBirthYear}-${body.userBirthMonth}-${body.userBirthDay}", "${body.useremail}", "${body.usergender}", "${body.usermobile1}-${body.usermobile2}-${body.usermobile3}", "${body.usertel1}-${body.usertel2}-${body.usertel3}")`
+                ("${body.userid}", "${body.userpw}", "${body.username}", "${body.useralias}", "${body.userBirthYear}-${body.userBirthMonth}-${body.userBirthDay}", "${body.useremail}", "${body.usergender}",
+                 "${body.usermobile1}-${body.usermobile2}-${body.usermobile3}", "${body.usertel1}-${body.usertel2}-${body.usertel3}")`
         await conn.query(sql);
     } catch (error){
         throw error;
