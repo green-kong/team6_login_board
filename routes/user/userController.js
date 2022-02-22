@@ -72,11 +72,29 @@ exports.logout = (req,res) => {
 
 exports.profile = (req,res)=>{
     const { user } = req.session;
+    console.log(user)
     res.render('user/profile', { user });
 };
 
-exports.profilecheck = (req,res)=>{
-    res.send('hello world');
+exports.profilecheck = async (req,res)=>{
+    const { body } = req;
+    const conn = await pool.getConnection();
+    console.log(body)
+    try {
+        const sql = `update user set userpw = '${body.userpw}',
+                alias = '${body.useralias}',
+                email = '${body.useremail}',
+                birthdate = '${body.userBirthYear}-${body.userBirthMonth}-${body.userBirthDay}',       
+                gender = '${body.usergender}',
+                mobile = '${body.usermobile1}-${body.usermobile2}-${body.usermobile3}',
+                tel = '${body.usertel1}-${body.usertel2}-${body.usertel3}'
+                where userid = '${body.userid}'`;
+        await conn.query(sql);
+    } catch (error) {
+        throw error;
+    } finally {
+        conn.release();
+    }
 };
 
 exports.quit = async (req,res)=>{
