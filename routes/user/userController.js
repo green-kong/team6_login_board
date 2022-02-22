@@ -9,12 +9,23 @@ exports.joincheck = async (req,res)=>{
     const { body } = req;
     const conn = await pool.getConnection();
     try {
+        const usertel = "${body.usertel1}-${body.usertel2}-${body.usertel3}"
+        const usermobile = "${body.usermobile1}-${body.usermobile2}-${body.usermobile3}"
         const sql = `INSERT INTO user
                 (userid, userpw, username, alias, birthdate, email, gender, mobile, tel)
                 values
                 ("${body.userid}", "${body.userpw}", "${body.username}", "${body.useralias}", "${body.userBirthYear}-${body.userBirthMonth}-${body.userBirthDay}", "${body.useremail}", "${body.usergender}",
-                 "${body.usermobile1}-${body.usermobile2}-${body.usermobile3}", "${body.usertel1}-${body.usertel2}-${body.usertel3}")`
-        await conn.query(sql);
+                "${body.usermobile1}-${body.usermobile2}-${body.usermobile3}", "${body.usertel1}-${body.usertel2}-${body.usertel3}")`
+        const sql2 = `INSERT INTO user
+                (userid, userpw, username, alias, birthdate, email, gender, mobile)
+                values
+                ("${body.userid}", "${body.userpw}", "${body.username}", "${body.useralias}", "${body.userBirthYear}-${body.userBirthMonth}-${body.userBirthDay}", "${body.useremail}", "${body.usergender}",
+                "${body.usermobile1}-${body.usermobile2}-${body.usermobile3}")`
+        if ( `${usertel}` == undefined ) {
+            await conn.query(sql);
+        } else {
+            await conn.query(sql2);
+        }
     } catch (error){
         throw error;
     } finally {
