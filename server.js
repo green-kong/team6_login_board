@@ -22,6 +22,8 @@ const app = express();
 app.set('view engine', 'html');
 nunjucks.configure('views', { express: app });
 
+app.use(express.static('public'));
+
 app.use(session(sessionObj));
 
 app.use(express.urlencoded({ extended: true }));
