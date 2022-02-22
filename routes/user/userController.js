@@ -90,7 +90,7 @@ exports.quit = async (req,res)=>{
     } finally {
         conn.release();
     }
-    res.send(alertmove('/','회원탈퇴가 완료되었습니다.'));
+    res.send(alertmove('/user/logout','회원탈퇴가 완료되었습니다.'));
 };
 
 exports.welcome = (req,res)=>{
