@@ -8,8 +8,10 @@ exports.join = (req,res)=>{
 exports.joincheck = async (req,res)=>{
     const { body } = req;
     const conn = await pool.getConnection();
+    console.log(body)
+    console.log(body.usertel1)
+    console.log(body.usertel2)
     try {
-        const usertel = `${body.usertel1}-${body.usertel2}-${body.usertel3}`;
         const sql = `INSERT INTO user
                 (userid, userpw, username, alias, birthdate, email, gender, mobile, tel)
                 values
@@ -20,7 +22,7 @@ exports.joincheck = async (req,res)=>{
                 values
                 ("${body.userid}", "${body.userpw}", "${body.username}", "${body.useralias}", "${body.userBirthYear}-${body.userBirthMonth}-${body.userBirthDay}", "${body.useremail}", "${body.usergender}",
                 "${body.usermobile1}-${body.usermobile2}-${body.usermobile3}")`;
-        if ( body.usertel1 === undefined || body.usertel2 === undefined || body.usertel3 === undefined) {
+        if ( body.usertel1 == '' || body.usertel2 == '' || body.usertel3 == '') {
             await conn.query(sql2);
         } else {
             await conn.query(sql);
