@@ -42,10 +42,9 @@ exports.logincheck = async (req, res) => {
   const conn = await pool.getConnection();
   try {
     const { userid, userpw } = req.body;
-    const sql = `SELECT * FROM user WHERE userid = "${userid}"`;
+    const sql = `SELECT * FROM user WHERE userid = "${userid}" AND userpw = "${userpw}"`;
     let [result] = await conn.query(sql);
-    if (userid == result[0].userid) {
-      if (userpw == result[0].userpw) {
+    if (result[0].length === 0) {
         if (result[0].isActive === 1) {
           req.session.user = result[0];
           res.redirect('/');
@@ -53,11 +52,8 @@ exports.logincheck = async (req, res) => {
           res.send(alertmove('/user/login', '사용이 정지된 계정입니다.'));
         }
       } else {
-        res.send(alertmove('/user/login', '비밀번호가 일치하지 않습니다.'));
+        res.send(alertmove('/user/login', '존재하지 않는 계정입니다.'));
       }
-    } else {
-      res.send(alertmove('/user/login', '아이디가 일치하지 않습니다.'));
-    }
   } catch (error) {
     throw error;
   } finally {
@@ -72,14 +68,31 @@ exports.logout = (req, res) => {
   res.send(alertmove('/', '로그아웃이 완료되었습니다.'));
 };
 
-exports.profile = (req, res) => {
-  const { user } = req.session;
-  res.render('user/profile', { user });
+exports.profile = (req,res)=>{
+    const { user } = req.session;
+    res.render('user/profile', { user });
 };
 
-exports.profilecheck = (req, res) => {
-  res.send('hello world');
-};
+exports.profilecheck = async (req,res)=>{
+    const { body } = req;
+    const conn = await pool.getConnection();
+    console.log(body)
+    try {
+        const sql = `update user set userpw = '${body.userpw}',
+                alias = '${body.useralias}',
+                email = '${body.useremail}',
+                birthdate = '${body.userBirthYear}-${body.userBirthMonth}-${body.userBirthDay}',       
+                gender = '${body.usergender}',
+                mobile = '${body.usermobile1}-${body.usermobile2}-${body.usermobile3}',
+                tel = '${body.usertel1}-${body.usertel2}-${body.usertel3}'
+                where userid = '${body.userid}'`;
+        await conn.query(sql);
+    } catch (error) {
+        throw error;
+    } finally {
+        conn.release();
+    }
+}
 
 exports.quit = async (req, res) => {
   const { body } = req;
@@ -95,7 +108,8 @@ exports.quit = async (req, res) => {
   res.send(alertmove('/user/logout', '회원탈퇴가 완료되었습니다.'));
 };
 
-exports.welcome = (req, res) => {
-  const { user } = req.session;
-  res.render('user/welcome.html'), { user };
-};
+
+exports.welcome = (req,res)=>{
+    const { user } = req.session;
+    res.render('user/welcome.html'), { user };
+}
