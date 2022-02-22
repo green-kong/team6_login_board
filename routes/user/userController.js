@@ -95,5 +95,5 @@ exports.quit = async (req,res)=>{
 
 exports.welcome = (req,res)=>{
     const { user } = req.session;
-    res.render('user/welcome.html');
+    res.render('user/welcome.html'), { user };
 };
