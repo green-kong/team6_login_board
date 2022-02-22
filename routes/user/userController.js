@@ -43,7 +43,6 @@ exports.logincheck = async (req,res)=>{
         const { userid,userpw } = req.body;
         const sql = `SELECT * FROM user WHERE userid = "${userid}"`
         let [result] = await conn.query(sql)
-        console.log(result[0])
         if ( userid == result[0].userid ) {
             if ( userpw == result[0].userpw ) {
                 if (result[0].isActive === 1) {
