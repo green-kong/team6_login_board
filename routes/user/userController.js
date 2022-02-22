@@ -8,9 +8,6 @@ exports.join = (req,res)=>{
 exports.joincheck = async (req,res)=>{
     const { body } = req;
     const conn = await pool.getConnection();
-    console.log(body)
-    console.log(body.usertel1)
-    console.log(body.usertel2)
     try {
         const sql = `INSERT INTO user
                 (userid, userpw, username, alias, birthdate, email, gender, mobile, tel)
@@ -86,7 +83,7 @@ exports.quit = async (req,res)=>{
     const { body } = req;
     const conn = await pool.getConnection()
     try {
-        const sql = `DELETE FORM user WHERE userid = "${ body.userid }"`
+        const sql = `DELETE FROM user WHERE userid = "${ body.userid }"`
         await conn.query(sql)
     } catch (error){
         throw error;
