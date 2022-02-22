@@ -18,4 +18,6 @@ router.post('/profile',userController.profilecheck);
 
 router.get('/quit',userController.quit);
 
+router.get('/welcome',userController.welcome);
+
 module.exports = router;
