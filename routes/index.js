@@ -5,12 +5,12 @@ const adminRouter = require('./admin/adminRouter.js');
 
 const router = express.Router();
 
-router.use('/board', boardRouter);
+// router.use('/board', boardRouter);
 router.use('/user', userRouter);
-router.use('/admin', adminRouter);
+// router.use('/admin', adminRouter);
 
 router.get('/', (req, res) => {
-  res.render('index.js');
+  res.render('index');
 });
 
 module.exports = router;
