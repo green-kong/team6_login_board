@@ -1,3 +1,4 @@
+const { repeat } = require('nunjucks/src/lib');
 const pool = require('../../models/db/db.js');
 const { alertmove } = require('../../util/alertmove.js');
 
@@ -25,14 +26,15 @@ exports.joincheck = async (req, res) => {
       await conn.query(sql2);
     } else {
       await conn.query(sql);
-    }
+    }  
   } catch (error) {
     throw error;
   } finally {
     conn.release();
   }
-  res.send(alertmove('/user/welcome', '회원가입이 완료되었습니다.'));
+  res.send(alertmove(`/user/welcome?userid=${body.username}`,'회원가입이 완료되었습니다.'));
 };
+
 
 exports.login = (req, res) => {
   res.render('user/login.html');
@@ -121,7 +123,7 @@ exports.quit = async (req, res) => {
   res.send(alertmove('/user/logout', '회원탈퇴가 완료되었습니다.'));
 };
 
-exports.welcome = (req, res) => {
-  const { user } = req.session;
-  res.render('user/welcome.html'), { user };
+exports.welcome = (req,res)=>{
+    const { username } = req.query;
+    res.render('user/welcome.html', {username});
 };
