@@ -7,13 +7,13 @@ router.get('/admin', (req, res) => {
     res.render('admin')
 })
 
-router.post('/admin', (req, res) => {  // 로그인 하려면 admin계정 정보랑 일치하는지 확인 
-    const { userid, userpw } = req.body;
-    const conn = await pool.getConnection();
-    try {
-        const sql = `SELECT * FROM user WHERE userid = admin`
-    }
-})
+// router.post('/admin', (req, res) => {  // 로그인 하려면 admin계정 정보랑 일치하는지 확인 
+//     const { userid, userpw } = req.body;
+//     const conn = await pool.getConnection();
+//     try {
+//         const sql = `SELECT * FROM user WHERE userid = admin`
+//     }
+// })
 
 
 router.get('/admin/user')    // userlist 목록만 보이는곳 
