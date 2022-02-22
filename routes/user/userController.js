@@ -5,7 +5,6 @@ exports.join = (req, res) => {
   res.render('user/join.html');
 };
 
-
 exports.joincheck = async (req, res) => {
   const { body } = req;
   const conn = await pool.getConnection();
@@ -95,19 +94,20 @@ exports.profilecheck = async (req,res)=>{
     }
 }
 
-exports.quit = async (req,res)=>{
-    const { body } = req;
-    const conn = await pool.getConnection()
-    try {
-        const sql = `DELETE FROM user WHERE userid = "${ body.userid }"`
-        await conn.query(sql)
-    } catch (error){
-        throw error;
-    } finally {
-        conn.release();
-    }
-    res.send(alertmove('/user/logout','회원탈퇴가 완료되었습니다.'));
+exports.quit = async (req, res) => {
+  const { body } = req;
+  const conn = await pool.getConnection();
+  try {
+    const sql = `DELETE FROM user WHERE userid = "${body.userid}"`;
+    await conn.query(sql);
+  } catch (error) {
+    throw error;
+  } finally {
+    conn.release();
+  }
+  res.send(alertmove('/user/logout', '회원탈퇴가 완료되었습니다.'));
 };
+
 
 exports.welcome = (req,res)=>{
     const { user } = req.session;
