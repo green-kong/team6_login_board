@@ -91,6 +91,7 @@ exports.profilecheck = async (req,res)=>{
                 birthdate = '${body.userBirthYear}-${body.userBirthMonth}-${body.userBirthDay}',       
                 gender = '${body.usergender}',
                 mobile = '${body.usermobile1}-${body.usermobile2}-${body.usermobile3}',
+                tel = 'NULL'
                 where userid = '${body.userid}'`;
         if (body.usertel1 == '' || body.usertel2 == '' || body.usertel3 == '') {
             await conn.query(sql2);
@@ -102,6 +103,7 @@ exports.profilecheck = async (req,res)=>{
     } finally {
         conn.release();
     }
+    res.send(alertmove('/user/profile','회원정보수정이 완료되었습니다. '))
 }
 
 exports.quit = async (req, res) => {
