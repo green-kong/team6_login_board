@@ -30,7 +30,7 @@ exports.joincheck = async (req, res) => {
   } finally {
     conn.release();
   }
-  res.send(alertmove(`/user/welcome?userid=${body.username}`,'회원가입이 완료되었습니다.'));
+  res.send(alertmove(`/user/welcome?username=${body.username}`,'회원가입이 완료되었습니다.'));
 };
 
 exports.login = (req, res) => {
