@@ -47,8 +47,12 @@ exports.logincheck = async (req, res) => {
     let [result] = await conn.query(sql);
     if (result[0].length === 0) {
         if (result[0].isActive === 1) {
-          req.session.user = result[0];
-          res.redirect('/');
+            if (result[0].level === 3) {
+                req.session.user = result[0];
+                res.redirect('/');
+            } else {
+                res.send(alertmove('/admin','관리자 페이지에서 로그인 해주십시오.'))
+            }
         } else {
           res.send(alertmove('/user/login', '사용이 정지된 계정입니다.'));
         }
