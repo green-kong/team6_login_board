@@ -7,7 +7,6 @@ const password = process.env.DB_PW;
 const database = process.env.DB_DATABASE;
 
 const config = { host, user, password, database, connectionLimit: 5 };
-
 const pool = mysql.createPool(config);
 
 module.exports = pool;
