@@ -1,18 +1,15 @@
 {% extends "../template/_layout.html" %}
 <!--  -->
 {% block css %}
-<link rel="stylesheet" href="/css/user/login.css" />
+<link rel="stylesheet" href="/css/admin/admin.css" />
 {% endblock %}
 <!--  -->
 {% block js %} {% endblock%}
 <!--  -->
 {% block content %}
 <div id="content">
-  <div id="side_img">
-    <img src="/img/bg/user_login_side.jpg" alt="" />
-  </div>
   <div id="login_section">
-    <form action="/user/login" method="post">
+    <form action="/admin" method="post">
       <div id="id_div">
         <label for="userid">아이디</label>
         <input type="text" name="userid" id="userid" />
@@ -23,6 +20,9 @@
       </div>
       <button type="submit">로그인</button>
     </form>
+  </div>
+  <div id="side_img">
+    <img src="/img/bg/admin_login_side.png" alt="" />
   </div>
 </div>
 {% endblock %}
