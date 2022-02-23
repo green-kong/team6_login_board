@@ -22,6 +22,8 @@ const app = express();
 app.set('view engine', 'html');
 nunjucks.configure('views', { express: app });
 
+app.use(express.static('public'));
+
 app.use(session(sessionObj));
 
 app.use(express.urlencoded({ extended: true }));//post 요청 사용할때 header body로 오는 텍스트 읽어줌

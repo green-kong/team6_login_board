@@ -1,19 +1,101 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <h1>
-      <a href="/">Logo</a>
-    </h1>
-    <ul>
+{% extends "./template/_layout.html" %}
+<!--  -->
+{% block css %}
+<link rel="stylesheet" href="/css/main/mainpage.css" />
+<link rel="stylesheet" href="/css/footer.css" />
+{% endblock%}
+<!--  -->
+{% block js %}
+<script src="/js/index.js" defer></script>
+{% endblock %}
+<!--  -->
+{% block content%}
+<div id="content">
+  <div id="top_text">
+    <p>지속적으로 발전하는 6TEAM이</p>
+    <p>세상의 변화를 이끌어갑니다</p>
+  </div>
+  <div id="slide_view">
+    <ul id="slide_img_list">
+      <li id="first_img">
+        <img src="/img/main/slide_01.jpeg" alt="" class="slide_img" />
+      </li>
       <li>
-        <a href="/board/list">게시판 가기</a>
+        <img src="/img/main/slide_02.jpeg" alt="" class="slide_img" />
+      </li>
+      <li>
+        <img src="/img/main/slide_03.jpeg" alt="" class="slide_img" />
+      </li>
+      <li>
+        <img src="/img/main/slide_04.jpeg" alt="" class="slide_img" />
       </li>
     </ul>
-  </body>
-</html>
+  </div>
+  <div id="middle_content">
+    <div id="middle_txt_content">
+      <p>TEAM no.6 is always ...</p>
+    </div>
+    <ul id="block_list">
+      <li class="block_info">
+        <p class="block_idx">1</p>
+        <p class="block_subject">STUDYING</p>
+        <p class="block_content">끊임없이</p>
+        <p class="block_content">공부합니다.</p>
+      </li>
+      <li class="block_info">
+        <p class="block_idx">2</p>
+        <p class="block_subject">LEARNING</p>
+        <p class="block_content">끊임없이</p>
+        <p class="block_content">배웁니다.</p>
+      </li>
+      <li class="block_info">
+        <p class="block_idx">3</p>
+        <p class="block_subject">GROWING UP</p>
+        <p class="block_content">끊임없이</p>
+        <p class="block_content">성장합니다.</p>
+      </li>
+    </ul>
+  </div>
+</div>
+<div id="footer">
+  <h1>
+    <a href="">
+      <img src="/img/LOGO/Logo.png" alt="" id="footer_logo" />
+    </a>
+  </h1>
+  <ul id="footer_content">
+    <li>
+      <ul>
+        <li>이동훈</li>
+        <li>팀리더 / 프론트엔드</li>
+        <li>좋아하는 것 : express</li>
+        <li>싫어하는 것 : CSS</li>
+      </ul>
+    </li>
+    <li>
+      <ul>
+        <li>안수환</li>
+        <li>백엔드 / 메인 / 로그인기능</li>
+        <li>좋아하는 것 :</li>
+        <li>싫어하는 것 :</li>
+      </ul>
+    </li>
+    <li>
+      <ul>
+        <li>홍종남</li>
+        <li>백엔드 / 관리자기능</li>
+        <li>좋아하는 것 :</li>
+        <li>싫어하는 것 :</li>
+      </ul>
+    </li>
+    <li>
+      <ul>
+        <li>강귀현</li>
+        <li>백엔드 / 게시판기능</li>
+        <li>좋아하는 것 :</li>
+        <li>싫어하는 것 :</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+{% endblock %}
