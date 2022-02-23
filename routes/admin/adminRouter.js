@@ -2,7 +2,6 @@ const express = require('express');
 const { redirect } = require('express/lib/response');
 const router = express.Router();
 const pool = require('../../models/db/db.js');
-const { alertmove } = require('../../util/alertmove.js');
 
 //http://localhost:3000/admin <- 로그인페이지
 //router.get('/admin')
@@ -60,7 +59,7 @@ router.get('/user/edit', async (req, res) => {
 });  // userlist목록에서 '수정'버튼을 누르면 회원정보 수정하는곳 
 
 
-// router.post('/user/edit') // 수정내용 저장 후 어느 페이지로 갈지 내가 정하고  
+router.post('/user/edit') // 수정내용 저장 후 어느 페이지로 갈지 내가 정하고  
 
 
 router.get('/board', (req, res) => {
@@ -68,7 +67,7 @@ router.get('/board', (req, res) => {
 });  // 특정회원 게시글보는기능?
 
 
-// router.post('/board') // 그 특정회원 게시글 수정 삭제 권한 
+router.post('/board') // 그 특정회원 게시글 수정 삭제 권한 
 
 
 
