@@ -20,17 +20,11 @@ exports.joincheck = async (req, res) => {
                 values
                 ("${body.userid}", "${body.userpw}", "${body.username}", "${body.useralias}", "${body.userBirthYear}-${body.userBirthMonth}-${body.userBirthDay}", "${body.useremail}", "${body.usergender}",
                 "${body.usermobile1}-${body.usermobile2}-${body.usermobile3}")`;
-<<<<<<< HEAD
-    const sql3 = `SELECT * FROM user WHERE userid = "${body.userid}"`
-    const result = await conn.query(sql3)
-    console.log(result[0])
-=======
->>>>>>> 8b529267d390dd8ea1fafab9502aa24247285dde
     if (body.usertel1 == '' || body.usertel2 == '' || body.usertel3 == '') {
       await conn.query(sql2);
     } else {
       await conn.query(sql);
-    }  
+    }
   } catch (error) {
     throw error;
   } finally {
@@ -38,7 +32,6 @@ exports.joincheck = async (req, res) => {
   }
   res.send(alertmove(`/user/welcome?userid=${body.username}`,'회원가입이 완료되었습니다.'));
 };
-
 
 exports.login = (req, res) => {
   res.render('user/login.html');
@@ -75,9 +68,24 @@ exports.logout = (req, res) => {
   res.send(alertmove('/', '로그아웃이 완료되었습니다.'));
 };
 
-exports.profile = (req, res) => {
+exports.profile = async (req, res) => {
   const { user } = req.session;
-  res.render('user/profile', { user });
+  const conn = await pool.getConnection();
+  try {
+    const sql = `SELECT * FROM user WHERE userid = "${user.userid}"`
+    const result = await conn.query(sql)
+    const mobile = result[0][0].mobile.split('-')
+    const tel = result[0][0].tel.split('-')
+    const birthdate = [] 
+    birthdate[0] = result[0][0].birthdate.getFullYear()
+    birthdate[1] = result[0][0].birthdate.getMonth()+1
+    birthdate[2] = result[0][0].birthdate.getDate()
+    res.render('user/profile', { user,mobile,tel,birthdate });
+  } catch (error) {
+    throw error;
+  } finally {
+      conn.release();
+  }
 };
 
 exports.profilecheck = async (req, res) => {
@@ -100,10 +108,15 @@ exports.profilecheck = async (req, res) => {
                 mobile = '${body.usermobile1}-${body.usermobile2}-${body.usermobile3}',
                 tel = 'NULL'
                 where userid = '${body.userid}'`;
+    const sql3 = `SELECT * FROM user WHERE userid = "${body.userid}"`
     if (body.usertel1 == '' || body.usertel2 == '' || body.usertel3 == '') {
       await conn.query(sql2);
+      const result = await conn.query(sql3)
+      req.session.user = result[0][0]
     } else {
       await conn.query(sql);
+      const result = await conn.query(sql3)
+      req.session.user = result[0][0]
     }
   } catch (error) {
     throw error;
