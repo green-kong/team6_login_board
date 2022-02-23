@@ -1,0 +1,180 @@
+{% extends "../template/_layout.html" %}
+<!--  -->
+{% block css %}
+<link rel="stylesheet" href="/css/user/profile.css" />
+{% endblock %}
+<!--  -->
+{% block js %}
+<script src="/js/user/profile.js" defer></script>
+{% endblock%}
+<!--  -->
+{% block content %}
+<div id="content">
+  <form action="/user/profile" method="post">
+    <ul id="join_list">
+      <li>
+        <label for="userid">아이디</label>
+        <div>
+          <input
+            type="text"
+            name="userid"
+            id="userid"
+            maxlength="16"
+            value="{{user.userid}}"
+            readonly
+          />
+        </div>
+        <span id="id_span"></span>
+      </li>
+      <li>
+        <label for="username">이름</label>
+        <input
+          type="text"
+          name="username"
+          id="username"
+          maxlength="16"
+          value="{{user.username}}"
+          disabled
+        />
+        <span id="name_span"></span>
+      </li>
+      <li>
+        <label for="useralias">닉네임</label>
+        <input
+          type="text"
+          name="useralias"
+          id="useralias"
+          maxlength="16"
+          value="{{user.alias}}"
+        />
+        <span id="alias_span"></span>
+      </li>
+      <li>
+        <label for="userpw">새 비밀번호</label>
+        <input type="password" name="userpw" id="userpw" maxlength="16" />
+        <span id="pw_span"></span>
+      </li>
+      <li>
+        <label for="userpw_check">새 비밀번호 확인</label>
+        <input type="password" id="userpw_check" />
+        <span id="pw_chk_span"></span>
+      </li>
+      <li>
+        <label for="useremail">이메일</label>
+        <input
+          type="text"
+          name="useremail"
+          id="useremail"
+          maxlength="32"
+          value="{{user.email}}"
+        />
+        <span id="email_span"></span>
+      </li>
+      <li>
+        <label for="user_birth_year">생년월일</label>
+        <div>
+          <input
+            type="text"
+            name="userBirthYear"
+            id="user_birth_year"
+            placeholder="년(4자)"
+            class="one_third_input"
+            maxlength="4"
+            value=""
+          />
+          <input
+            type="text"
+            name="userBirthMonth"
+            placeholder="월"
+            class="one_third_input"
+            maxlength="2"
+            value=""
+          />
+          <input
+            type="text"
+            name="userBirthDay"
+            placeholder="일"
+            class="one_third_input"
+            maxlength="2"
+            value=""
+          />
+        </div>
+        <span id="birth_span"></span>
+      </li>
+      <li>
+        <label for="usergender">성별</label>
+        <select name="usergender" id="usergender">
+          <option value="남자">남자</option>
+          <option value="여자">여자</option>
+        </select>
+      </li>
+      <li>
+        <label for="usermobile1">핸드폰 번호</label>
+        <div>
+          <input
+            type="text"
+            name="usermobile1"
+            id="usermobile1"
+            class="one_third_input"
+            maxlength="3"
+            value=""
+          />
+          <input
+            type="text"
+            name="usermobile2"
+            id="usermobile2"
+            class="one_third_input"
+            maxlength="4"
+            value=""
+          />
+          <input
+            type="text"
+            name="usermobile3"
+            id="usermobile3"
+            class="one_third_input"
+            maxlength="4"
+            value=""
+          />
+        </div>
+        <span id="mobile_span"></span>
+      </li>
+      <li>
+        <label for="usertel">전화번호(선택)</label>
+        <div>
+          <input
+            type="text"
+            name="usertel1"
+            id="usertel1"
+            class="one_third_input"
+            maxlength="3"
+            value=""
+          />
+          <input
+            type="text"
+            name="usertel2"
+            id="usertel2"
+            class="one_third_input"
+            maxlength="4"
+            value=""
+          />
+          <input
+            type="text"
+            name="usertel3"
+            id="usertel3"
+            class="one_third_input"
+            maxlength="4"
+            value=""
+          />
+        </div>
+        <span id="tel_span"></span>
+      </li>
+      <div id="btn_container">
+        <div class="join_btn non_btn" id="join_submit_btn">
+          양식이 지켜지지 않았습니다.
+        </div>
+        <a class="join_btn non_btn" id="quit_btn"> 회원탈퇴 </a>
+      </div>
+    </ul>
+  </form>
+</div>
+{% endblock %}
