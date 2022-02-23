@@ -17,7 +17,8 @@ router.get('/list',async (req,res)=>{
 });
 
 router.get('/write',(req,res)=>{ 
-  res.render('board/write.html');
+  const author = req.session.user.alias;
+  res.render('board/write.html',{author});
 });
 
 router.post('/write',async (req,res)=>{
