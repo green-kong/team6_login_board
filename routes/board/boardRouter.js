@@ -1,5 +1,5 @@
 const express = require('express');
-// const res = require('express/lib/response');
+const res = require('express/lib/response');
 const router = express.Router();
 
   router.get('/board/list',(req,res) =>{

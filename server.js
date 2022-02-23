@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
 const nunjucks = require('nunjucks');
-// const data = require('./data') //
 const session = require('express-session');
 const MemoryStore = require('memorystore')(session);
 const router = require('./routes/index.js');
@@ -17,14 +16,6 @@ const sessionObj = {
     maxAge: 1000 * 60 * 5,
   },
 };
-
-// let connection = mysql.createConnection({
-//   host: 'localhost',
-//   user: 'hyun',
-//   password: 'hyun',
-//   database: 'team6',
-// });
-// connection.connect();
 
 const app = express();
 
