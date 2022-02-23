@@ -20,18 +20,18 @@ exports.joincheck = async (req, res) => {
                 values
                 ("${body.userid}", "${body.userpw}", "${body.username}", "${body.useralias}", "${body.userBirthYear}-${body.userBirthMonth}-${body.userBirthDay}", "${body.useremail}", "${body.usergender}",
                 "${body.usermobile1}-${body.usermobile2}-${body.usermobile3}")`;
-        if ( body.usertel1 == '' || body.usertel2 == '' || body.usertel3 == '') {
-            await conn.query(sql2);
-        } else {
-            await conn.query(sql);
-        };
-    } catch (error){
-        throw error;
-    } finally {
-        conn.release();
-    }
-    res.send(alertmove(`/user/welcome?userid=${body.username}`,'회원가입이 완료되었습니다.'));
-}
+    if (body.usertel1 == '' || body.usertel2 == '' || body.usertel3 == '') {
+      await conn.query(sql2);
+    } else {
+      await conn.query(sql);
+    }  
+  } catch (error) {
+    throw error;
+  } finally {
+    conn.release();
+  }
+  res.send(alertmove(`/user/welcome?userid=${body.username}`,'회원가입이 완료되었습니다.'));
+};
 
 
 exports.login = (req, res) => {
@@ -120,7 +120,6 @@ exports.quit = async (req, res) => {
   }
   res.send(alertmove('/user/logout', '회원탈퇴가 완료되었습니다.'));
 };
-
 
 exports.welcome = (req,res)=>{
     const { username } = req.query;
