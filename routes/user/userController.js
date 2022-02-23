@@ -11,7 +11,6 @@ exports.joincheck = async (req, res) => {
   const conn = await pool.getConnection();
   try {
     const sql = `INSERT INTO user
-
                 (userid, userpw, username, alias, birthdate, email, gender, mobile, tel)
                 values
                 ("${body.userid}", "${body.userpw}", "${body.username}", "${body.useralias}", "${body.userBirthYear}-${body.userBirthMonth}-${body.userBirthDay}", "${body.useremail}", "${body.usergender}",
@@ -21,7 +20,9 @@ exports.joincheck = async (req, res) => {
                 values
                 ("${body.userid}", "${body.userpw}", "${body.username}", "${body.useralias}", "${body.userBirthYear}-${body.userBirthMonth}-${body.userBirthDay}", "${body.useremail}", "${body.usergender}",
                 "${body.usermobile1}-${body.usermobile2}-${body.usermobile3}")`;
-
+    const sql3 = `SELECT * FROM user WHERE userid = "${body.userid}"`
+    const result = await conn.query(sql3)
+    console.log(result[0])
     if (body.usertel1 == '' || body.usertel2 == '' || body.usertel3 == '') {
       await conn.query(sql2);
     } else {
