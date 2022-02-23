@@ -1,0 +1,27 @@
+{% extends "../template/_layout.html" %}
+<!--  -->
+{% block css %}
+<link rel="stylesheet" href="/css/board/view.css" />
+{% endblock %}
+<!--  -->
+{% block js %} {% endblock%}
+<!--  -->
+{% block content %}
+<div id="board_top">자유게시판</div>
+<div id="content">
+  <div id="title">
+    <p>{{result.subject}}</p>
+    <span>{{result.alias}}</span>
+    <span>{{result.date}}</span>
+    <span>{{result.hit}}</span>
+  </div>
+  <div id="main_content">글내용 글내용</div>
+  <div id="btn_container">
+    <a href="/board/list?page={{result.page}}">글목록</a>
+    <div id="right_btn_container">
+      <a href="/board/edit?_id={{result._id}}">수정하기</a>
+      <a href="/board/edit?_id={{result._id}}">삭제하기</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
