@@ -11,7 +11,11 @@ router.use('/admin', adminRouter);
 
 router.get('/', (req, res) => {
   const { user } = req.session;
-  res.render('index.html');
+  if (user !== undefined) {
+    res.render('index.html', { user });
+  } else {
+    res.render('index.html');
+  }
 });
 
 module.exports = router;
