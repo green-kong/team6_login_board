@@ -30,7 +30,12 @@ exports.joincheck = async (req, res) => {
   } finally {
     conn.release();
   }
-  res.send(alertmove(`/user/welcome?username=${body.username}`,'회원가입이 완료되었습니다.'));
+  res.send(
+    alertmove(
+      `/user/welcome?username=${body.username}`,
+      '회원가입이 완료되었습니다.'
+    )
+  );
 };
 
 exports.login = (req, res) => {
@@ -72,19 +77,30 @@ exports.profile = async (req, res) => {
   const { user } = req.session;
   const conn = await pool.getConnection();
   try {
-    const sql = `SELECT * FROM user WHERE userid = "${user.userid}"`
-    const result = await conn.query(sql)
-    const mobile = result[0][0].mobile.split('-')
-    const tel = result[0][0].tel.split('-')
-    const birthdate = [] 
-    birthdate[0] = result[0][0].birthdate.getFullYear()
-    birthdate[1] = result[0][0].birthdate.getMonth()+1
-    birthdate[2] = result[0][0].birthdate.getDate()
-    res.render('user/profile', { user,mobile,tel,birthdate });
+    const sql = `SELECT * FROM user WHERE userid = "${user.userid}"`;
+    const result = await conn.query(sql);
+    const mobile = {};
+    mobile.mb1 = result[0][0].mobile.split('-')[0];
+    mobile.mb2 = result[0][0].mobile.split('-')[1];
+    mobile.mb3 = result[0][0].mobile.split('-')[2];
+    const birthdate = {};
+    birthdate.year = result[0][0].birthdate.getFullYear();
+    birthdate.month = result[0][0].birthdate.getMonth() + 1;
+    birthdate.day = result[0][0].birthdate.getDate();
+    console.log(result);
+    if (result[0][0].tel !== 'NULL') {
+      const tel = {};
+      tel.tel1 = result[0][0].tel.split('-')[0];
+      tel.tel2 = result[0][0].tel.split('-')[1];
+      tel.tel3 = result[0][0].tel.split('-')[2];
+      res.render('user/profile', { user, mobile, tel, birthdate });
+    } else {
+      res.render('user/profile', { user, mobile, birthdate });
+    }
   } catch (error) {
     throw error;
   } finally {
-      conn.release();
+    conn.release();
   }
 };
 
@@ -108,15 +124,15 @@ exports.profilecheck = async (req, res) => {
                 mobile = '${body.usermobile1}-${body.usermobile2}-${body.usermobile3}',
                 tel = 'NULL'
                 where userid = '${body.userid}'`;
-    const sql3 = `SELECT * FROM user WHERE userid = "${body.userid}"`
+    const sql3 = `SELECT * FROM user WHERE userid = "${body.userid}"`;
     if (body.usertel1 == '' || body.usertel2 == '' || body.usertel3 == '') {
       await conn.query(sql2);
-      const result = await conn.query(sql3)
-      req.session.user = result[0][0]
+      const result = await conn.query(sql3);
+      req.session.user = result[0][0];
     } else {
       await conn.query(sql);
-      const result = await conn.query(sql3)
-      req.session.user = result[0][0]
+      const result = await conn.query(sql3);
+      req.session.user = result[0][0];
     }
   } catch (error) {
     throw error;
@@ -140,7 +156,7 @@ exports.quit = async (req, res) => {
   res.send(alertmove('/user/logout', '회원탈퇴가 완료되었습니다.'));
 };
 
-exports.welcome = (req,res)=>{
-    const { username } = req.query;
-    res.render('user/welcome.html', {username});
+exports.welcome = (req, res) => {
+  const { username } = req.query;
+  res.render('user/welcome.html', { username });
 };
