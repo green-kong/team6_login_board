@@ -127,10 +127,10 @@ exports.profilecheck = async (req, res) => {
 };
 
 exports.quit = async (req, res) => {
-  const { body } = req;
+  const { user } = req.session;
   const conn = await pool.getConnection();
   try {
-    const sql = `DELETE FROM user WHERE userid = "${body.userid}"`;
+    const sql = `DELETE FROM user WHERE userid = "${user.userid}"`;
     await conn.query(sql);
   } catch (error) {
     throw error;
