@@ -31,21 +31,6 @@ router.post('/', async (req, res) => {
     }
 });
 
-// router.get('/user', async (req, res) => {
-//     const { page } = req.query;
-//     const conn = await pool.getConnection();
-//     try {
-//         const sql = `SELECT * FROM user LIMIT '${(page - 1) * 10}',10`;
-//         const [result] = await conn.query(sql);
-//         res.render('admin/user.html', { result });
-//         console.log(result);
-//     } catch (error) {
-//         throw error;
-//     } finally {
-//         conn.release();
-//     }
-// });
-
 router.get('/user', async (req, res) => {
     const { page } = req.query;
     const conn = await pool.getConnection();
