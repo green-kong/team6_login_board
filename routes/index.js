@@ -10,6 +10,7 @@ router.use('/user', userRouter);
 router.use('/admin', adminRouter);
 
 router.get('/', (req, res) => {
+  const { user } = req.session;
   res.render('index.html');
 });
 

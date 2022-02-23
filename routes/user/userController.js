@@ -3,7 +3,11 @@ const pool = require('../../models/db/db.js');
 const { alertmove } = require('../../util/alertmove.js');
 
 exports.join = (req, res) => {
-  res.render('user/join.html');
+    const { user } = req.session;
+    if ( user !== undefined ) {
+        res.send(alertmove('/','로그인된 상태입니다.'))
+    }
+    res.render('user/join.html');
 };
 
 exports.joincheck = async (req, res) => {
@@ -37,7 +41,11 @@ exports.joincheck = async (req, res) => {
 
 
 exports.login = (req, res) => {
-  res.render('user/login.html');
+    const { user } = req.session;
+    if ( user !== undefined ) {
+        res.send(alertmove('/','로그인된 상태입니다.'))
+    }
+    res.render('user/login.html'); 
 };
 
 exports.logincheck = async (req, res) => {
@@ -68,10 +76,14 @@ exports.logincheck = async (req, res) => {
 };
 
 exports.logout = (req, res) => {
-  req.session.destroy(() => {
-    req.session;
-  });
-  res.send(alertmove('/', '로그아웃이 완료되었습니다.'));
+    const { user } = req.session;
+    if ( user == undefined) {
+        res.send(alertmove('/user/login','로그인이 필요한 서비스입니다.'))
+    }
+    req.session.destroy(() => {
+        req.session;
+    });
+    res.send(alertmove('/', '로그아웃이 완료되었습니다.'));
 };
 
 exports.profile = (req, res) => {
@@ -113,17 +125,21 @@ exports.profilecheck = async (req, res) => {
 };
 
 exports.quit = async (req, res) => {
-  const { body } = req;
-  const conn = await pool.getConnection();
-  try {
-    const sql = `DELETE FROM user WHERE userid = "${body.userid}"`;
-    await conn.query(sql);
-  } catch (error) {
-    throw error;
-  } finally {
-    conn.release();
-  }
-  res.send(alertmove('/user/logout', '회원탈퇴가 완료되었습니다.'));
+    const { user } = req.session;
+    if ( user == undefined) {
+        res.send(alertmove('/user/login','로그인이 필요한 서비스입니다.'))
+    }
+    const { body } = req;
+    const conn = await pool.getConnection();
+    try {
+        const sql = `DELETE FROM user WHERE userid = "${body.userid}"`;
+        await conn.query(sql);
+    } catch (error) {
+        throw error;
+    } finally {
+        conn.release();
+    }
+    res.send(alertmove('/user/logout', '회원탈퇴가 완료되었습니다.'));
 };
 
 exports.welcome = (req,res)=>{
