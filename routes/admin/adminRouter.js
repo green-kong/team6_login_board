@@ -77,4 +77,5 @@ router.get('/board', (req, res) => {
 // ID,PW 일치 시 admin페이지 불일치시
 // 다시 로그인 화면
 
+
 module.exports = router;

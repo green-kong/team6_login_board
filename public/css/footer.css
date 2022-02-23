@@ -1,0 +1,30 @@
+#footer {
+  display: flex;
+  justify-content: space-between;
+  width: 1200px;
+  margin: 0 auto;
+  margin-top: 100px;
+  border-top: 1px solid #ececec;
+  margin-bottom: 50px;
+  padding: 40px 0 0 0;
+  box-sizing: border-box;
+}
+
+#footer_logo {
+  width: 140px;
+}
+
+#footer_content {
+  display: flex;
+  width: 900px;
+  justify-content: space-between;
+}
+
+#footer_content > li > ul > li:first-child {
+  font-size: 15px;
+}
+
+#footer_content > li > ul > li {
+  margin-bottom: 15px;
+  font-size: 13px;
+}
