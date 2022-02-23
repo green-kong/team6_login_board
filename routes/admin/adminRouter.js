@@ -47,10 +47,12 @@ router.post('/', async (req, res) => {
 // });
 
 router.get('/user', async (req, res) => {
-    const { page } = req.query;
+    let { page } = req.query; // 다 스트링으로 받아짐
+    // page를 숫자로 바꾸는걸 해야함
+    page = Number(page)
     const conn = await pool.getConnection();
     try {
-        const sql = `SELECT * FROM user LIMIT '${(page - 1) * 10}',10`;
+        const sql = `SELECT * FROM user LIMIT ${(page - 1) * 10},10`;
         const [result] = await conn.query(sql);
         res.render('admin/user.html', { result });
         console.log(result);
