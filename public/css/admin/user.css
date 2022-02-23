@@ -89,12 +89,16 @@ td:last-child {
   border-bottom: 2px #107af2 solid;
 }
 
-td > i {
+td > a > i {
   cursor: pointer;
   transition: all 100ms ease-in;
 }
 
-td > i:hover {
+td > a > i:hover {
   transform: scale(1.1);
   color: #107af2;
+}
+
+.disable_user {
+  color: red;
 }
