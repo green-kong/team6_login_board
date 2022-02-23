@@ -36,13 +36,41 @@ router.post('/write',async (req,res)=>{
 }
 });
 
-router.get('/view',(req,res)=>{
-  
-  res.render('board/view.html');
+router.get('/view',async (req,res)=>{  
+  const {_id} = req.query
+  console.log(_id)
+  const conn = await pool.getConnection();
+  try{
+  const sql = `SELECT board.subject,board.date,board.hit,board.content,user.alias 
+               FROM board 
+               JOIN user 
+               ON board.author=user._id 
+               WHERE board._id='${_id}'`;
+  const [result] = await conn.query(sql);
+
+  console.log(result)
+
+  res.render('board/view.html',{result:result[0]});
+} catch(error) {
+
+} finally{
+  conn.release()
+}
 });
 
-router.get('/edit',(req,res)=>{
+router.get('/edit',async(req,res)=>{
+
   res.render('board/edit.html');
+});
+
+router.post('/edit',(req,res)=>{
+
+  res.render('board/edit.html');
+});
+
+router.post('/delete',(req,res)=>{
+  
+  res.render('board/delete.html');
 });
 
 module.exports = router;//라우터 보내는 파일
