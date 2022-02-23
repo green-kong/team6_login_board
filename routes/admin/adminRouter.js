@@ -7,8 +7,8 @@ const { alertmove } = require('../../util/alertmove.js');
 //http://localhost:3000/admin <- 로그인페이지
 //router.get('/admin')
 router.get('/', (req, res) => {
-    res.render('admin/admin.html')
-})
+    res.render('admin/admin.html');
+});
 
 router.post('/', async (req, res) => {
     const { userid, userpw } = req.body;
@@ -32,10 +32,11 @@ router.post('/', async (req, res) => {
     } finally {
         conn.release();
     }
-})
+});
 
 
 router.get('/user', async (req, res) => {
+    res.render('admin/user.html');
     const conn = await pool.getConnection();
     try {
         const [result] = await conn.query(`SELECT * FROM user`);
@@ -49,22 +50,25 @@ router.get('/user', async (req, res) => {
 // userlist 목록만 보이는곳 
 
 router.get('/user/edit', async (req, res) => {
+    res.render('admin/userEdit.html');
     const conn = await pool.getConnection();
     try {
         const [result] = await conn.query(`SELECT * FROM user`);
     } catch (error) {
         throw error;
     }
-})  // userlist목록에서 '수정'버튼을 누르면 회원정보 수정하는곳 
+});  // userlist목록에서 '수정'버튼을 누르면 회원정보 수정하는곳 
 
 
-router.post('/user/edit') // 수정내용 저장 후 어느 페이지로 갈지 내가 정하고  
+// router.post('/user/edit') // 수정내용 저장 후 어느 페이지로 갈지 내가 정하고  
 
 
-router.get('/board')  // 특정회원 게시글보는기능
+router.get('/board', (req, res) => {
+    res.render('admin/board.html');
+});  // 특정회원 게시글보는기능?
 
 
-router.post('/board') // 그 특정회원 게시글 수정 삭제 권한 
+// router.post('/board') // 그 특정회원 게시글 수정 삭제 권한 
 
 
 
