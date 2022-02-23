@@ -20,12 +20,10 @@ router.post('/', async (req, res) => {
         if (result[0].userpw === userpw) {
             if (result[0].level !== 1) {
                 res.send(alertmove('/admin', '접근권한이 없습니다.'))
-                res.redirect('/admin')
             } else {
                 res.redirect('/')
+                req.session.admin = result[0] // admin 정보 가져오기위한 저장공간이 세션
             }
-            req.session.admin = result[0] // admin 정보 가져오기위한 저장공간이 세션
-            res.redirect('/') // 로그인 성공, 메인페이지로 이동
         } else {
             res.send(alertmove('/admin'), '관리자 비밀번호가 일치하지 않습니다.')
         }
