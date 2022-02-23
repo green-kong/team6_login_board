@@ -9,7 +9,7 @@
     <div>
       <img src="/img/icon/usericon.png" alt="" />
       {% if user %}
-      <span id="side_menu_span">{{alias}}님 환영합니다</span>
+      <span id="side_menu_span">{{user.alias}}님 환영합니다</span>
       {% elif admin %}
       <span id="side_menu_span">관리자님 환영합니다</span>
       {% else %}
