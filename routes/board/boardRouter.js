@@ -11,7 +11,7 @@ router.get('/list',async (req,res)=>{
 } catch(err) {
     console.log(error);
 }  finally{
-  conn.release()
+  conn.release();
 }
 
 });
@@ -32,7 +32,7 @@ router.post('/write',async (req,res)=>{
 } catch(error) {
   console.log(error);
 } finally{
-  conn.release()
+  conn.release();
 }
 });
 
@@ -54,14 +54,26 @@ router.get('/view',async (req,res)=>{
 } catch(error) {
 
 } finally{
-  conn.release()
+  conn.release();
 }
 });
 
 router.get('/edit',async(req,res)=>{
+  const {index} = req.query
+  console.log(index)
+  const conn = await pool.getConnection();
+  try{
+  const [result] = await conn.query(`SELECT subject,content FROM board WHERE _id='${index}' `);
+  console.log(result)
 
-  res.render('board/edit.html');
+  res.render('board/edit.html',{result:result[0]});
+  } catch(err) {
+
+  } finally{
+  conn.release();
+  }
 });
+
 
 router.post('/edit',(req,res)=>{
 
@@ -69,7 +81,7 @@ router.post('/edit',(req,res)=>{
 });
 
 router.post('/delete',(req,res)=>{
-  
+
   res.render('board/delete.html');
 });
 
