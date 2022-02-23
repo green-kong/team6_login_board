@@ -1,4 +1,4 @@
-function alertmove(path,msg){
+function alertmove(path, msg) {
     let script = `
     <script type="text/javascript">
         alert("${msg}")
