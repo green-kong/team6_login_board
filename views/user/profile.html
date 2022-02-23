@@ -10,7 +10,7 @@
 <!--  -->
 {% block content %}
 <div id="content">
-  <form action="#" method="post">
+  <form action="/user/profile" method="post">
     <ul id="join_list">
       <li>
         <label for="userid">아이디</label>
@@ -20,8 +20,8 @@
             name="userid"
             id="userid"
             maxlength="16"
-            value=""
-            disabled
+            value="{{user.userid}}"
+            readonly
           />
         </div>
         <span id="id_span"></span>
@@ -33,7 +33,7 @@
           name="username"
           id="username"
           maxlength="16"
-          value=""
+          value="{{user.username}}"
           disabled
         />
         <span id="name_span"></span>
@@ -45,7 +45,7 @@
           name="useralias"
           id="useralias"
           maxlength="16"
-          value=""
+          value="{{user.alias}}"
         />
         <span id="alias_span"></span>
       </li>
@@ -66,7 +66,7 @@
           name="useremail"
           id="useremail"
           maxlength="32"
-          value=""
+          value="{{user.email}}"
         />
         <span id="email_span"></span>
       </li>
