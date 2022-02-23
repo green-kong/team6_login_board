@@ -102,8 +102,7 @@ exports.profile = async (req, res) => {
     birthdate.year = result[0][0].birthdate.getFullYear();
     birthdate.month = result[0][0].birthdate.getMonth() + 1;
     birthdate.day = result[0][0].birthdate.getDate();
-    console.log(result);
-    if (result[0][0].tel !== 'NULL') {
+    if (result[0][0].tel !== 'NULL' && result[0][0].tel !== null) {
       const tel = {};
       tel.tel1 = result[0][0].tel.split('-')[0];
       tel.tel2 = result[0][0].tel.split('-')[1];
