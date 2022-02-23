@@ -17,76 +17,17 @@
       <td id="date">등록일</td>
       <td id="hit">조회수</td>
     </tr>
+    {% for posting in result %}
     <tr>
-      <td>2</td>
-      <td class="subject_align"><a href="#">안녕하세요</a></td>
-      <td>작성자</td>
-      <td>2022.01.26</td>
-      <td>12</td>
+      <td>{{posting._id}}</td>
+      <td class="subject_align">
+        <a href="/board/view?_id={{posting._id}}">{{posting.sunject}}</a>
+      </td>
+      <td>{{posting.author}}</td>
+      <td>{{posting.date}}</td>
+      <td>{{posting.hit}}</td>
     </tr>
-    <tr>
-      <td>2</td>
-      <td class="subject_align"><a href="#">안녕하세요</a></td>
-      <td>작성자</td>
-      <td>2022.01.26</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td class="subject_align"><a href="#">안녕하세요</a></td>
-      <td>작성자</td>
-      <td>2022.01.26</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td class="subject_align"><a href="#">안녕하세요</a></td>
-      <td>작성자</td>
-      <td>2022.01.26</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td class="subject_align"><a href="#">안녕하세요</a></td>
-      <td>작성자</td>
-      <td>2022.01.26</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td class="subject_align"><a href="#">안녕하세요</a></td>
-      <td>작성자</td>
-      <td>2022.01.26</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td class="subject_align"><a href="#">안녕하세요</a></td>
-      <td>작성자</td>
-      <td>2022.01.26</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td class="subject_align"><a href="#">안녕하세요</a></td>
-      <td>작성자</td>
-      <td>2022.01.26</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td class="subject_align"><a href="#">안녕하세요</a></td>
-      <td>작성자</td>
-      <td>2022.01.26</td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td class="subject_align"><a href="#">안녕하세요</a></td>
-      <td>작성자</td>
-      <td>2022.01.26</td>
-      <td>12</td>
-    </tr>
+    {% endfor %}
   </table>
 
   <div id="btn_container"><a href="/board/write" id="write_btn">글쓰기</a></div>
