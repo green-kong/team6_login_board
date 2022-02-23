@@ -31,11 +31,26 @@ router.post('/', async (req, res) => {
     }
 });
 
+// router.get('/user', async (req, res) => {
+//     const { page } = req.query;
+//     const conn = await pool.getConnection();
+//     try {
+//         const sql = `SELECT * FROM user LIMIT '${(page - 1) * 10}',10`;
+//         const [result] = await conn.query(sql);
+//         res.render('admin/user.html', { result });
+//         console.log(result);
+//     } catch (error) {
+//         throw error;
+//     } finally {
+//         conn.release();
+//     }
+// });
+
 router.get('/user', async (req, res) => {
     const { page } = req.query;
     const conn = await pool.getConnection();
     try {
-        const sql = `SELECT * FROM user LIMIT ${(page - 1) * 10},10`;
+        const sql = `SELECT * FROM user LIMIT '${(page - 1) * 10}',10`;
         const [result] = await conn.query(sql);
         res.render('admin/user.html', { result });
         console.log(result);
@@ -45,28 +60,46 @@ router.get('/user', async (req, res) => {
         conn.release();
     }
 });
-// userlist 목록만 보이는곳
+
+router.get('/user/edit', async (req, res) => {
+    const { page } = req.query;
+    const conn = await pool.getConnection();
+    try {
+        const sql = `SELECT * FROM user LIMIT ${(page - 1) * 10},10`;
+        const [result] = await conn.query(sql);
+        res.render('admin/userEdit.html', { result });
+        console.log(result);
+    } catch (error) {
+        throw error;
+    } finally {
+        conn.release();
+    }
+});
+// 수정내용 저장 후 어느 페이지로 갈지 내가 정하고
+
 // 등급 계정상태 alias 메일 생년월일 성별 핸펀 전번
-router.get('/user/edit', (req, res) => {
+router.post('/user/edit', async (req, res) => {
     const { body } = req;
     const conn = await pool.getConnection();
     try {
-        const sql = `UPDATE user SET userpw = '${body.level}',
+        const sql = `UPDATE user SET level = '${body.level}',
                     isActive = '${body.isActive}',
                     alias = '${body.useralias}',
                     email = '${body.useremail}',
-                    birthdate = '${body.userBirthYear}-${body.userBirthMonth}-${userBirthDay}',
-                    gender = '${usergender}',
-                    mobile = '${usermobile1}-${usermobile2}-${usermobile3}',
-                    tel = '${usertel1}-${usertel2}-${usertel3}'`;
-        const sql2 = `UPDATE user SET userpw = '${body.level}',
+                    birthdate = '${body.userBirthYear}-${body.userBirthMonth}-${body.userBirthDay}',
+                    gender = '${body.usergender}',
+                    mobile = '${body.usermobile1}-${body.usermobile2}-${body.usermobile3}',
+                    tel = '${body.usertel1}-${body.usertel2}-${body.usertel3}'
+                    WHERE userid = '${body.userid}'`;
+        const sql2 = `UPDATE user SET level = '${body.level}',
                     isActive = '${body.isActive}',
                     alias = '${body.useralias}',
                     email = '${body.useremail}',
-                    birthdate = '${body.userBirthYear}-${body.userBirthMonth}-${userBirthDay}',
-                    gender = '${usergender}',
-                    mobile = '${usermobile1}-${usermobile2}-${usermobile3}',
-                    tel = 'NULL'`;
+                    birthdate = '${body.userBirthYear}-${body.userBirthMonth}-${body.userBirthDay}',
+                    gender = '${body.usergender}',
+                    mobile = '${body.usermobile1}-${body.usermobile2}-${body.usermobile3}',
+                    tel = 'NULL',
+                    WHERE userid = '${body.userid}'`;
         if (body.usertel1 == '' || body.usertel2 == '' || body.usertel3 == '') {
             await conn.query(sql2);
         } else {
@@ -77,11 +110,10 @@ router.get('/user/edit', (req, res) => {
     } finally {
         conn.release();
     }
-    res.send(alertmove('/user/edit', '회원정보수정이 완료되었습니다. '));
+    res.send(alertmove('/user/edit', '회원정보 수정이 완료되었습니다.'));
 });
 // userlist목록에서 '수정'버튼을 누르면 회원정보 수정하는곳
 
-router.post('/user/edit') // 수정내용 저장 후 어느 페이지로 갈지 내가 정하고
 
 router.get('/board', (req, res) => {
     res.render('admin/board.html');
