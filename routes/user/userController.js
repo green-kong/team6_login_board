@@ -90,32 +90,36 @@ exports.logout = (req, res) => {
 
 exports.profile = async (req, res) => {
   const { user } = req.session;
-  const conn = await pool.getConnection();
-  try {
-    const sql = `SELECT * FROM user WHERE userid = "${user.userid}"`;
-    const result = await conn.query(sql);
-    const mobile = {};
-    mobile.mb1 = result[0][0].mobile.split('-')[0];
-    mobile.mb2 = result[0][0].mobile.split('-')[1];
-    mobile.mb3 = result[0][0].mobile.split('-')[2];
-    const birthdate = {};
-    birthdate.year = result[0][0].birthdate.getFullYear();
-    birthdate.month = result[0][0].birthdate.getMonth() + 1;
-    birthdate.day = result[0][0].birthdate.getDate();
-    if (result[0][0].tel !== 'NULL' && result[0][0].tel !== null) {
-      const tel = {};
-      tel.tel1 = result[0][0].tel.split('-')[0];
-      tel.tel2 = result[0][0].tel.split('-')[1];
-      tel.tel3 = result[0][0].tel.split('-')[2];
-      res.render('user/profile', { user, mobile, tel, birthdate });
+  if ( user == undefined) {
+    res.send(alertmove('/user/login','로그인이 필요한 서비스입니다.'))
     } else {
-      res.render('user/profile', { user, mobile, birthdate });
+        const conn = await pool.getConnection();
+        try {
+        const sql = `SELECT * FROM user WHERE userid = "${user.userid}"`;
+        const result = await conn.query(sql);
+        const mobile = {};
+        mobile.mb1 = result[0][0].mobile.split('-')[0];
+        mobile.mb2 = result[0][0].mobile.split('-')[1];
+        mobile.mb3 = result[0][0].mobile.split('-')[2];
+        const birthdate = {};
+        birthdate.year = result[0][0].birthdate.getFullYear();
+        birthdate.month = result[0][0].birthdate.getMonth() + 1;
+        birthdate.day = result[0][0].birthdate.getDate();
+        if (result[0][0].tel !== 'NULL' && result[0][0].tel !== null) {
+            const tel = {};
+            tel.tel1 = result[0][0].tel.split('-')[0];
+            tel.tel2 = result[0][0].tel.split('-')[1];
+            tel.tel3 = result[0][0].tel.split('-')[2];
+            res.render('user/profile', { user, mobile, tel, birthdate });
+        } else {
+            res.render('user/profile', { user, mobile, birthdate });
+        }
+        } catch (error) {
+        throw error;
+        } finally {
+        conn.release();
+        }
     }
-  } catch (error) {
-    throw error;
-  } finally {
-    conn.release();
-  }
 };
 
 exports.profilecheck = async (req, res) => {
