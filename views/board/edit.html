@@ -9,7 +9,11 @@
 {% block content %}
 <div id="content">
   <div id="board_top">자유게시판</div>
-  <form action="/board/edit?index={{index}}" method="POST" id="write_form">
+  <form
+    action="/board/edit?index={{index}}&page={{page}}"
+    method="POST"
+    id="write_form"
+  >
     <div id="subject_container">
       <div class="write_column">제목</div>
       <div class="write_input_wrap">

@@ -23,7 +23,9 @@
     <tr>
       <td>{{posting._id}}</td>
       <td class="subject_align">
-        <a href="/board/view?index={{posting._id}}">{{posting.subject}}</a>
+        <a href="/board/view?index={{posting._id}}&page={{page}}"
+          >{{posting.subject}}</a
+        >
       </td>
       <td>{{posting.alias}}</td>
       <td>{{posting.date}}</td>
