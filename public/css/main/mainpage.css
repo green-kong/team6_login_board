@@ -26,15 +26,15 @@
 }
 
 #slide_view {
-  margin: 0 auto;
+  background-color: tomato;
   margin-top: 600px;
-  width: 60vw;
+  width: 100vw;
   height: 100vh;
   overflow: hidden;
+  clip-path: inset(0 20vw 0 20vw);
 }
 
 #slide_img_list {
-  transform: translateX(-20vw);
   width: 100vw;
   height: 110vh;
   display: flex;
