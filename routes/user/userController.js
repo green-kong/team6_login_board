@@ -183,10 +183,9 @@ exports.quit = async (req, res) => {
 
 exports.welcome = (req, res) => {
   const { username } = req.query;
-  const { user } = req.session;
-  if ( user == undefined ) {
-    res.send(alertmove('/user/login','로그인이 필요한 서비스 입니다.'))
+  if ( username == undefined ) {
+    res.send(alertmove('/','회원가입 환영페이지 입니다.'))
   } else {
-    res.render('user/welcome.html', { username, user });
+    res.render('user/welcome.html', {username});
   }
 };
