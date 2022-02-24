@@ -35,16 +35,14 @@ exports.GetUser = async (req, res) => {
     page = Number(page)
     const conn = await pool.getConnection();
     try {
-        // const sql = `UPDATE user SET birthdate = ${}`
         const sql = `SELECT * FROM user LIMIT ${(page - 1) * 10},10`;
+        const sql2 = `SELECT * FROM user`;
         const [result] = await conn.query(sql);
         const birthYear = result[0].birthdate.getFullYear() // timestamp에서 년만 가져옴
         const birthMonth = result[0].birthdate.getMonth() // timestamp에서 월만 가져옴
         const birthday = result[0].birthdate.getDate() // timestamp에서 일만 가져옴
-        const birthdate = `${birthYear}-${birthMonth}-${birthday}` // timestamp에서 가져온 년월일을 이어줌
-        console.log(birthdate)
+        result[0].birthdate = `${birthYear}-${birthMonth}-${birthday}` // timestamp에서 가져온 년월일을 이어줌 // 수정
         res.render('admin/user.html', { result, birthdate }); // result값의 바꾼 birthdate를 보내줌
-        // console.log(result);
     } catch (error) {
         throw error;
     } finally {
@@ -54,20 +52,31 @@ exports.GetUser = async (req, res) => {
 
 // get useredit 부분 아직 수정
 exports.GetUserEdit = async (req, res) => {
-    let { page } = req.query;
-    page = Number(page)
+    let { _id } = req.query;
+    _id = Number(_id)
     const conn = await pool.getConnection();
     try {
-        const sql = `SELECT * FROM user LIMIT ${(page - 1) * 10}, 10`;
+        const sql = `SELECT * FROM user WHERE _id = ${_id}`
         const [result] = await conn.query(sql);
-        res.render('admin/userEdit.html', { result });
-        console.log(result);
+        const tel = {};
+        tel.tel1 = result[0].tel.split('-')[0];
+        tel.tel2 = result[0].tel.split('-')[1];
+        tel.tel3 = result[0].tel.split('-')[2];
+        const mobile = {};
+        mobile.mb1 = result[0].mobile.split('-')[0];
+        mobile.mb2 = result[0].mobile.split('-')[1];
+        mobile.mb3 = result[0].mobile.split('-')[2];
+        const birthdate = {};
+        birthdate.year = result[0].birthdate.getFullYear();
+        birthdate.month = result[0].birthdate.getMonth();
+        birthdate.date = result[0].birthdate.getDate();
     } catch (error) {
         throw error;
     } finally {
         conn.release();
     }
-};
+    res.render('admin/userEdit.html', { result, tel, mobile, birthdate })
+}
 
 // useredit 정보수정 후 post
 exports.PostUserEdit = async (req, res) => {
@@ -110,5 +119,12 @@ exports.GetBoard = (req, res) => {
 };
 
 exports.PostBoard = async (req, res) => {
-
+    const conn = await pool.getConnection();
+    try {
+        const sql = `DELETE FROM  WHERE id = 1105`;
+    } catch (error) {
+        throw error;
+    } finally {
+        conn.release();
+    }
 };
