@@ -4,9 +4,15 @@ const { alertmove } = require('../../util/alertmove.js');
 const router = express.Router();
 
 router.get('/list', async (req, res) => {
+  const page = Number(req.query.page);
   const conn = await pool.getConnection();
   try {
-    const [result] = await conn.query(`SELECT * FROM board`);
+    const sql = `SELECT board._id, subject, date, hit, alias 
+                  FROM board
+                  JOIN user
+                  ON board.author = user._id
+                  LIMIT ${(page - 1) * 10},10 `;
+    const [result] = await conn.query(sql);
     console.log(result);
     res.render('board/list.html', { result });
   } catch (error) {
