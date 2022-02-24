@@ -1,5 +1,6 @@
 #header {
   background-color: transparent;
+  position: absolute;
 }
 
 #board_top {
@@ -59,6 +60,7 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
+  margin-bottom: 20px;
 }
 
 #btn_container > a {
