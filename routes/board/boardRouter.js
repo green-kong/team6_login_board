@@ -10,13 +10,8 @@ router.get('/list', async (req, res) => {
   } else {
     const conn = await pool.getConnection();
     try {
-      const sql = `SELECT board._id, subject, date, hit, alias 
-                  FROM board
-                  JOIN user
-                  ON board.author = user._id
-                  LIMIT ${(page - 1) * 10},10 `;
-      const [result] = await conn.query(sql);
-      const lastPage = Math.ceil(result.length / 10) || 1;
+      const [cnt] = await conn.query('SELECT COUNT(*) as cnt from board');
+      const lastPage = Math.ceil(cnt[0].cnt / 10);
       if (page > lastPage) {
         res.send(
           alertmove(
@@ -25,6 +20,13 @@ router.get('/list', async (req, res) => {
           )
         );
       } else {
+        const sql = `SELECT board._id, subject, date, hit, alias 
+                  FROM board
+                  JOIN user
+                  ON board.author = user._id
+                  LIMIT ${(page - 1) * 10},10 `;
+        const [result] = await conn.query(sql);
+
         result.forEach((v, i) => {
           const dateYear = v.date.getFullYear();
           const dateMonth = v.date.getMonth();

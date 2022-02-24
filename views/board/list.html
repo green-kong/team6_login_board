@@ -4,7 +4,9 @@
 <link rel="stylesheet" href="/css/board/list.css" />
 {% endblock %}
 <!--  -->
-{% block js %} {% endblock%}
+{% block js %}
+<script src="/js/board/findCurPage.js" defer></script>
+{% endblock%}
 <!--  -->
 {% block content %}
 <div id="content">
@@ -34,7 +36,7 @@
   <ul id="pagenation">
     <li><a href="/board/list?page={{page-1}}">&lt;</a></li>
     <li>
-      <a href="/board/list?page={{pageCal*5-4}}" class="emphasis page_num">
+      <a href="/board/list?page={{pageCal*5-4}}" class="page_num">
         {{pageCal*5-4}}
       </a>
     </li>
@@ -61,4 +63,5 @@
     <li><a href="/board/list?page={{page+1}}">&gt;</a></li>
   </ul>
 </div>
+<div style="display: none" id="cur_page">{{page}}</div>
 {% endblock %}
