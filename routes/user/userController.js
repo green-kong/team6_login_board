@@ -161,10 +161,9 @@ exports.quit = async (req, res) => {
     if ( user == undefined) {
         res.send(alertmove('/user/login','로그인이 필요한 서비스입니다.'))
     }
-    const { body } = req;
     const conn = await pool.getConnection();
     try {
-        const sql = `DELETE FROM user WHERE userid = "${body.userid}"`;
+        const sql = `DELETE FROM user WHERE userid = "${user.userid}"`;
         await conn.query(sql);
     } catch (error) {
         throw error;
