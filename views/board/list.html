@@ -32,13 +32,33 @@
 
   <div id="btn_container"><a href="/board/write" id="write_btn">글쓰기</a></div>
   <ul id="pagenation">
-    <li><a href="#">&lt;</a></li>
-    <li><a href="#" class="emphasis page_num">1</a></li>
-    <li><a href="#" class="page_num">2</a></li>
-    <li><a href="#" class="page_num">3</a></li>
-    <li><a href="#" class="page_num">4</a></li>
-    <li><a href="#" class="page_num">5</a></li>
-    <li><a href="#">&gt;</a></li>
+    <li><a href="/board/list?page={{page-1}}">&lt;</a></li>
+    <li>
+      <a href="/board/list?page={{pageCal*5-4}}" class="emphasis page_num">
+        {{pageCal*5-4}}
+      </a>
+    </li>
+    <li>
+      <a href="/board/list?page={{pageCal*5-3}}" class="page_num">
+        {{pageCal*5-3}}
+      </a>
+    </li>
+    <li>
+      <a href="/board/list?page={{pageCal*5-2}}" class="page_num">
+        {{pageCal*5-2}}
+      </a>
+    </li>
+    <li>
+      <a href="/board/list?page={{pageCal*5-1}}" class="page_num">
+        {{pageCal*5-1}}
+      </a>
+    </li>
+    <li>
+      <a href="/board/list?page={{pageCal*5}}" class="page_num">
+        {{pageCal*5}}
+      </a>
+    </li>
+    <li><a href="/board/list?page={{page+1}}">&gt;</a></li>
   </ul>
 </div>
 {% endblock %}
