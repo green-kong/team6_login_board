@@ -67,9 +67,10 @@ router.post('/write', async (req, res) => {
 });
 
 router.get('/view', async (req, res) => {
-  const { index } = req.query;
+  const { index, page } = req.query;
   const conn = await pool.getConnection();
   try {
+    await conn.query(`UPDATE board SET hit=hit+1 WHERE _id=${index}`);
     const sql = `SELECT board._id, board.subject,board.date,board.hit,board.content,user.alias 
                FROM board 
                JOIN user 
@@ -79,7 +80,7 @@ router.get('/view', async (req, res) => {
 
     console.log(result);
 
-    res.render('board/view.html', { result: result[0] });
+    res.render('board/view.html', { result: result[0], page });
   } catch (error) {
     console.log(error);
   } finally {
