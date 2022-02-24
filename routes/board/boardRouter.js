@@ -13,8 +13,13 @@ router.get('/list', async (req, res) => {
                   ON board.author = user._id
                   LIMIT ${(page - 1) * 10},10 `;
     const [result] = await conn.query(sql);
-    console.log(result);
-    res.render('board/list.html', { result });
+    result.forEach((v, i) => {
+      const dateYear = v.date.getFullYear();
+      const dateMonth = v.date.getMonth();
+      const dateDay = v.date.getDate();
+      result[i].date = `${dateYear}-${dateMonth}-${dateDay}`;
+    });
+    res.render('board/list.html', { result, page });
   } catch (error) {
     console.log(error);
   } finally {
