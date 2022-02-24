@@ -1,0 +1,58 @@
+{% extends "../template/_layout.html" %}
+<!--  -->
+{% block css %}
+<link rel="stylesheet" href="/css/admin/board.css" />
+{% endblock %}
+<!--  -->
+{% block js %}
+<script
+  src="https://kit.fontawesome.com/cbc296ae57.js"
+  crossorigin="anonymous"
+></script>
+{% endblock%}
+<!--  -->
+{% block content %}
+<div id="content">
+  <nav>
+    <ul id="menu_list">
+      <li><a href="/admin/user?page=1">회원관리</a></li>
+      <li class="selected">게시글관리</li>
+    </ul>
+  </nav>
+  <div id="user_list">
+    <table>
+      <tr id="category_list">
+        <td id="category_id">글번호</td>
+        <td id="category_subject">제목</td>
+        <td id="category_author">작성자</td>
+        <td id="category_date">등록일</td>
+        <td id="category_hit">조회수</td>
+        <td id="category_delete">삭제</td>
+      </tr>
+      {%for user in result%}
+      <tr>
+        <td>{{result._id}}</td>
+        <td><a href="/board/view?_id={{result._id}}">{{result.subject}}</a></td>
+        <td>{{result.author}}</td>
+        <td>{{result.date}}</td>
+        <td>{{result.hit}}</td>
+        <td>
+          <a href="/admin/board/delete?_id={{result._id}}">
+            <i class="fas fa-trash-alt"></i>
+          </a>
+        </td>
+      </tr>
+      {%endfor%}
+    </table>
+    <ul id="pagenation">
+      <li><a href="#">&lt;</a></li>
+      <li class="selected_page"><a href="#">1</a></li>
+      <li><a href="#">2</a></li>
+      <li><a href="#">3</a></li>
+      <li><a href="#">4</a></li>
+      <li><a href="#">5</a></li>
+      <li><a href="#">&gt;</a></li>
+    </ul>
+  </div>
+</div>
+{% endblock %}

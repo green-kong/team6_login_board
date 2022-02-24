@@ -35,10 +35,16 @@ exports.GetUser = async (req, res) => {
     page = Number(page)
     const conn = await pool.getConnection();
     try {
+        // const sql = `UPDATE user SET birthdate = ${}`
         const sql = `SELECT * FROM user LIMIT ${(page - 1) * 10},10`;
         const [result] = await conn.query(sql);
-        res.render('admin/user.html', { result });
-        console.log(result);
+        const birthYear = result[0].birthdate.getFullYear() // timestamp에서 년만 가져옴
+        const birthMonth = result[0].birthdate.getMonth() // timestamp에서 월만 가져옴
+        const birthday = result[0].birthdate.getDate() // timestamp에서 일만 가져옴
+        const birthdate = `${birthYear}-${birthMonth}-${birthday}` // timestamp에서 가져온 년월일을 이어줌
+        console.log(birthdate)
+        res.render('admin/user.html', { result, birthdate }); // result값의 바꾼 birthdate를 보내줌
+        // console.log(result);
     } catch (error) {
         throw error;
     } finally {
@@ -52,7 +58,7 @@ exports.GetUserEdit = async (req, res) => {
     page = Number(page)
     const conn = await pool.getConnection();
     try {
-        const sql = `SELECT * FROM user LIMIT ${(page - 1) * 10},10`;
+        const sql = `SELECT * FROM user LIMIT ${(page - 1) * 10}, 10`;
         const [result] = await conn.query(sql);
         res.render('admin/userEdit.html', { result });
         console.log(result);
@@ -69,23 +75,23 @@ exports.PostUserEdit = async (req, res) => {
     const conn = await pool.getConnection();
     try {
         const sql = `UPDATE user SET level = '${body.level}',
-                    isActive = '${body.isActive}',
-                    alias = '${body.useralias}',
-                    email = '${body.useremail}',
-                    birthdate = '${body.userBirthYear}-${body.userBirthMonth}-${body.userBirthDay}',
-                    gender = '${body.usergender}',
-                    mobile = '${body.usermobile1}-${body.usermobile2}-${body.usermobile3}',
-                    tel = '${body.usertel1}-${body.usertel2}-${body.usertel3}'
+            isActive = '${body.isActive}',
+            alias = '${body.useralias}',
+            email = '${body.useremail}',
+            birthdate = '${body.userBirthYear}-${body.userBirthMonth}-${body.userBirthDay}',
+            gender = '${body.usergender}',
+            mobile = '${body.usermobile1}-${body.usermobile2}-${body.usermobile3}',
+            tel = '${body.usertel1}-${body.usertel2}-${body.usertel3}'
                     WHERE userid = '${body.userid}'`;
         const sql2 = `UPDATE user SET level = '${body.level}',
-                    isActive = '${body.isActive}',
-                    alias = '${body.useralias}',
-                    email = '${body.useremail}',
-                    birthdate = '${body.userBirthYear}-${body.userBirthMonth}-${body.userBirthDay}',
-                    gender = '${body.usergender}',
-                    mobile = '${body.usermobile1}-${body.usermobile2}-${body.usermobile3}',
-                    tel = 'NULL',
-                    WHERE userid = '${body.userid}'`;
+            isActive = '${body.isActive}',
+            alias = '${body.useralias}',
+            email = '${body.useremail}',
+            birthdate = '${body.userBirthYear}-${body.userBirthMonth}-${body.userBirthDay}',
+            gender = '${body.usergender}',
+            mobile = '${body.usermobile1}-${body.usermobile2}-${body.usermobile3}',
+            tel = 'NULL',
+            WHERE userid = '${body.userid}'`;
         if (body.usertel1 == '' || body.usertel2 == '' || body.usertel3 == '') {
             await conn.query(sql2);
         } else {
