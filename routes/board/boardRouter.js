@@ -30,7 +30,7 @@ router.post('/write', async (req, res) => {
       `INSERT INTO board(subject,author,content,date) values('${subject}','${author}','${content}',curdate());`
     );
     console.log(result);
-    res.redirect(`/board/view?_id=${result.insertId}`);
+    res.redirect(`/board/view?index=${result.insertId}`);
   } catch (error) {
     console.log(error);
   } finally {
@@ -39,15 +39,14 @@ router.post('/write', async (req, res) => {
 });
 
 router.get('/view', async (req, res) => {
-  const { _id } = req.query;
-  console.log(_id);
+  const { index } = req.query;
   const conn = await pool.getConnection();
   try {
     const sql = `SELECT board._id, board.subject,board.date,board.hit,board.content,user.alias 
                FROM board 
                JOIN user 
                ON board.author=user._id 
-               WHERE board._id='${_id}'`;
+               WHERE board._id='${index}'`;
     const [result] = await conn.query(sql);
 
     console.log(result);
@@ -85,17 +84,16 @@ router.get('/edit', async (req, res) => {
       `SELECT subject,content FROM board WHERE _id='${index}' `
     );
     console.log(result);
-    res.render('board/edit.html', { result: result[0] });
+    res.render('board/edit.html', { result: result[0], index });
   } catch (err) {
   } finally {
     conn.release();
   }
 });
 
-
-router.post('/edit',async(req,res)=>{
-  const {subject,content} = req.body; 
-  const {index} = req.query;
+router.post('/edit', async (req, res) => {
+  const { subject, content } = req.body;
+  const { index } = req.query;
   const conn = await pool.getConnection();
   try{
   const sql = `UPDATE board SET content='${content}',subject='${subject}' WHERE _id='${index}'`
