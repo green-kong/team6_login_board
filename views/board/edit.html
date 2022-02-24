@@ -13,30 +13,15 @@
     <div id="subject_container">
       <div class="write_column">제목</div>
       <div class="write_input_wrap">
-        <input type="text" name="subject" maxlength="32" />
+        <input type="text" name="subject" value="{{result.subject}}" />
       </div>
     </div>
     <div id="content_container">
       <div class="write_column">내용</div>
       <div class="write_input_wrap">
-        <textarea
-          name="content"
-          id="write_content"
-          cols="30"
-          rows="10"
-        ></textarea>
-      </div>
-    </div>
-    <div id="author_container">
-      <div class="write_column">작성자</div>
-      <div class="write_input_wrap">
-        <input
-          type="text"
-          name="author"
-          disabled
-          id="author"
-          value="{{author}}"
-        />
+        <textarea name="content" id="write_content" cols="30" rows="10">
+{{result.content}}</textarea
+        >
       </div>
     </div>
     <div id="btn_container">

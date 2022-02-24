@@ -9,7 +9,7 @@
     <div>
       <img src="/img/icon/usericon.png" alt="" />
       {% if user %}
-      <span id="side_menu_span">{{alias}}님 환영합니다</span>
+      <span id="side_menu_span">{{user.alias}}님 환영합니다</span>
       {% elif admin %}
       <span id="side_menu_span">관리자님 환영합니다</span>
       {% else %}
@@ -28,9 +28,9 @@
   </div>
   <ul id="category_menu">
     <li><a href="/">HOME</a></li>
-    <li><a href="/board/list">BOARD</a></li>
+    <li><a href="/board/list?page=1">BOARD</a></li>
     {% if admin %}
-    <li><a href="/admin/user">ADMIN</a></li>
+    <li><a href="/admin/user?page=1">ADMIN</a></li>
     {% endif %}
   </ul>
 </div>

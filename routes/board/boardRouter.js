@@ -2,81 +2,78 @@ const express = require('express');
 const pool = require('../../models/db/db.js');
 const router = express.Router();
 
-router.get('/list',async (req,res)=>{
+router.get('/list', async (req, res) => {
   const conn = await pool.getConnection();
-  try{
+  try {
     const [result] = await conn.query(`SELECT * FROM board`);
     console.log(result);
-    res.render('board/list.html',{result});
-} catch(err) {
+    res.render('board/list.html', { result });
+  } catch (err) {
     console.log(error);
-}  finally{
-  conn.release();
-}
-
+  } finally {
+    conn.release();
+  }
 });
 
-router.get('/write',(req,res)=>{ 
+router.get('/write', (req, res) => {
   const author = req.session.user.alias;
-  res.render('board/write.html',{author});
+  res.render('board/write.html', { author });
 });
 
-router.post('/write',async (req,res)=>{
-  const {subject,content} = req.body;
-  const author = req.session.user._id;  
+router.post('/write', async (req, res) => {
+  const { subject, content } = req.body;
+  const author = req.session.user._id;
   const conn = await pool.getConnection();
-  try{
-    const [result] = await conn.query(`INSERT INTO board(subject,author,content,date) values('${subject}','${author}','${content}',curdate());`)
-    console.log(result)
+  try {
+    const [result] = await conn.query(
+      `INSERT INTO board(subject,author,content,date) values('${subject}','${author}','${content}',curdate());`
+    );
+    console.log(result);
     res.redirect(`/board/view?_id=${result.insertId}`);
-} catch(error) {
-  console.log(error);
-} finally{
-  conn.release();
-}
+  } catch (error) {
+    console.log(error);
+  } finally {
+    conn.release();
+  }
 });
 
-router.get('/view',async (req,res)=>{  
-  const {_id} = req.query
-  console.log(_id)
+router.get('/view', async (req, res) => {
+  const { _id } = req.query;
+  console.log(_id);
   const conn = await pool.getConnection();
-  try{
-  const sql = `SELECT board.subject,board.date,board.hit,board.content,user.alias 
+  try {
+    const sql = `SELECT board._id, board.subject,board.date,board.hit,board.content,user.alias 
                FROM board 
                JOIN user 
                ON board.author=user._id 
                WHERE board._id='${_id}'`;
-  const [result] = await conn.query(sql);
+    const [result] = await conn.query(sql);
 
-  console.log(result)
+    console.log(result);
 
-  res.render('board/view.html',{result:result[0]});
-} catch(error) {
-
-} finally{
-  conn.release();
-}
-});
-
-router.get('/edit',async(req,res)=>{
-  const {index} = req.query
-  console.log(index)
-  const conn = await pool.getConnection();
-  try{
-  const [result] = await conn.query(`SELECT subject,content 
-                                    FROM board
-                                    JOIN user
-                                    ON
-                                    WHERE board._id='${index}' `);
-  console.log(result)
-
-  res.render('board/edit.html',{result:result[0]});
-  } catch(err) {
-
-  } finally{
-  conn.release();
+    res.render('board/view.html', { result: result[0] });
+  } catch (error) {
+  } finally {
+    conn.release();
   }
 });
+
+router.get('/edit', async (req, res) => {
+  const { index } = req.query;
+  console.log(index);
+  const conn = await pool.getConnection();
+  try {
+    const [result] = await conn.query(
+      `SELECT subject,content FROM board WHERE _id='${index}' `
+    );
+    console.log(result);
+    res.render('board/edit.html', { result: result[0] });
+  } catch (err) {
+  } finally {
+    conn.release();
+  }
+});
+
 
 router.post('/edit',async(req,res)=>{
   const {subject,content} = req.body; 
@@ -94,9 +91,8 @@ router.post('/edit',async(req,res)=>{
   }
 });
 
-router.post('/delete',(req,res)=>{
-
+router.post('/delete', (req, res) => {
   res.render('board/delete.html');
 });
 
-module.exports = router;//라우터 보내는 파일
+module.exports = router; //라우터 보내는 파일
