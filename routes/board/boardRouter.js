@@ -24,6 +24,7 @@ router.get('/list', async (req, res) => {
                   FROM board
                   JOIN user
                   ON board.author = user._id
+                  ORDER BY _id DESC
                   LIMIT ${(page - 1) * 10},10 `;
         const [result] = await conn.query(sql);
 
@@ -58,7 +59,12 @@ router.post('/write', async (req, res) => {
       `INSERT INTO board(subject,author,content,date) values('${subject}','${author}','${content}',curdate());`
     );
     console.log(result);
-    res.redirect(`/board/view?index=${result.insertId}`);
+    res.send(
+      alertmove(
+        `/board/view?index=${result.insertId}&page=1`,
+        '글 작성이 완료 되었습니다.'
+      )
+    );
   } catch (error) {
     console.log(error);
   } finally {
