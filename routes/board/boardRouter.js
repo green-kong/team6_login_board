@@ -1,5 +1,6 @@
 const express = require('express');
 const pool = require('../../models/db/db.js');
+const {alertmove} = require('../../util/alertmove.js');
 const router = express.Router();
 
 router.get('/list', async (req, res) => {
@@ -7,8 +8,8 @@ router.get('/list', async (req, res) => {
   try {
     const [result] = await conn.query(`SELECT * FROM board`);
     console.log(result);
-    res.render('board/list.html', { result });
-  } catch (err) {
+    res.render('board/list.html',{result});
+  } catch(error) {
     console.log(error);
   } finally {
     conn.release();
@@ -50,10 +51,27 @@ router.get('/view', async (req, res) => {
 
     console.log(result);
 
-    res.render('board/view.html', { result: result[0] });
-  } catch (error) {
-  } finally {
-    conn.release();
+  res.render('board/view.html',{result:result[0]});
+} catch(error) {
+  console.log(error)
+} finally{
+  conn.release();
+}
+});
+
+router.get('/edit',async(req,res)=>{
+  const {index} = req.query
+  console.log(index)
+  const conn = await pool.getConnection();
+  try{
+  const [result] = await conn.query(`SELECT subject,content FROM board WHERE _id='${index}' `);
+  console.log(result)
+
+  res.render('board/edit.html',{result:result[0]});
+  } catch(error) {
+    console.log(error)
+  } finally{
+  conn.release();
   }
 });
 
@@ -77,19 +95,29 @@ router.post('/edit', async (req, res) => {
   const { subject, content } = req.body;
   const { index } = req.query;
   const conn = await pool.getConnection();
-  try {
-    const sql = `UPDATE board SET content='${content}',subject='${subject}' WHERE _id='${index}'`;
-    await conn.query(sql);
+  try{
+  const sql = `UPDATE board SET content='${content}',subject='${subject}' WHERE _id='${index}'`
+  await conn.query(sql);
 
-    res.redirect(`/board/view?index=${index}`);
-  } catch (err) {
-  } finally {
-    conn.release();
+  res.redirect(`/board/view?index=${index}`);
+  } catch(error) {
+    console.log(error)
+  }finally{
+  conn.release();
   }
 });
 
-router.post('/delete', (req, res) => {
-  res.render('board/delete.html');
+router.get('/delete',async(req,res)=>{
+  const {index} = req.query;
+  const conn = await pool.getConnection(); 
+  try{
+  const [result] = await conn.query(`DELETE FROM board WHERE _id='${index}'`);
+  res.send(alertmove('/board/list','게시글이 삭제되었습니다.'))
+  } catch(error) {
+    console.log(error)
+  } finally{
+  conn.release();
+  }
 });
 
 module.exports = router; //라우터 보내는 파일
