@@ -71,15 +71,17 @@ router.get('/view', async (req, res) => {
   const conn = await pool.getConnection();
   try {
     await conn.query(`UPDATE board SET hit=hit+1 WHERE _id=${index}`);
-    const sql = `SELECT board._id, board.subject,board.date,board.hit,board.content,user.alias 
+    const sql = `SELECT board._id, subject, date, hit, content, alias 
                FROM board 
                JOIN user 
                ON board.author=user._id 
                WHERE board._id='${index}'`;
     const [result] = await conn.query(sql);
 
-    console.log(result);
-
+    const year = result[0].date.getFullYear();
+    const month = result[0].date.getMonth() + 1;
+    const date = result[0].date.getDate();
+    result[0].date = `${year}-${month}-${date}`;
     res.render('board/view.html', { result: result[0], page });
   } catch (error) {
     console.log(error);
