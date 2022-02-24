@@ -43,7 +43,9 @@ const imgSlide = () => {
 
 window.addEventListener('scroll', () => {
   if (window.scrollY > 200) {
+    console.log(window.scrollY);
     slideView.style.width = `${60 + (window.scrollY - 200) / 10}vw`;
+    // imgFrame.style.left = `${-20 + (window.scrollY - 400) / 10}vw`;
   }
 
   if (window.scrollY > 280) {

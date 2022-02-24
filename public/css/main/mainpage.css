@@ -29,27 +29,26 @@
   margin: 0 auto;
   margin-top: 600px;
   width: 60vw;
-  background-color: tomato;
   height: 100vh;
   overflow: hidden;
 }
 
 #slide_img_list {
+  transform: translateX(-20vw);
   width: 100vw;
-  height: 100vh;
-  background-color: dodgerblue;
+  height: 110vh;
   display: flex;
   transition: all 350ms ease-in;
 }
 
 #slide_img_list > li > div {
   width: 100vw;
-  height: 100vh;
+  height: 110vh;
 }
 
 .slide_img {
-  width: 100vw;
-  height: 100vh;
+  width: 103vw;
+  height: 110vh;
 }
 
 #middle_content {
