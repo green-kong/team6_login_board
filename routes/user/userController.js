@@ -3,11 +3,12 @@ const pool = require('../../models/db/db.js');
 const { alertmove } = require('../../util/alertmove.js');
 
 exports.join = (req, res) => {
-  const { user } = req.session;
-  if (user !== undefined) {
-    res.send(alertmove('/', '로그인된 상태입니다.'))
-  }
-  res.render('user/join.html');
+    const { user } = req.session;
+    if ( user !== undefined ) {
+        res.send(alertmove('/','로그인된 상태입니다.'))
+    } else {
+        res.render('user/join.html');
+    }
 };
 
 exports.joincheck = async (req, res) => {
@@ -38,11 +39,13 @@ exports.joincheck = async (req, res) => {
 };
 
 exports.login = (req, res) => {
-  const { user } = req.session;
-  if (user !== undefined) {
-    res.send(alertmove('/', '로그인된 상태입니다.'))
-  }
-  res.render('user/login.html');
+
+    const { user } = req.session;
+    if ( user !== undefined ) {
+        res.send(alertmove('/','로그인된 상태입니다.'))
+    } else {
+        res.render('user/login.html'); 
+    }
 };
 
 exports.logincheck = async (req, res) => {
@@ -73,15 +76,16 @@ exports.logincheck = async (req, res) => {
 };
 
 exports.logout = (req, res) => {
-  const { user } = req.session;
-  if (user == undefined) {
-    res.send(alertmove('/user/login', '로그인이 필요한 서비스입니다.'))
-  }
-  req.session.destroy(() => {
-    req.session;
-  });
-  res.send(alertmove('/', '로그아웃이 완료되었습니다.'));
-};
+    const { user } = req.session;
+    if ( user == undefined) {
+        res.send(alertmove('/user/login','로그인이 필요한 서비스입니다.'))
+    } else {
+        req.session.destroy(() => {
+            req.session;
+        });
+        res.send(alertmove('/', '로그아웃이 완료되었습니다.'));
+    }
+
 
 exports.profile = async (req, res) => {
   const { user } = req.session;
@@ -156,24 +160,28 @@ exports.profilecheck = async (req, res) => {
 };
 
 exports.quit = async (req, res) => {
-  const { user } = req.session;
-  if (user == undefined) {
-    res.send(alertmove('/user/login', '로그인이 필요한 서비스입니다.'))
-  }
-  const conn = await pool.getConnection();
-  try {
-    const sql = `DELETE FROM user WHERE userid = "${user.userid}"`;
-    await conn.query(sql);
-  } catch (error) {
-    throw error;
-  } finally {
-    conn.release();
-  }
-  res.send(alertmove('/user/logout', '회원탈퇴가 완료되었습니다.'));
-
+    const { user } = req.session;
+    if ( user == undefined) {
+        res.send(alertmove('/user/login','로그인이 필요한 서비스입니다.'))
+    } else {
+        const conn = await pool.getConnection();
+        try {
+            const sql = `DELETE FROM user WHERE userid = "${user.userid}"`;
+            await conn.query(sql);
+        } catch (error) {
+            throw error;
+        } finally {
+            conn.release();
+        }
+        res.send(alertmove('/user/logout', '회원탈퇴가 완료되었습니다.'));
+    }
 };
 
 exports.welcome = (req, res) => {
   const { username } = req.query;
-  res.render('user/welcome.html', { username });
+  if ( username == undefined ) {
+    res.send(alertmove('/','회원가입 환영페이지 입니다.'))
+  } else {
+    res.render('user/welcome.html', {username});
+  }
 };
