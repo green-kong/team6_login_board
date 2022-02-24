@@ -1,5 +1,6 @@
 #header {
   background-color: transparent;
+  position: absolute;
 }
 
 #board_top {
