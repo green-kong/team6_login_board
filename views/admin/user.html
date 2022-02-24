@@ -16,7 +16,7 @@
   <nav>
     <ul id="menu_list">
       <li class="selected">회원관리</li>
-      <li><a href="/admin/board">게시글관리</a></li>
+      <li><a href="/admin/board?page=1">게시글관리</a></li>
     </ul>
   </nav>
   <div id="user_list">
@@ -34,136 +34,41 @@
         <td>계정상태</td>
         <td>수정</td>
       </tr>
+      {%for user in result%}
       <tr>
-        <td>kong1234</td>
-        <td>이동훈</td>
-        <td>kong</td>
-        <td>ahdjd5@gmail.com</td>
-        <td>남</td>
-        <td>1993-01-26</td>
-        <td>010-7749-8300</td>
-        <td>032-444-4444</td>
+        <td>{{user.userid}}</td>
+        <td>{{user.username}}</td>
+        <td>{{user.alias}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.birthdate}}</td>
+        <td>{{user.gender}}</td>
+        <td>{{user.mobile}}</td>
+        {%if user.tel == null%}
+        <td>입력안됨</td>
+        {%else%}
+        <td>{{user.tel}}</td>
+        {%endif%}
+        <!--  -->
+        {% if user.level == 1%}
         <td>최고관리자</td>
+        {% elif user.level == 2%}
+        <td>관리자</td>
+        {% elif user.level == 3%}
+        <td>사용자</td>
+        {% endif %}
+        <!--  -->
+        {% if user.isActive == 1%}
         <td>활성화</td>
-        <td><i class="fas fa-edit"></i></td>
+        {% elif user.isActive == 2%}
+        <td class="disable_user">정지</td>
+        {% endif %}
+        <td>
+          <a href="/admin/user/edit?_id={{user._id}}">
+            <i class="fas fa-edit"></i>
+          </a>
+        </td>
       </tr>
-      <tr>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-      </tr>
-      <tr>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-      </tr>
-      <tr>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-      </tr>
-      <tr>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-      </tr>
-      <tr>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-      </tr>
-      <tr>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-      </tr>
-      <tr>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-      </tr>
-      <tr>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-      </tr>
-      <tr>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-        <td>test</td>
-      </tr>
+      {%endfor%}
     </table>
     <ul id="pagenation">
       <li><a href="#">&lt;</a></li>

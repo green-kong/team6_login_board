@@ -50,10 +50,13 @@ table {
   border-collapse: collapse;
   margin-bottom: 20px;
   min-height: 420px;
+  table-layout: fixed;
+  display: flex;
 }
 
 tr {
   height: 38px;
+  max-height: 38px;
 }
 
 td {
@@ -61,11 +64,36 @@ td {
   padding-left: 8px;
   box-sizing: border-box;
   font-size: 14px;
+  max-height: 38px;
 }
 
 td:last-child {
   text-align: center;
   padding-right: 3px;
+}
+
+#category_id {
+  width: 50px;
+}
+
+#category_subject {
+  width: 760px;
+}
+
+#category_author {
+  width: 150px;
+}
+
+#category_date {
+  width: 100px;
+}
+
+#category_hit {
+  width: 70px;
+}
+
+#category_delete {
+  width: 50px;
 }
 
 #pagenation {
@@ -96,9 +124,5 @@ td > a > i {
 
 td > a > i:hover {
   transform: scale(1.1);
-  color: #107af2;
-}
-
-.disable_user {
   color: red;
 }
