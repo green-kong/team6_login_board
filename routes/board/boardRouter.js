@@ -91,7 +91,7 @@ router.get('/view', async (req, res) => {
 });
 
 router.get('/edit', async (req, res) => {
-  const { index } = req.query;
+  const { index, page } = req.query;
   console.log(index);
   const conn = await pool.getConnection();
   try {
@@ -100,7 +100,7 @@ router.get('/edit', async (req, res) => {
     );
     console.log(result);
 
-    res.render('board/edit.html', { result: result[0], index });
+    res.render('board/edit.html', { result: result[0], index, page });
   } catch (error) {
     console.log(error);
   } finally {
@@ -108,31 +108,20 @@ router.get('/edit', async (req, res) => {
   }
 });
 
-router.get('/edit', async (req, res) => {
-  const { index } = req.query;
-  console.log(index);
-  const conn = await pool.getConnection();
-  try {
-    const [result] = await conn.query(
-      `SELECT subject,content FROM board WHERE _id='${index}' `
-    );
-    console.log(result);
-    res.render('board/edit.html', { result: result[0], index });
-  } catch (err) {
-  } finally {
-    conn.release();
-  }
-});
-
 router.post('/edit', async (req, res) => {
   const { subject, content } = req.body;
-  const { index } = req.query;
+  const { index, page } = req.query;
   const conn = await pool.getConnection();
   try {
     const sql = `UPDATE board SET content='${content}',subject='${subject}' WHERE _id='${index}'`;
     await conn.query(sql);
 
-    res.redirect(`/board/view?index=${index}`);
+    res.send(
+      alertmove(
+        `/board/view?index=${index}&page=${[page]}`,
+        '글 수정이 완료 되었습니다.'
+      )
+    );
   } catch (error) {
     console.log(error);
   } finally {
