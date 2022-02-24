@@ -63,7 +63,11 @@ router.get('/edit',async(req,res)=>{
   console.log(index)
   const conn = await pool.getConnection();
   try{
-  const [result] = await conn.query(`SELECT subject,content FROM board WHERE _id='${index}' `);
+  const [result] = await conn.query(`SELECT subject,content 
+                                    FROM board
+                                    JOIN user
+                                    ON
+                                    WHERE board._id='${index}' `);
   console.log(result)
 
   res.render('board/edit.html',{result:result[0]});
@@ -74,10 +78,20 @@ router.get('/edit',async(req,res)=>{
   }
 });
 
+router.post('/edit',async(req,res)=>{
+  const {subject,content} = req.body; 
+  const {index} = req.query;
+  const conn = await pool.getConnection();
+  try{
+  const sql = `UPDATE board SET content='${content}',subject='${subject}' WHERE _id='${index}'`
+  await conn.query(sql);
 
-router.post('/edit',(req,res)=>{
+  res.redirect(`/board/view?index=${index}`);
+  } catch(err) {
 
-  res.render('board/edit.html');
+  }finally{
+  conn.release();
+  }
 });
 
 router.post('/delete',(req,res)=>{
