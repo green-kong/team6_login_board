@@ -85,7 +85,7 @@ exports.logout = (req, res) => {
         });
         res.send(alertmove('/', '로그아웃이 완료되었습니다.'));
     }
-
+  }
 
 exports.profile = async (req, res) => {
   const { user } = req.session;
