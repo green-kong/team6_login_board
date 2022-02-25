@@ -57,23 +57,27 @@ exports.writeGetMid = (req, res) => {
 
 exports.writePostMid = async (req, res) => {
   const { subject, content } = req.body;
-  const author = req.session.user._id;
-  const conn = await pool.getConnection();
-  try {
-    const [result] = await conn.query(
-      `INSERT INTO board(subject,author,content,date) values('${subject}','${author}','${content}',curdate());`
-    );
-    console.log(result);
-    res.send(
-      alertmove(
-        `/board/view?index=${result.insertId}&page=1`,
-        '글 작성이 완료 되었습니다.'
-      )
-    );
-  } catch (error) {
-    console.log(error);
-  } finally {
-    conn.release();
+  if (subject === '') {
+    res.send(alertmove('/board/write', '제목을 입력해주세요.'));
+  } else {
+    const author = req.session.user._id;
+    const conn = await pool.getConnection();
+    try {
+      const [result] = await conn.query(
+        `INSERT INTO board(subject,author,content,date) values('${subject}','${author}','${content}',curdate());`
+      );
+      console.log(result);
+      res.send(
+        alertmove(
+          `/board/view?index=${result.insertId}&page=1`,
+          '글 작성이 완료 되었습니다.'
+        )
+      );
+    } catch (error) {
+      console.log(error);
+    } finally {
+      conn.release();
+    }
   }
 };
 
@@ -89,10 +93,6 @@ exports.viewGetMid = async (req, res) => {
                ON board.author=user._id 
                WHERE board._id='${index}'`;
     const [result] = await conn.query(sql);
-    const year = result[0].date.getFullYear();
-    const month = result[0].date.getMonth() + 1;
-    const date = result[0].date.getDate();
-    result[0].date = `${year}-${month}-${date}`;
     res.render('board/view.html', { result: result[0], page });
   } catch (error) {
     console.log(error);
