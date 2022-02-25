@@ -45,7 +45,6 @@ exports.GetUser = async (req, res) => {
 
             result[i].birthdate = `${birthYear}-${birthMonth}-${birthDate}`
         });
-        result[0].birthdate = `${birthYear}-${birthMonth}-${birthday}` // timestamp에서 가져온 년월일을 이어줌 // 수정
         res.render('admin/user.html', { result }); // result값의 바꾼 birthdate를 보내줌
     } catch (error) {
         throw error;
@@ -115,7 +114,7 @@ exports.PostUserEdit = async (req, res) => {
     } finally {
         conn.release();
     }
-    res.send(alertmove('/user/edit', '회원정보 수정이 완료되었습니다.'));
+    res.send(alertmove('/admin/user?page=1', '회원정보 수정이 완료되었습니다.'));
 };
 
 
@@ -142,10 +141,8 @@ exports.GetBoard = async (req, res) => {
     }
 };
 
-// 어딘가 오류임 아직 구현 x
 exports.GetBoardDelete = async (req, res) => {
-    let _id = req.query;
-    _id = Number(_id);
+    let { _id } = req.query;
     const conn = await pool.getConnection();
     try {
         const sql = `DELETE FROM board WHERE _id = ${_id}`;
@@ -155,6 +152,6 @@ exports.GetBoardDelete = async (req, res) => {
     } finally {
         conn.release();
     }
-    res.send(alertmove('/admin/board', '게시글이 삭제되었습니다.'));
+    res.send(alertmove('/admin/board?page=1', '게시글이 삭제되었습니다.'));
 };
 
