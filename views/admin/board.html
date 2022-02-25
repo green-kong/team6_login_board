@@ -5,10 +5,7 @@
 {% endblock %}
 <!--  -->
 {% block js %}
-<script
-  src="https://kit.fontawesome.com/cbc296ae57.js"
-  crossorigin="anonymous"
-></script>
+<script src="https://kit.fontawesome.com/cbc296ae57.js" crossorigin="anonymous"></script>
 {% endblock%}
 <!--  -->
 {% block content %}
@@ -31,13 +28,13 @@
       </tr>
       {%for user in result%}
       <tr>
-        <td>{{result._id}}</td>
-        <td><a href="/board/view?_id={{result._id}}">{{result.subject}}</a></td>
-        <td>{{result.author}}</td>
-        <td>{{result.date}}</td>
-        <td>{{result.hit}}</td>
+        <td>{{user._id}}</td>
+        <td><a href="/board/view?_id={{result._id}}">{{user.subject}}</a></td>
+        <td>{{user.author}}</td>
+        <td>{{user.date}}</td>
+        <td>{{user.hit}}</td>
         <td>
-          <a href="/admin/board/delete?_id={{result._id}}">
+          <a href="/admin/board/delete?_id={{user._id}}">
             <i class="fas fa-trash-alt"></i>
           </a>
         </td>
