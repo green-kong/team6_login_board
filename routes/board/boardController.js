@@ -66,7 +66,6 @@ exports.writePostMid = async (req, res) => {
       const [result] = await conn.query(
         `INSERT INTO board(subject,author,content,date) values('${subject}','${author}','${content}',curdate());`
       );
-      console.log(result);
       res.send(
         alertmove(
           `/board/view?index=${result.insertId}&page=1`,
@@ -104,7 +103,6 @@ exports.viewGetMid = async (req, res) => {
 exports.editGetMid = async (req, res) => {
   const { user, admin } = req.session;
   const { index, page } = req.query;
-  console.log(index);
   const conn = await pool.getConnection();
   try {
     const [result] = await conn.query(
