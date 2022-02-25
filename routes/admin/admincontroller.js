@@ -29,60 +29,63 @@ exports.adminLogin = async (req, res) => {
 };
 
 exports.GetUser = async (req, res) => {
-  let { page } = req.query;
-  page = Number(page);
-  const conn = await pool.getConnection();
-  try {
-    const sql = `SELECT * FROM user LIMIT ${(page - 1) * 10},10`;
-    const [result] = await conn.query(sql);
-    const birthYear = result[0].birthdate.getFullYear(); // timestamp에서 년만 가져옴 왜 여기만 Full이지
-    const birthMonth = result[0].birthdate.getMonth(); // timestamp에서 월만 가져옴
-    const birthday = result[0].birthdate.getDate(); // timestamp에서 일만 가져옴
-    result.forEach(function (v, i) {
-      const birthYear = v.birthdate.getFullYear();
-      const birthMonth = v.birthdate.getMonth();
-      const birthDate = v.birthdate.getDate();
-      result[i].birthdate = `${birthYear}-${birthMonth}-${birthDate}`;
-    });
-    res.render('admin/user.html', { result }); // result값의 바꾼 birthdate를 보내줌
-  } catch (error) {
-    throw error;
-  } finally {
-    conn.release();
-  }
+    let { page } = req.query;
+    page = Number(page)
+    const conn = await pool.getConnection();
+    try {
+        const sql = `SELECT * FROM user LIMIT ${(page - 1) * 10},10`;
+        const [result] = await conn.query(sql);
+        const birthYear = result[0].birthdate.getFullYear() // timestamp에서 년만 가져옴 왜 여기만 Full이지
+        const birthMonth = result[0].birthdate.getMonth() // timestamp에서 월만 가져옴
+        const birthday = result[0].birthdate.getDate() // timestamp에서 일만 가져옴
+        result.forEach(function (v, i) {
+            const birthYear = v.birthdate.getFullYear();
+            const birthMonth = v.birthdate.getMonth();
+            const birthDate = v.birthdate.getDate();
+
+            result[i].birthdate = `${birthYear}-${birthMonth}-${birthDate}`
+        });
+        res.render('admin/user.html', { result }); // result값의 바꾼 birthdate를 보내줌
+    } catch (error) {
+        throw error;
+    } finally {
+        conn.release();
+    }
 };
 
 exports.GetUserEdit = async (req, res) => {
-  let { _id } = req.query;
-  _id = Number(_id);
-  const conn = await pool.getConnection();
-  try {
-    const sql = `SELECT * FROM user WHERE _id = ${_id}`;
-    const [result] = await conn.query(sql);
-    const tel = {};
-    tel.tel1 = result[0].tel.split('-')[0];
-    tel.tel2 = result[0].tel.split('-')[1];
-    tel.tel3 = result[0].tel.split('-')[2];
-    const mobile = {};
-    mobile.mb1 = result[0].mobile.split('-')[0];
-    mobile.mb2 = result[0].mobile.split('-')[1];
-    mobile.mb3 = result[0].mobile.split('-')[2];
-    const birthdate = {};
-    birthdate.year = result[0].birthdate.getFullYear();
-    birthdate.month = result[0].birthdate.getMonth();
-    birthdate.date = result[0].birthdate.getDate();
-    res.render('admin/userEdit.html', {
-      result: result[0],
-      birthdate,
-      mobile,
-      tel,
-    });
-  } catch (error) {
-    throw error;
-  } finally {
-    conn.release();
-  }
-};
+    let { _id } = req.query;
+    _id = Number(_id)
+    const conn = await pool.getConnection();
+    try {
+        const sql = `SELECT * FROM user WHERE _id = ${_id}`
+        const [result] = await conn.query(sql);
+        const tel = {};
+        if (result[0].tel !== null) {
+            // 결과값이 null이 아닐때
+            tel.tel1 = result[0].tel.split('-')[0];
+            tel.tel2 = result[0].tel.split('-')[1];
+            tel.tel3 = result[0].tel.split('-')[2];
+        }
+        const mobile = {};
+        mobile.mb1 = result[0].mobile.split('-')[0];
+        mobile.mb2 = result[0].mobile.split('-')[1];
+        mobile.mb3 = result[0].mobile.split('-')[2];
+        const birthdate = {};
+        birthdate.year = result[0].birthdate.getFullYear();
+        birthdate.month = result[0].birthdate.getMonth();
+        birthdate.date = result[0].birthdate.getDate();
+
+        res.render('admin/userEdit.html', { result: result[0], tel, mobile, birthdate })
+
+    } catch (error) {
+        throw error;
+    } finally {
+        conn.release();
+    }
+}
+
+
 
 exports.PostUserEdit = async (req, res) => {
   const { body } = req;
