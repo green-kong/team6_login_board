@@ -4,12 +4,12 @@ const pool = require('../../models/db/db.js');
 const { alertmove } = require('../../util/alertmove.js');
 
 exports.join = (req, res) => {
-    const { user } = req.session;
-    if ( user !== undefined ) {
-        res.send(alertmove('/','로그인된 상태입니다.'))
-    } else {
-        res.render('user/join.html');
-    }
+  const { user } = req.session;
+  if (user !== undefined) {
+    res.send(alertmove('/', '로그인된 상태입니다.'));
+  } else {
+    res.render('user/join.html');
+  }
 };
 
 exports.joincheck = async (req, res) => {
@@ -36,17 +36,21 @@ exports.joincheck = async (req, res) => {
   } finally {
     conn.release();
   }
-  res.send(alertmove(`/user/welcome?username=${body.username}`, '회원가입이 완료되었습니다.'));
+  res.send(
+    alertmove(
+      `/user/welcome?username=${body.username}`,
+      '회원가입이 완료되었습니다.'
+    )
+  );
 };
 
 exports.login = (req, res) => {
-
-    const { user } = req.session;
-    if ( user !== undefined ) {
-        res.send(alertmove('/','로그인된 상태입니다.'))
-    } else {
-        res.render('user/login.html'); 
-    }
+  const { user } = req.session;
+  if (user !== undefined) {
+    res.send(alertmove('/', '로그인된 상태입니다.'));
+  } else {
+    res.render('user/login.html');
+  }
 };
 
 exports.logincheck = async (req, res) => {
@@ -61,7 +65,7 @@ exports.logincheck = async (req, res) => {
           req.session.user = result[0];
           res.redirect('/');
         } else {
-          res.send(alertmove('/admin', '관리자 페이지에서 로그인 해주십시오.'))
+          res.send(alertmove('/admin', '관리자 페이지에서 로그인 해주십시오.'));
         }
       } else {
         res.send(alertmove('/user/login', '사용이 정지된 계정입니다.'));
@@ -77,21 +81,21 @@ exports.logincheck = async (req, res) => {
 };
 
 exports.logout = (req, res) => {
-    const { user } = req.session;
-    if ( user == undefined) {
-        res.send(alertmove('/user/login','로그인이 필요한 서비스입니다.'))
-    } else {
-        req.session.destroy(() => {
-            req.session;
-        });
-        res.send(alertmove('/', '로그아웃이 완료되었습니다.'));
-    }
+  const { user } = req.session;
+  if (user == undefined) {
+    res.send(alertmove('/user/login', '로그인이 필요한 서비스입니다.'));
+  } else {
+    req.session.destroy(() => {
+      req.session;
+    });
+    res.send(alertmove('/', '로그아웃이 완료되었습니다.'));
   }
+};
 
 exports.profile = async (req, res) => {
   const { user } = req.session;
   if (user == undefined) {
-    res.send(alertmove('/user/login', '로그인이 필요한 서비스입니다.'))
+    res.send(alertmove('/user/login', '로그인이 필요한 서비스입니다.'));
   } else {
     const conn = await pool.getConnection();
     try {
@@ -161,46 +165,47 @@ exports.profilecheck = async (req, res) => {
 };
 
 exports.quit = async (req, res) => {
-    const { user } = req.session;
-    if ( user == undefined) {
-        res.send(alertmove('/user/login','로그인이 필요한 서비스입니다.'))
-    } else {
-        const conn = await pool.getConnection();
-        try {
-            const sql = `DELETE FROM user WHERE userid = "${user.userid}"`;
-            await conn.query(sql);
-        } catch (error) {
-            throw error;
-        } finally {
-            conn.release();
-        }
-        res.send(alertmove('/user/logout', '회원탈퇴가 완료되었습니다.'));
+  const { user } = req.session;
+  if (user == undefined) {
+    res.send(alertmove('/user/login', '로그인이 필요한 서비스입니다.'));
+  } else {
+    const conn = await pool.getConnection();
+    try {
+      const sql = `DELETE FROM user WHERE userid = "${user.userid}"`;
+      await conn.query(sql);
+    } catch (error) {
+      throw error;
+    } finally {
+      conn.release();
     }
+    res.send(alertmove('/user/logout', '회원탈퇴가 완료되었습니다.'));
+  }
 };
 
 exports.welcome = (req, res) => {
   const { username } = req.query;
-  if ( username == undefined ) {
-    res.send(alertmove('/','회원가입 환영페이지 입니다.'))
+  if (username == undefined) {
+    res.send(alertmove('/', '회원가입 환영페이지 입니다.'));
   } else {
-    res.render('user/welcome.html', {username});
+    res.render('user/welcome.html', { username });
   }
 };
 
-exports.idCheck = async (req,res) => {
+exports.idCheck = async (req, res) => {
+  console.log('object');
   const reqJson = req.body;
   const conn = await pool.getConnection();
   try {
-    const sql = `SELECT * FROM user WHERE userid = '${reqJson.userid}'`
-    const [result] = await conn.query(sql)
-    if ( result.length == 0) {
-      res.send("true");
+    const sql = `SELECT * FROM user WHERE userid = '${reqJson.userid}'`;
+    const [result] = await conn.query(sql);
+    if (result.length == 0) {
+      res.send('true');
     } else {
-      res.send("false");
+      res.send('false');
     }
   } catch (error) {
     throw error;
   } finally {
     conn.release();
   }
-}
+};

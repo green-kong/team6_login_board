@@ -9,6 +9,10 @@ span {
   margin-left: 5px;
 }
 
+span.green {
+  color: rgb(73, 189, 73);
+}
+
 #header {
   background-color: transparent;
 }
@@ -97,4 +101,13 @@ span {
 
 .one_third_input {
   width: 125px;
+}
+
+#usergender {
+  height: 40px;
+  border: 1px solid #ececec;
+  padding: 0 15px;
+  font-size: 16px;
+  outline-color: black;
+  border-radius: 8px;
 }
