@@ -89,12 +89,11 @@ exports.viewGetMid = async (req, res) => {
                ON board.author=user._id 
                WHERE board._id='${index}'`;
     const [result] = await conn.query(sql);
-
-    // const year = result[0].date.getFullYear();
-    // const month = result[0].date.getMonth() + 1;
-    // const date = result[0].date.getDate();
-    // result[0].date = `${year}-${month}-${date}`;
-    res.render('board/view.html', { result: result[0], page, user, admin });
+    const year = result[0].date.getFullYear();
+    const month = result[0].date.getMonth() + 1;
+    const date = result[0].date.getDate();
+    result[0].date = `${year}-${month}-${date}`;
+    res.render('board/view.html', { result: result[0], page });
   } catch (error) {
     console.log(error);
   } finally {
