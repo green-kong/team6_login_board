@@ -81,7 +81,6 @@ exports.viewGetMid = async (req, res) => {
                ON board.author=user._id 
                WHERE board._id='${index}'`;
     const [result] = await conn.query(sql);
-
     const year = result[0].date.getFullYear();
     const month = result[0].date.getMonth() + 1;
     const date = result[0].date.getDate();
