@@ -122,10 +122,10 @@
       <li>
         <label for="usergender">성별</label>
         <select name="usergender" id="usergender">
-          {%if result.gender == '남자'%}
+          {%if male == 1%}
           <option value="남자" selected>남자</option>
           <option value="여자">여자</option>
-          {%elif result.gender == '여자'%}
+          {%else%}
           <option value="남자">남자</option>
           <option value="여자" selected>여자</option>
           {%endif%}

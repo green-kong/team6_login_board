@@ -17,13 +17,17 @@ router.get(
 
 router.get(
   '/user/edit',
-  adminController.AdminUserPageCheck,
+  adminController.adminLevelCheck,
   adminController.GetUserEdit
 );
 
 router.post('/user/edit', adminController.PostUserEdit);
 
-router.get('/board', adminController.GetBoard);
+router.get(
+  '/board',
+  adminController.AdminBoardPageCheck,
+  adminController.GetBoard
+);
 
 router.get('/board/delete', adminController.GetBoardDelete);
 
