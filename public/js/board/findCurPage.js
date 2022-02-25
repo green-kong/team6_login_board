@@ -3,6 +3,5 @@ const curPage = document.querySelector('#cur_page').innerHTML;
 
 (function findCurPage() {
   const index = curPage % 5 ? (curPage % 5) - 1 : 4;
-  console.log(index);
   pageList[index].classList.add('emphasis');
 })();

@@ -9,6 +9,7 @@
   src="https://kit.fontawesome.com/cbc296ae57.js"
   crossorigin="anonymous"
 ></script>
+<script src="/js/board/findCurPage.js" defer></script>
 {% endblock%}
 <!--  -->
 {% block content %}
@@ -48,13 +49,36 @@
     </table>
     <ul id="pagenation">
       <li><a href="#">&lt;</a></li>
-      <li class="selected_page"><a href="#">1</a></li>
-      <li><a href="#">2</a></li>
-      <li><a href="#">3</a></li>
-      <li><a href="#">4</a></li>
-      <li><a href="#">5</a></li>
+      <li><a href="/admin/board?page={{page-1}}">&lt;</a></li>
+      <li>
+        <a href="/admin/board?page={{pageCal*5-4}}" class="page_num">
+          {{pageCal*5-4}}
+        </a>
+      </li>
+      <li>
+        <a href="/admin/board?page={{pageCal*5-3}}" class="page_num">
+          {{pageCal*5-3}}
+        </a>
+      </li>
+      <li>
+        <a href="/admin/board?page={{pageCal*5-2}}" class="page_num">
+          {{pageCal*5-2}}
+        </a>
+      </li>
+      <li>
+        <a href="/admin/board?page={{pageCal*5-1}}" class="page_num">
+          {{pageCal*5-1}}
+        </a>
+      </li>
+      <li>
+        <a href="/admin/board?page={{pageCal*5}}" class="page_num">
+          {{pageCal*5}}
+        </a>
+      </li>
+      <li><a href="/admin/board?page={{page+1}}">&gt;</a></li>
       <li><a href="#">&gt;</a></li>
     </ul>
   </div>
 </div>
+<div style="display: none" id="cur_page">{{page}}</div>
 {% endblock %}
