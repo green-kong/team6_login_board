@@ -134,11 +134,11 @@ exports.editPostMid = async (req, res) => {
 };
 
 exports.deleteGetMid = async (req, res) => {
-  const { index } = req.query;
+  const { index, page } = req.query;
   const conn = await pool.getConnection();
   try {
     await conn.query(`DELETE FROM board WHERE _id='${index}'`);
-    res.send(alertmove('/board/list', '게시글이 삭제되었습니다.'));
+    res.send(alertmove(`/board/list?page=${page}`, '게시글이 삭제되었습니다.'));
   } catch (error) {
     console.log(error);
   } finally {
