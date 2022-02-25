@@ -120,3 +120,14 @@ span {
 .one_third_input {
   width: 110px;
 }
+
+#usergender {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #ececec;
+  padding: 0 15px;
+  font-size: 18px;
+  outline-color: black;
+  border-radius: 8px;
+  box-sizing: border-box;
+}

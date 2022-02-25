@@ -34,7 +34,7 @@
           id="username"
           maxlength="16"
           value="{{user.username}}"
-          disabled
+          readonly
         />
         <span id="name_span"></span>
       </li>
@@ -85,6 +85,7 @@
           <input
             type="text"
             name="userBirthMonth"
+            id="user_birth_month"
             placeholder="월"
             class="one_third_input"
             maxlength="2"
@@ -93,6 +94,7 @@
           <input
             type="text"
             name="userBirthDay"
+            id="user_birth_day"
             placeholder="일"
             class="one_third_input"
             maxlength="2"
