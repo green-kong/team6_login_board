@@ -49,7 +49,6 @@ table {
   border-right: 1px solid #ececec;
   border-collapse: collapse;
   margin-bottom: 20px;
-  min-height: 420px;
   table-layout: fixed;
   display: flex;
 }
