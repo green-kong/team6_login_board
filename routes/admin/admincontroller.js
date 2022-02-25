@@ -12,7 +12,7 @@ exports.adminLogin = async (req, res) => {
     const sql = `SELECT * FROM user WHERE userid = "${userid}" AND userpw = "${userpw}"`;
     const [result] = await conn.query(sql);
     if (result.length !== 0) {
-      if (result[0].level !== 1) {
+      if (result[0].level > 2) {
         res.send(alertmove('/admin', '접근권한이 없습니다.'));
       } else {
         req.session.admin = result[0];
