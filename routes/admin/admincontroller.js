@@ -51,7 +51,6 @@ exports.GetUser = async (req, res) => {
     } finally {
         conn.release();
     }
-
 };
 
 exports.GetUserEdit = async (req, res) => {
@@ -62,9 +61,12 @@ exports.GetUserEdit = async (req, res) => {
         const sql = `SELECT * FROM user WHERE _id = ${_id}`
         const [result] = await conn.query(sql);
         const tel = {};
-        tel.tel1 = result[0].tel.split('-')[0];
-        tel.tel2 = result[0].tel.split('-')[1];
-        tel.tel3 = result[0].tel.split('-')[2];
+        if (result[0].tel !== null) {
+            // 결과값이 null이 아닐때
+            tel.tel1 = result[0].tel.split('-')[0];
+            tel.tel2 = result[0].tel.split('-')[1];
+            tel.tel3 = result[0].tel.split('-')[2];
+        }
         const mobile = {};
         mobile.mb1 = result[0].mobile.split('-')[0];
         mobile.mb2 = result[0].mobile.split('-')[1];
@@ -73,12 +75,14 @@ exports.GetUserEdit = async (req, res) => {
         birthdate.year = result[0].birthdate.getFullYear();
         birthdate.month = result[0].birthdate.getMonth();
         birthdate.date = result[0].birthdate.getDate();
+
+        res.render('admin/userEdit.html', { result: result[0], tel, mobile, birthdate })
+
     } catch (error) {
         throw error;
     } finally {
         conn.release();
     }
-    res.render('admin/userEdit.html', { result, tel, mobile, birthdate })
 }
 
 
