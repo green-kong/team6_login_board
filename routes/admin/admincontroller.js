@@ -132,9 +132,11 @@ exports.GetBoard = async (req, res) => {
   const conn = await pool.getConnection();
   try {
     const sql = `SELECT board._id, subject, date , hit, author, alias
-                    FROM board join user on board.author = user._id LIMIT  ${
-                      (page - 1) * 10
-                    },10`;
+                 FROM board 
+                 JOIN user 
+                 ON board.author = user._id
+                 ORDER BY _id DESC
+                 LIMIT  ${(page - 1) * 10},10`;
     const [result] = await conn.query(sql);
     result.forEach((v, i) => {
       const Year = v.date.getFullYear();
