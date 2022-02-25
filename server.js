@@ -26,6 +26,8 @@ app.use(express.static('public'));
 
 app.use(session(sessionObj));
 
+app.use(express.json());
+
 app.use(express.urlencoded({ extended: true })); //post 요청 사용할때 header body로 오는 텍스트 읽어줌
 
 app.use(router); //라우터 받는 파일

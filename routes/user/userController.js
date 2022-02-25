@@ -1,3 +1,4 @@
+const PoolCluster = require('mysql/lib/PoolCluster');
 const { repeat } = require('nunjucks/src/lib');
 const pool = require('../../models/db/db.js');
 const { alertmove } = require('../../util/alertmove.js');
@@ -185,3 +186,21 @@ exports.welcome = (req, res) => {
     res.render('user/welcome.html', {username});
   }
 };
+
+exports.idCheck = async (req,res) => {
+  const reqJson = req.body;
+  const conn = await pool.getConnection();
+  try {
+    const sql = `SELECT * FROM user WHERE userid = '${reqJson.userid}'`
+    const [result] = await conn.query(sql)
+    if ( result.length == 0) {
+      res.send("true");
+    } else {
+      res.send("false");
+    }
+  } catch (error) {
+    throw error;
+  } finally {
+    conn.release();
+  }
+}

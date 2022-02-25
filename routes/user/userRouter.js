@@ -20,4 +20,6 @@ router.get('/quit',userController.quit);
 
 router.get('/welcome',userController.welcome);
 
+router.post('/join/idCheck',userController.idCheck);
+
 module.exports = router;
