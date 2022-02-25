@@ -6,25 +6,20 @@ exports.admin = (req, res) => {
 };
 
 exports.adminLogin = async (req, res) => {
-    const { userid, userpw } = req.body;
-    const conn = await pool.getConnection();
-    try {
-        const sql = `SELECT * FROM user WHERE userid = "${userid}" AND userpw = "${userpw}"`;
-        const [result] = await conn.query(sql);
-        if (result.length !== 0) {
-            if (result[0].level !== 1) {
-                res.send(alertmove('/admin', '접근권한이 없습니다.'));
-            } else {
-                req.session.admin = result[0]; // admin 정보 가져오기위한 저장공간이 세션
-                res.redirect('/');
-            }
-        } else {
-            res.send(alertmove('/admin', '존재하지 않는 계정입니다.'));
-        }
-    } catch (error) {
-        throw error;
-    } finally {
-        conn.release();
+  const { userid, userpw } = req.body;
+  const conn = await pool.getConnection();
+  try {
+    const sql = `SELECT * FROM user WHERE userid = "${userid}" AND userpw = "${userpw}"`;
+    const [result] = await conn.query(sql);
+    if (result.length !== 0) {
+      if (result[0].level !== 1) {
+        res.send(alertmove('/admin', '접근권한이 없습니다.'));
+      } else {
+        req.session.admin = result[0]; // admin 정보 가져오기위한 저장공간이 세션
+        res.redirect('/');
+      }
+    } else {
+      res.send(alertmove('/admin', '존재하지 않는 계정입니다.'));
     }
   } catch (error) {
     throw error;
@@ -76,14 +71,18 @@ exports.GetUserEdit = async (req, res) => {
     birthdate.year = result[0].birthdate.getFullYear();
     birthdate.month = result[0].birthdate.getMonth();
     birthdate.date = result[0].birthdate.getDate();
+    res.render('admin/userEdit.html', {
+      result: result[0],
+      birthdate,
+      mobile,
+      tel,
+    });
   } catch (error) {
     throw error;
   } finally {
     conn.release();
   }
-  res.render('admin/userEdit.html', { result, tel, mobile, birthdate });
 };
-
 
 exports.PostUserEdit = async (req, res) => {
   const { body } = req;
@@ -146,16 +145,15 @@ exports.GetBoard = async (req, res) => {
 };
 
 exports.GetBoardDelete = async (req, res) => {
-    let { _id } = req.query;
-    const conn = await pool.getConnection();
-    try {
-        const sql = `DELETE FROM board WHERE _id = ${_id}`;
-        await conn.query(sql);
-    } catch (error) {
-        throw error;
-    } finally {
-        conn.release();
-    }
-    res.send(alertmove('/admin/board?page=1', '게시글이 삭제되었습니다.'));
+  let { _id } = req.query;
+  const conn = await pool.getConnection();
+  try {
+    const sql = `DELETE FROM board WHERE _id = ${_id}`;
+    await conn.query(sql);
+  } catch (error) {
+    throw error;
+  } finally {
+    conn.release();
+  }
+  res.send(alertmove('/admin/board?page=1', '게시글이 삭제되었습니다.'));
 };
-
