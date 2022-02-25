@@ -4,11 +4,13 @@
 <link rel="stylesheet" href="/css/admin/userEdit.css" />
 {% endblock %}
 <!--  -->
-{% block js %} {% endblock%}
+{% block js %}
+<script src="/js/admin/userEdit.js" defer></script>
+{% endblock%}
 <!--  -->
 {% block content %}
 <div id="content">
-  <form action="/user/profile" method="post">
+  <form action="/admin/user/edit" method="post">
     <ul id="join_list">
       <div id="select_con">
         <select name="level" id="level">
@@ -181,9 +183,6 @@
         <div class="join_btn non_btn" id="join_submit_btn">
           양식이 지켜지지 않았습니다.
         </div>
-        <a class="join_btn non_btn" id="quit_btn" href="/user/quit">
-          회원탈퇴
-        </a>
       </div>
     </ul>
   </form>
