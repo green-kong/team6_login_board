@@ -142,15 +142,10 @@ exports.profilecheck = async (req, res) => {
                 mobile = '${body.usermobile1}-${body.usermobile2}-${body.usermobile3}',
                 tel = 'NULL'
                 where userid = '${body.userid}'`;
-    const sql3 = `SELECT * FROM user WHERE userid = "${body.userid}"`;
     if (body.usertel1 == '' || body.usertel2 == '' || body.usertel3 == '') {
       await conn.query(sql2);
-      const result = await conn.query(sql3);
-      req.session.user = result[0][0];
     } else {
       await conn.query(sql);
-      const result = await conn.query(sql3);
-      req.session.user = result[0][0];
     }
   } catch (error) {
     throw error;
