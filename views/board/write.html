@@ -30,13 +30,17 @@
     <div id="author_container">
       <div class="write_column">작성자</div>
       <div class="write_input_wrap">
+        {%if user%}
         <input
           type="text"
           name="author"
           disabled
           id="author"
-          value="{{author}}"
+          value="{{user.alias}}"
         />
+        {%elif admin%}
+        <input type="text" name="author" disabled id="author" value="관리자" />
+        {%endif%}
       </div>
     </div>
     <div id="btn_container">

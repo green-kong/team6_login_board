@@ -51,8 +51,8 @@ exports.listGetMid = async (req, res) => {
 };
 
 exports.writeGetMid = (req, res) => {
-  const { user } = req.session;
-  res.render('board/write.html', { author: user.alias, user });
+  const { user, admin } = req.session;
+  res.render('board/write.html', { admin, user });
 };
 
 exports.writePostMid = async (req, res) => {
@@ -93,7 +93,7 @@ exports.viewGetMid = async (req, res) => {
                ON board.author=user._id 
                WHERE board._id='${index}'`;
     const [result] = await conn.query(sql);
-    res.render('board/view.html', { result: result[0], page });
+    res.render('board/view.html', { result: result[0], page, user, admin });
   } catch (error) {
     console.log(error);
   } finally {
@@ -110,8 +110,6 @@ exports.editGetMid = async (req, res) => {
     const [result] = await conn.query(
       `SELECT subject,content FROM board WHERE _id='${index}' `
     );
-    console.log(result);
-
     res.render('board/edit.html', {
       result: result[0],
       index,
@@ -175,16 +173,15 @@ exports.boardUserCheck = async (req, res, next) => {
   const conn = await pool.getConnection();
   const sql = `SELECT author FROM board WHERE _id=${index}`;
   const [result] = await conn.query(sql);
-  console.log(result);
-  if (user._id !== result[0].author) {
+  if (admin !== undefined) {
+    next();
+  } else if (user._id !== result[0].author) {
     res.send(
       alertmove(
         `/board/view?index=${index}&page=${page}`,
         '본인이 작성한 글만 수정/삭제가 가능합니다.'
       )
     );
-  } else if (admin !== undefined) {
-    next();
   } else if (user._id === result[0].author) {
     next();
   }
