@@ -26,13 +26,13 @@
         <td id="category_hit">조회수</td>
         <td id="category_delete">삭제</td>
       </tr>
-      {%for user in result%}
+      {%for posting in result%}
       <tr>
-        <td>{{user._id}}</td>
-        <td><a href="/board/view?_id={{result._id}}">{{user.subject}}</a></td>
-        <td>{{user.author}}</td>
-        <td>{{user.date}}</td>
-        <td>{{user.hit}}</td>
+        <td>{{posting._id}}</td>
+        <td><a href="/board/view?_id={{posting._id}}">{{posting.subject}}</a></td>
+        <td>{{posting.alias}}</td>
+        <td>{{posting.date}}</td>
+        <td>{{posting.hit}}</td>
         <td>
           <a href="/admin/board/delete?_id={{user._id}}">
             <i class="fas fa-trash-alt"></i>
