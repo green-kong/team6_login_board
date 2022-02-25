@@ -35,16 +35,14 @@ exports.GetUser = async (req, res) => {
   try {
     const sql = `SELECT * FROM user LIMIT ${(page - 1) * 10},10`;
     const [result] = await conn.query(sql);
-    const birthYear = result[0].birthdate.getFullYear(); // timestamp에서 년만 가져옴 왜 여기만 Full이지
-    const birthMonth = result[0].birthdate.getMonth(); // timestamp에서 월만 가져옴
-    const birthday = result[0].birthdate.getDate(); // timestamp에서 일만 가져옴
-    result.forEach(function (v, i) {
+    result.forEach((v, i) => {
       const birthYear = v.birthdate.getFullYear();
       const birthMonth = v.birthdate.getMonth();
       const birthDate = v.birthdate.getDate();
 
       result[i].birthdate = `${birthYear}-${birthMonth}-${birthDate}`;
     });
+    console.log(result);
     res.render('admin/user.html', { result }); // result값의 바꾼 birthdate를 보내줌
   } catch (error) {
     throw error;
@@ -61,7 +59,7 @@ exports.GetUserEdit = async (req, res) => {
     const sql = `SELECT * FROM user WHERE _id = ${_id}`;
     const [result] = await conn.query(sql);
     const tel = {};
-    if (result[0].tel !== null) {
+    if (result[0].tel === null || result[0].tel === 'NULL') {
       // 결과값이 null이 아닐때
       tel.tel1 = result[0].tel.split('-')[0];
       tel.tel2 = result[0].tel.split('-')[1];
@@ -109,6 +107,7 @@ exports.PostUserEdit = async (req, res) => {
             birthdate = '${body.userBirthYear}-${body.userBirthMonth}-${body.userBirthDay}',
             gender = '${body.usergender}',
             mobile = '${body.usermobile1}-${body.usermobile2}-${body.usermobile3}',
+            tel = 'NULL'
             WHERE userid = '${body.userid}'`;
     if (body.usertel1 == '' || body.usertel2 == '' || body.usertel3 == '') {
       await conn.query(sql2);
@@ -120,7 +119,7 @@ exports.PostUserEdit = async (req, res) => {
   } finally {
     conn.release();
   }
-  res.send(alertmove('/user', '회원정보 수정이 완료되었습니다.'));
+  res.send(alertmove('/admin/user?page=1', '회원정보 수정이 완료되었습니다.'));
 };
 
 exports.GetBoard = async (req, res) => {

@@ -43,7 +43,7 @@
         <td>{{user.birthdate}}</td>
         <td>{{user.gender}}</td>
         <td>{{user.mobile}}</td>
-        {%if user.tel == null%}
+        {%if user.tel == null or 'NULL'%}
         <td>입력안됨</td>
         {%else%}
         <td>{{user.tel}}</td>
