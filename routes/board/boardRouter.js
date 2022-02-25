@@ -7,33 +7,19 @@ router.get('/list', boardController.listGetMid);
 
 router.get('/view', boardController.viewGetMid);
 
-router.get(
-  '/write',
-  boardController.boardLoginCheck,
-  boardController.writeGetMid
-);
+router.use('/', boardController.boardLoginCheck);
 
-router.post(
-  '/write',
-  boardController.boardLoginCheck,
-  boardController.writePostMid
-);
+router.get('/write', boardController.writeGetMid);
 
-router.get(
-  '/edit',
-  boardController.boardLoginCheck,
-  boardController.editGetMid
-);
+router.post('/write', boardController.writePostMid);
 
-router.post(
-  '/edit',
-  boardController.boardLoginCheck,
-  boardController.editPostMid
-);
+router.get('/edit', boardController.boardUserCheck, boardController.editGetMid);
+
+router.post('/edit', boardController.editPostMid);
 
 router.get(
   '/delete',
-  boardController.boardLoginCheck,
+  boardController.boardUserCheck,
   boardController.deleteGetMid
 );
 

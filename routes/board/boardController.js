@@ -2,6 +2,7 @@ const pool = require('../../models/db/db.js');
 const { alertmove } = require('../../util/alertmove.js');
 
 exports.listGetMid = async (req, res) => {
+  const { user, admin } = req.session;
   const page = Number(req.query.page);
   if (page < 1) {
     res.send(alertmove('/board/list?page=1', '접근할 수 없는 페이지 입니다.'));
@@ -33,7 +34,13 @@ exports.listGetMid = async (req, res) => {
           result[i].date = `${dateYear}-${dateMonth}-${dateDay}`;
         });
         const pageCal = Math.ceil(page / 5);
-        res.render('board/list.html', { result, pageCal, page });
+        if (user !== undefined) {
+          res.render('board/list.html', { result, pageCal, page, user });
+        } else if (admin !== undefined) {
+          res.render('board/list.html', { result, pageCal, page, admin });
+        } else {
+          res.render('board/list.html', { result, pageCal, page });
+        }
       }
     } catch (error) {
       console.log(error);
@@ -44,8 +51,8 @@ exports.listGetMid = async (req, res) => {
 };
 
 exports.writeGetMid = (req, res) => {
-  const author = req.session.user.alias;
-  res.render('board/write.html', { author });
+  const { user } = req.session;
+  res.render('board/write.html', { author: user.alias, user });
 };
 
 exports.writePostMid = async (req, res) => {
@@ -71,17 +78,17 @@ exports.writePostMid = async (req, res) => {
 };
 
 exports.viewGetMid = async (req, res) => {
+  const { user, admin } = req.session;
   const { index, page } = req.query;
   const conn = await pool.getConnection();
   try {
     await conn.query(`UPDATE board SET hit=hit+1 WHERE _id=${index}`);
-    const sql = `SELECT board._id, subject, date, hit, content, alias 
+    const sql = `SELECT board._id, subject, DATE_FORMAT(date,'%Y-%m-%d') AS date, hit, content, alias 
                FROM board 
                JOIN user 
                ON board.author=user._id 
                WHERE board._id='${index}'`;
     const [result] = await conn.query(sql);
-
     const year = result[0].date.getFullYear();
     const month = result[0].date.getMonth() + 1;
     const date = result[0].date.getDate();
@@ -95,6 +102,7 @@ exports.viewGetMid = async (req, res) => {
 };
 
 exports.editGetMid = async (req, res) => {
+  const { user, admin } = req.session;
   const { index, page } = req.query;
   console.log(index);
   const conn = await pool.getConnection();
@@ -104,7 +112,13 @@ exports.editGetMid = async (req, res) => {
     );
     console.log(result);
 
-    res.render('board/edit.html', { result: result[0], index, page });
+    res.render('board/edit.html', {
+      result: result[0],
+      index,
+      page,
+      user,
+      admin,
+    });
   } catch (error) {
     console.log(error);
   } finally {
@@ -134,11 +148,11 @@ exports.editPostMid = async (req, res) => {
 };
 
 exports.deleteGetMid = async (req, res) => {
-  const { index } = req.query;
+  const { index, page } = req.query;
   const conn = await pool.getConnection();
   try {
     await conn.query(`DELETE FROM board WHERE _id='${index}'`);
-    res.send(alertmove('/board/list', '게시글이 삭제되었습니다.'));
+    res.send(alertmove(`/board/list?page=${page}`, '게시글이 삭제되었습니다.'));
   } catch (error) {
     console.log(error);
   } finally {
@@ -151,6 +165,27 @@ exports.boardLoginCheck = (req, res, next) => {
   if (user === undefined && admin === undefined) {
     res.send(alertmove('/user/login', '로그인이 필요한 서비스 입니다.'));
   } else {
+    next();
+  }
+};
+
+exports.boardUserCheck = async (req, res, next) => {
+  const { user, admin } = req.session;
+  const { index, page } = req.query;
+  const conn = await pool.getConnection();
+  const sql = `SELECT author FROM board WHERE _id=${index}`;
+  const [result] = await conn.query(sql);
+  console.log(result);
+  if (user._id !== result[0].author) {
+    res.send(
+      alertmove(
+        `/board/view?index=${index}&page=${page}`,
+        '본인이 작성한 글만 수정/삭제가 가능합니다.'
+      )
+    );
+  } else if (admin !== undefined) {
+    next();
+  } else if (user._id === result[0].author) {
     next();
   }
 };

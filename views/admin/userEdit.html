@@ -1,51 +1,82 @@
 {% extends "../template/_layout.html" %}
 <!--  -->
 {% block css %}
-<link rel="stylesheet" href="/css/user/join.css" />
-{% endblock%}
-<!--  -->
-{% block js %}
-<script src="/js/user/join.js" defer></script>
-<script src="/js/user/idCheck.js" defer></script>
+<link rel="stylesheet" href="/css/admin/userEdit.css" />
 {% endblock %}
+<!--  -->
+{% block js %} {% endblock%}
 <!--  -->
 {% block content %}
 <div id="content">
-  <form action="/user/join" method="post">
+  <form action="/user/profile" method="post">
     <ul id="join_list">
+      <div id="select_con">
+        <select name="level" id="level">
+          {% if result.level == 1 %}
+          <option value="1" selected>최고관리자</option>
+          <option value="2">중간관리자</option>
+          <option value="3">일반사용자</option>
+          {% elif result.level == 2 %}
+          <option value="1">최고관리자</option>
+          <option value="2" selected>중간관리자</option>
+          <option value="3">일반사용자</option>
+          {% elif result.level == 3 %}
+          <option value="1">최고관리자</option>
+          <option value="2">중간관리자</option>
+          <option value="3" selected>일반사용자</option>
+          {% endif %}
+        </select>
+        <select name="isActive" id="isActive">
+          <option value="0">활성화</option>
+          <option value="1">정지</option>
+        </select>
+      </div>
       <li>
         <label for="userid">아이디</label>
         <div>
-          <input type="text" name="userid" id="userid" maxlength="16" />
-          <button type="button" id="id_check_btn" class="join_btn">
-            중복확인
-          </button>
+          <input
+            type="text"
+            name="userid"
+            id="userid"
+            maxlength="16"
+            value="{{result.userid}}"
+            readonly
+          />
         </div>
         <span id="id_span"></span>
       </li>
       <li>
         <label for="username">이름</label>
-        <input type="text" name="username" id="username" maxlength="16" />
+        <input
+          type="text"
+          name="username"
+          id="username"
+          maxlength="16"
+          value="{{result.username}}"
+          disabled
+        />
         <span id="name_span"></span>
       </li>
       <li>
         <label for="useralias">닉네임</label>
-        <input type="text" name="useralias" id="useralias" maxlength="16" />
+        <input
+          type="text"
+          name="useralias"
+          id="useralias"
+          maxlength="16"
+          value="{{result.alias}}"
+        />
         <span id="alias_span"></span>
       </li>
       <li>
-        <label for="userpw">비밀번호</label>
-        <input type="password" name="userpw" id="userpw" maxlength="16" />
-        <span id="pw_span"></span>
-      </li>
-      <li>
-        <label for="userpw_check">비밀번호 확인</label>
-        <input type="password" id="userpw_check" />
-        <span id="pw_chk_span"></span>
-      </li>
-      <li>
         <label for="useremail">이메일</label>
-        <input type="text" name="useremail" id="useremail" maxlength="32" />
+        <input
+          type="text"
+          name="useremail"
+          id="useremail"
+          maxlength="32"
+          value="{{result.email}}"
+        />
         <span id="email_span"></span>
       </li>
       <li>
@@ -58,6 +89,7 @@
             placeholder="년(4자)"
             class="one_third_input"
             maxlength="4"
+            value="{{birthdate.year}}"
           />
           <input
             type="text"
@@ -65,6 +97,7 @@
             placeholder="월"
             class="one_third_input"
             maxlength="2"
+            value="{{birthdate.month}}"
           />
           <input
             type="text"
@@ -72,6 +105,7 @@
             placeholder="일"
             class="one_third_input"
             maxlength="2"
+            value="{{birthdate.date}}"
           />
         </div>
         <span id="birth_span"></span>
@@ -92,6 +126,7 @@
             id="usermobile1"
             class="one_third_input"
             maxlength="3"
+            value="{{mobile.mb1}}"
           />
           <input
             type="text"
@@ -99,6 +134,7 @@
             id="usermobile2"
             class="one_third_input"
             maxlength="4"
+            value="{{mobile.mb2}}"
           />
           <input
             type="text"
@@ -106,6 +142,7 @@
             id="usermobile3"
             class="one_third_input"
             maxlength="4"
+            value="{{mobile.mb3}}"
           />
         </div>
         <span id="mobile_span"></span>
@@ -119,6 +156,7 @@
             id="usertel1"
             class="one_third_input"
             maxlength="3"
+            value="{{tel.tel1}}"
           />
           <input
             type="text"
@@ -126,6 +164,7 @@
             id="usertel2"
             class="one_third_input"
             maxlength="4"
+            value="{{tel.tel2}}"
           />
           <input
             type="text"
@@ -133,6 +172,7 @@
             id="usertel3"
             class="one_third_input"
             maxlength="4"
+            value="{{tel.tel2}}"
           />
         </div>
         <span id="tel_span"></span>
@@ -141,6 +181,9 @@
         <div class="join_btn non_btn" id="join_submit_btn">
           양식이 지켜지지 않았습니다.
         </div>
+        <a class="join_btn non_btn" id="quit_btn" href="/user/quit">
+          회원탈퇴
+        </a>
       </div>
     </ul>
   </form>
