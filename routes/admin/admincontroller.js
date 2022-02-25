@@ -59,7 +59,7 @@ exports.GetUserEdit = async (req, res) => {
     const sql = `SELECT * FROM user WHERE _id = ${_id}`;
     const [result] = await conn.query(sql);
     const tel = {};
-    if (result[0].tel === null || result[0].tel === 'NULL') {
+    if (result[0].tel !== null && result[0].tel !== 'NULL') {
       // 결과값이 null이 아닐때
       tel.tel1 = result[0].tel.split('-')[0];
       tel.tel2 = result[0].tel.split('-')[1];
