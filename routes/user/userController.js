@@ -1,5 +1,3 @@
-const PoolCluster = require('mysql/lib/PoolCluster');
-const { repeat } = require('nunjucks/src/lib');
 const pool = require('../../models/db/db.js');
 const { alertmove } = require('../../util/alertmove.js');
 
@@ -91,6 +89,7 @@ exports.logout = (req, res) => {
     res.send(alertmove('/', '로그아웃이 완료되었습니다.'));
   }
 };
+
 
 exports.profile = async (req, res) => {
   const { user } = req.session;
@@ -200,6 +199,7 @@ exports.idCheck = async (req, res) => {
     const [result] = await conn.query(sql);
     if (result.length == 0) {
       res.send('true');
+
     } else {
       res.send('false');
     }

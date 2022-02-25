@@ -2,30 +2,30 @@ const pool = require('../../models/db/db.js');
 const { alertmove } = require('../../util/alertmove.js');
 
 exports.admin = (req, res) => {
-  res.render('admin/admin.html');
+    res.render('admin/admin.html');
 };
 
 exports.adminLogin = async (req, res) => {
-  const { userid, userpw } = req.body;
-  const conn = await pool.getConnection();
-  try {
-    const sql = `SELECT * FROM user WHERE userid = "${userid}" AND userpw = "${userpw}"`;
-    const [result] = await conn.query(sql);
-    if (result.length !== 0) {
-      if (result[0].level !== 1) {
-        res.send(alertmove('/admin', '접근권한이 없습니다.'));
-      } else {
-        req.session.admin = result[0]; // admin 정보 가져오기위한 저장공간이 세션
-        res.redirect('/');
-      }
-    } else {
-      res.send(alertmove('/admin', '존재하지 않는 계정입니다.'));
+    const { userid, userpw } = req.body;
+    const conn = await pool.getConnection();
+    try {
+        const sql = `SELECT * FROM user WHERE userid = "${userid}" AND userpw = "${userpw}"`;
+        const [result] = await conn.query(sql);
+        if (result.length !== 0) {
+            if (result[0].level !== 1) {
+                res.send(alertmove('/admin', '접근권한이 없습니다.'));
+            } else {
+                req.session.admin = result[0];
+                res.redirect('/');
+            }
+        } else {
+            res.send(alertmove('/admin', '존재하지 않는 계정입니다.'));
+        }
+    } catch (error) {
+        throw error;
+    } finally {
+        conn.release();
     }
-  } catch (error) {
-    throw error;
-  } finally {
-    conn.release();
-  }
 };
 
 exports.GetUser = async (req, res) => {
@@ -39,7 +39,6 @@ exports.GetUser = async (req, res) => {
       const birthYear = v.birthdate.getFullYear();
       const birthMonth = v.birthdate.getMonth();
       const birthDate = v.birthdate.getDate();
-
       result[i].birthdate = `${birthYear}-${birthMonth}-${birthDate}`;
     });
     console.log(result);
@@ -88,10 +87,10 @@ exports.GetUserEdit = async (req, res) => {
 };
 
 exports.PostUserEdit = async (req, res) => {
-  const { body } = req;
-  const conn = await pool.getConnection();
-  try {
-    const sql = `UPDATE user SET level = '${body.level}',
+    const { body } = req;
+    const conn = await pool.getConnection();
+    try {
+        const sql = `UPDATE user SET level = '${body.level}',
             isActive = '${body.isActive}',
             alias = '${body.useralias}',
             email = '${body.useremail}',
@@ -100,7 +99,7 @@ exports.PostUserEdit = async (req, res) => {
             mobile = '${body.usermobile1}-${body.usermobile2}-${body.usermobile3}',
             tel = '${body.usertel1}-${body.usertel2}-${body.usertel3}'
                     WHERE userid = '${body.userid}'`;
-    const sql2 = `UPDATE user SET level = '${body.level}',
+        const sql2 = `UPDATE user SET level = '${body.level}',
             isActive = '${body.isActive}',
             alias = '${body.useralias}',
             email = '${body.useremail}',
@@ -109,54 +108,60 @@ exports.PostUserEdit = async (req, res) => {
             mobile = '${body.usermobile1}-${body.usermobile2}-${body.usermobile3}',
             tel = 'NULL'
             WHERE userid = '${body.userid}'`;
-    if (body.usertel1 == '' || body.usertel2 == '' || body.usertel3 == '') {
-      await conn.query(sql2);
-    } else {
-      await conn.query(sql);
+        if (body.usertel1 == '' || body.usertel2 == '' || body.usertel3 == '') {
+            await conn.query(sql2);
+        } else {
+            await conn.query(sql);
+        }
+    } catch (error) {
+        throw error;
+    } finally {
+        conn.release();
     }
-  } catch (error) {
-    throw error;
-  } finally {
-    conn.release();
-  }
-  res.send(alertmove('/admin/user?page=1', '회원정보 수정이 완료되었습니다.'));
+    res.send(alertmove('/admin/user?page=1', '회원정보 수정이 완료되었습니다.'));
 };
 
 exports.GetBoard = async (req, res) => {
-  let { page } = req.query;
-  page = Number(page);
-  const conn = await pool.getConnection();
-  try {
-    const sql = `SELECT board._id, subject, date , hit, author, alias
-                    FROM board join user on board.author = user._id LIMIT  ${
-                      (page - 1) * 10
-                    },10`;
-    const [result] = await conn.query(sql);
-    result.forEach(function (v, i) {
-      const Year = v.date.getFullYear();
-      const Month = v.date.getMonth();
-      const Date = v.date.getDate();
-      // 어려움
-      result[i].date = `${Year}-${Month}-${Date}`;
-    });
-    res.render('admin/board.html', { result, page });
-  } catch (error) {
-    throw error;
-  } finally {
-    conn.release();
-  }
+    let { page } = req.query;
+    page = Number(page);
+    const conn = await pool.getConnection();
+    try {
+        const sql = `SELECT board._id, subject, date , hit, author, alias
+                    FROM board join user on board.author = user._id LIMIT  ${(page - 1) * 10
+            },10`;
+        const [result] = await conn.query(sql);
+        result.forEach(function (v, i) {
+            const Year = v.date.getFullYear();
+            const Month = v.date.getMonth();
+            const Date = v.date.getDate();
+            result[i].date = `${Year}-${Month}-${Date}`;
+        });
+        res.render('admin/board.html', { result, page });
+    } catch (error) {
+        throw error;
+    } finally {
+        conn.release();
+    }
 };
 
 exports.GetBoardDelete = async (req, res) => {
-  let { _id } = req.query;
-  const conn = await pool.getConnection();
-  try {
-    const sql = `DELETE FROM board WHERE _id = ${_id}`;
-    await conn.query(sql);
-  } catch (error) {
-    throw error;
-  } finally {
-    conn.release();
-  }
-  res.send(alertmove('/admin/board?page=1', '게시글이 삭제되었습니다.'));
+    let { _id } = req.query;
+    const conn = await pool.getConnection();
+    try {
+        const sql = `DELETE FROM board WHERE _id = ${_id}`;
+        await conn.query(sql);
+    } catch (error) {
+        throw error;
+    } finally {
+        conn.release();
+    }
+    res.send(alertmove('/admin/board?page=1', '게시글이 삭제되었습니다.'));
 };
+
+exports.adminLoginCheck = (req, res, next) => {
+    if (req.session.admin !== undefined) {
+        next()
+    } else {
+        res.send(alertmove('/admin', '접근권한이 없습니다.'))
+    }
+}
