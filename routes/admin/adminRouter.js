@@ -15,6 +15,6 @@ router.post('/user/edit', adminController.PostUserEdit);
 
 router.get('/board', adminController.GetBoard); // user,board join 후 전달
 
-router.post('/board', adminController.PostBoard) // 그 특정회원 게시글 수정 삭제 권한
+router.get('/board/delete', adminController.GetBoardDelete) // 그 특정회원 게시글 수정 삭제 권한
 
 module.exports = router;

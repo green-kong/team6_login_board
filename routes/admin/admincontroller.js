@@ -30,19 +30,24 @@ exports.adminLogin = async (req, res) => {
 };
 
 exports.GetUser = async (req, res) => {
-    let { page } = req.query; // 다 스트링으로 받아짐
-    // page를 숫자로 바꾸는걸 해야함
+    let { page } = req.query;
     page = Number(page)
     const conn = await pool.getConnection();
     try {
         const sql = `SELECT * FROM user LIMIT ${(page - 1) * 10},10`;
-        const sql2 = `SELECT * FROM user`;
         const [result] = await conn.query(sql);
-        const birthYear = result[0].birthdate.getFullYear() // timestamp에서 년만 가져옴
+        const birthYear = result[0].birthdate.getFullYear() // timestamp에서 년만 가져옴 왜 여기만 Full이지
         const birthMonth = result[0].birthdate.getMonth() // timestamp에서 월만 가져옴
         const birthday = result[0].birthdate.getDate() // timestamp에서 일만 가져옴
+        result.forEach(function (v, i) {
+            const birthYear = v.birthdate.getFullYear();
+            const birthMonth = v.birthdate.getMonth();
+            const birthDate = v.birthdate.getDate();
+
+            result[i].birthdate = `${birthYear}-${birthMonth}-${birthDate}`
+        });
         result[0].birthdate = `${birthYear}-${birthMonth}-${birthday}` // timestamp에서 가져온 년월일을 이어줌 // 수정
-        res.render('admin/user.html', { result, birthdate }); // result값의 바꾼 birthdate를 보내줌
+        res.render('admin/user.html', { result }); // result값의 바꾼 birthdate를 보내줌
     } catch (error) {
         throw error;
     } finally {
@@ -50,7 +55,6 @@ exports.GetUser = async (req, res) => {
     }
 };
 
-// get useredit 부분 아직 수정
 exports.GetUserEdit = async (req, res) => {
     let { _id } = req.query;
     _id = Number(_id)
@@ -78,7 +82,6 @@ exports.GetUserEdit = async (req, res) => {
     res.render('admin/userEdit.html', { result, tel, mobile, birthdate })
 }
 
-// useredit 정보수정 후 post
 exports.PostUserEdit = async (req, res) => {
     const { body } = req;
     const conn = await pool.getConnection();
@@ -114,17 +117,41 @@ exports.PostUserEdit = async (req, res) => {
     res.send(alertmove('/user/edit', '회원정보 수정이 완료되었습니다.'));
 }
 
-exports.GetBoard = (req, res) => {
-    res.render('admin/board.html');
-};
-
-exports.PostBoard = async (req, res) => {
+exports.GetBoard = async (req, res) => {
+    let { page } = req.query;
+    page = Number(page);
     const conn = await pool.getConnection();
     try {
-        const sql = `DELETE FROM  WHERE id = 1105`;
+        const sql = `SELECT board._id, subject, date , hit, author, alias, user._id 
+                    FROM board join user on board.author = user._id LIMIT  ${(page - 1) * 10},10`;
+        const [result] = await conn.query(sql);
+        result.forEach(function (v, i) {
+            const Year = v.date.getFullYear();
+            const Month = v.date.getMonth();
+            const Date = v.date.getDate();
+            // 어려움
+            result[i].date = `${Year}-${Month}-${Date}`
+        });
+        res.render('admin/board.html', { result });
     } catch (error) {
         throw error;
     } finally {
         conn.release();
     }
+};
+
+// 어딘가 오류임 아직 구현 x
+exports.GetBoardDelete = async (req, res) => {
+    let _id = req.query;
+    _id = Number(_id);
+    const conn = await pool.getConnection();
+    try {
+        const sql = `DELETE FROM board WHERE _id = ${_id}`;
+        await conn.query(sql);
+    } catch (error) {
+        throw error;
+    } finally {
+        conn.release();
+    }
+    res.send(alertmove('/admin/board', '게시글이 삭제되었습니다.'));
 };
