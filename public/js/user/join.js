@@ -28,6 +28,7 @@ const userMobile3 = document.querySelector('#usermobile3');
 const mobileSpan = document.querySelector('#mobile_span');
 
 const numberInput = document.querySelectorAll('.one_third_input');
+console.log(numberInput);
 
 const joinBtn = document.querySelector('#btn_container');
 const idCompare = [];
@@ -318,6 +319,11 @@ userMobile1.addEventListener('blur', () => {
     mobile1Pass = false;
     btnActive();
     return;
+  } else {
+    userMobile1.style.background = '';
+    mobileSpan.innerHTML = '';
+    mobile1Pass = true;
+    btnActive();
   }
 });
 

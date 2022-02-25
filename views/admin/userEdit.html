@@ -29,8 +29,13 @@
           {% endif %}
         </select>
         <select name="isActive" id="isActive">
-          <option value="0">활성화</option>
-          <option value="1">정지</option>
+          {%if result.isActive == 1%}
+          <option value="1" selected>활성화</option>
+          <option value="0">정지</option>
+          {%elif result.isActive == 0%}
+          <option value="1">활성화</option>
+          <option value="0" selected>정지</option>
+          {%endif%}
         </select>
       </div>
       <li>
@@ -96,6 +101,7 @@
           <input
             type="text"
             name="userBirthMonth"
+            id="user_birth_month"
             placeholder="월"
             class="one_third_input"
             maxlength="2"
@@ -103,6 +109,7 @@
           />
           <input
             type="text"
+            id="user_birth_day"
             name="userBirthDay"
             placeholder="일"
             class="one_third_input"
@@ -115,8 +122,13 @@
       <li>
         <label for="usergender">성별</label>
         <select name="usergender" id="usergender">
-          <option value="남자">남자</option>
+          {%if result.gender == '남자'%}
+          <option value="남자" selected>남자</option>
           <option value="여자">여자</option>
+          {%elif result.gender == '여자'%}
+          <option value="남자">남자</option>
+          <option value="여자" selected>여자</option>
+          {%endif%}
         </select>
       </li>
       <li>
