@@ -79,8 +79,8 @@ exports.logincheck = async (req, res) => {
 };
 
 exports.logout = (req, res) => {
-  const { user } = req.session;
-  if (user == undefined) {
+  const { user, admin } = req.session;
+  if (user == undefined && admin == undefined) {
     res.send(alertmove('/user/login', '로그인이 필요한 서비스입니다.'));
   } else {
     req.session.destroy(() => {
@@ -90,16 +90,22 @@ exports.logout = (req, res) => {
   }
 };
 
-
 exports.profile = async (req, res) => {
-  const { user } = req.session;
-  if (user == undefined) {
+  const { user, admin } = req.session;
+  if (admin !== undefined) {
+    res.send(alertmove('/', '관리자는 이용할 수 없습니다.'));
+  } else if (user == undefined) {
     res.send(alertmove('/user/login', '로그인이 필요한 서비스입니다.'));
   } else {
     const conn = await pool.getConnection();
     try {
       const sql = `SELECT * FROM user WHERE userid = "${user.userid}"`;
       const result = await conn.query(sql);
+      let male;
+
+      if (result[0].gender === '남자') {
+        male = 1;
+      }
       const mobile = {};
       mobile.mb1 = result[0][0].mobile.split('-')[0];
       mobile.mb2 = result[0][0].mobile.split('-')[1];
@@ -113,9 +119,9 @@ exports.profile = async (req, res) => {
         tel.tel1 = result[0][0].tel.split('-')[0];
         tel.tel2 = result[0][0].tel.split('-')[1];
         tel.tel3 = result[0][0].tel.split('-')[2];
-        res.render('user/profile', { user, mobile, tel, birthdate });
+        res.render('user/profile', { user, mobile, tel, birthdate, male });
       } else {
-        res.render('user/profile', { user, mobile, birthdate });
+        res.render('user/profile', { user, mobile, birthdate, male });
       }
     } catch (error) {
       throw error;
@@ -199,7 +205,6 @@ exports.idCheck = async (req, res) => {
     const [result] = await conn.query(sql);
     if (result.length == 0) {
       res.send('true');
-
     } else {
       res.send('false');
     }
