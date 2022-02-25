@@ -59,3 +59,10 @@
 .sidemenu_btn > div:nth-child(3) {
   bottom: 0;
 }
+
+#login {
+  position: absolute;
+  right: 100px;
+  color: #107af2;
+  font-weight: 700;
+}

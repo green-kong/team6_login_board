@@ -10,11 +10,12 @@ router.use('/user', userRouter);
 router.use('/admin', adminRouter);
 
 router.get('/', (req, res) => {
+  const main = 1;
   const { user, admin } = req.session;
   if (user !== undefined) {
-    res.render('index.html', { user });
+    res.render('index.html', { user, main });
   } else if (admin !== undefined) {
-    res.render('index.html', { admin });
+    res.render('index.html', { admin, main });
   } else {
     res.render('index.html');
   }

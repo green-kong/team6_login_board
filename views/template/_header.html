@@ -5,6 +5,11 @@
         <img src="/img/LOGO/Logo_transparent.png" id="logo" />
       </a>
     </h1>
+    {%if main and user%}
+    <div id="login">{{user.alias}}님 환영합니다.</div>
+    {% elif main and admin%}
+    <div id="login">관리자님 환영합니다.</div>
+    {% endif%}
     <label for="sidemenu_check" class="sidemenu_btn">
       <div></div>
       <div></div>
