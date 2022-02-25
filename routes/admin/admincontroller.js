@@ -1,6 +1,5 @@
 const pool = require('../../models/db/db.js');
-const { alertmove } = require('../../util/alertmove.js')
-
+const { alertmove } = require('../../util/alertmove.js');
 
 exports.admin = (req, res) => {
     res.render('admin/admin.html');
@@ -16,8 +15,8 @@ exports.adminLogin = async (req, res) => {
             if (result[0].level !== 1) {
                 res.send(alertmove('/admin', '접근권한이 없습니다.'));
             } else {
-                res.redirect('/');
                 req.session.admin = result[0]; // admin 정보 가져오기위한 저장공간이 세션
+                res.redirect('/');
             }
         } else {
             res.send(alertmove('/admin', '존재하지 않는 계정입니다.'));
@@ -46,12 +45,14 @@ exports.GetUser = async (req, res) => {
 
             result[i].birthdate = `${birthYear}-${birthMonth}-${birthDate}`
         });
+        result[0].birthdate = `${birthYear}-${birthMonth}-${birthday}` // timestamp에서 가져온 년월일을 이어줌 // 수정
         res.render('admin/user.html', { result }); // result값의 바꾼 birthdate를 보내줌
     } catch (error) {
         throw error;
     } finally {
         conn.release();
     }
+
 };
 
 exports.GetUserEdit = async (req, res) => {
@@ -80,6 +81,7 @@ exports.GetUserEdit = async (req, res) => {
     }
     res.render('admin/userEdit.html', { result, tel, mobile, birthdate })
 }
+
 
 exports.PostUserEdit = async (req, res) => {
     const { body } = req;
@@ -113,16 +115,17 @@ exports.PostUserEdit = async (req, res) => {
     } finally {
         conn.release();
     }
-    res.send(alertmove('/user', '회원정보 수정이 완료되었습니다.'));
-}
+    res.send(alertmove('/user/edit', '회원정보 수정이 완료되었습니다.'));
+};
+
 
 exports.GetBoard = async (req, res) => {
     let { page } = req.query;
     page = Number(page);
     const conn = await pool.getConnection();
     try {
-        const sql = `SELECT board._id, subject, date , hit, author, alias, user._id 
-                    FROM board join user on board.author = user._id LIMIT  ${(page - 1) * 10},10`;
+        const sql = `SELECT board._id, subject, date , hit, author, alias 
+                    FROM board join user on board.author = user._id ORDER BY _id DESC LIMIT  ${(page - 1) * 10},10`;
         const [result] = await conn.query(sql);
         result.forEach(function (v, i) {
             const Year = v.date.getFullYear();
@@ -141,7 +144,7 @@ exports.GetBoard = async (req, res) => {
 
 // 어딘가 오류임 아직 구현 x
 exports.GetBoardDelete = async (req, res) => {
-    let { _id } = req.query;
+    let _id = req.query;
     _id = Number(_id);
     const conn = await pool.getConnection();
     try {
@@ -152,5 +155,6 @@ exports.GetBoardDelete = async (req, res) => {
     } finally {
         conn.release();
     }
-    res.send(alertmove('/admin/board?page=1', '게시글이 삭제되었습니다.'));
+    res.send(alertmove('/admin/board', '게시글이 삭제되었습니다.'));
 };
+
