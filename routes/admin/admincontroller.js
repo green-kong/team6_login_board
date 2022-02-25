@@ -6,20 +6,25 @@ exports.admin = (req, res) => {
 };
 
 exports.adminLogin = async (req, res) => {
-  const { userid, userpw } = req.body;
-  const conn = await pool.getConnection();
-  try {
-    const sql = `SELECT * FROM user WHERE userid = "${userid}" AND userpw = "${userpw}"`;
-    const [result] = await conn.query(sql);
-    if (result.length !== 0) {
-      if (result[0].level !== 1) {
-        res.send(alertmove('/admin', '접근권한이 없습니다.'));
-      } else {
-        res.redirect('/');
-        req.session.admin = result[0]; // admin 정보 가져오기위한 저장공간이 세션
-      }
-    } else {
-      res.send(alertmove('/admin', '존재하지 않는 계정입니다.'));
+    const { userid, userpw } = req.body;
+    const conn = await pool.getConnection();
+    try {
+        const sql = `SELECT * FROM user WHERE userid = "${userid}" AND userpw = "${userpw}"`;
+        const [result] = await conn.query(sql);
+        if (result.length !== 0) {
+            if (result[0].level !== 1) {
+                res.send(alertmove('/admin', '접근권한이 없습니다.'));
+            } else {
+                req.session.admin = result[0]; // admin 정보 가져오기위한 저장공간이 세션
+                res.redirect('/');
+            }
+        } else {
+            res.send(alertmove('/admin', '존재하지 않는 계정입니다.'));
+        }
+    } catch (error) {
+        throw error;
+    } finally {
+        conn.release();
     }
   } catch (error) {
     throw error;
@@ -42,7 +47,6 @@ exports.GetUser = async (req, res) => {
       const birthYear = v.birthdate.getFullYear();
       const birthMonth = v.birthdate.getMonth();
       const birthDate = v.birthdate.getDate();
-
       result[i].birthdate = `${birthYear}-${birthMonth}-${birthDate}`;
     });
     res.render('admin/user.html', { result }); // result값의 바꾼 birthdate를 보내줌
@@ -79,6 +83,7 @@ exports.GetUserEdit = async (req, res) => {
   }
   res.render('admin/userEdit.html', { result, tel, mobile, birthdate });
 };
+
 
 exports.PostUserEdit = async (req, res) => {
   const { body } = req;
@@ -140,18 +145,17 @@ exports.GetBoard = async (req, res) => {
   }
 };
 
-// 어딘가 오류임 아직 구현 x
 exports.GetBoardDelete = async (req, res) => {
-  let { _id } = req.query;
-  _id = Number(_id);
-  const conn = await pool.getConnection();
-  try {
-    const sql = `DELETE FROM board WHERE _id = ${_id}`;
-    await conn.query(sql);
-  } catch (error) {
-    throw error;
-  } finally {
-    conn.release();
-  }
-  res.send(alertmove('/admin/board?page=1', '게시글이 삭제되었습니다.'));
+    let { _id } = req.query;
+    const conn = await pool.getConnection();
+    try {
+        const sql = `DELETE FROM board WHERE _id = ${_id}`;
+        await conn.query(sql);
+    } catch (error) {
+        throw error;
+    } finally {
+        conn.release();
+    }
+    res.send(alertmove('/admin/board?page=1', '게시글이 삭제되었습니다.'));
 };
+
