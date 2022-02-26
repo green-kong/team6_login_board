@@ -4,7 +4,9 @@
 <link rel="stylesheet" href="/css/board/view.css" />
 {% endblock %}
 <!--  -->
-{% block js %} {% endblock%}
+{% block js %}
+<script src="/js/reply/reply.js" defer></script>
+{% endblock%}
 <!--  -->
 {% block content %}
 <div id="board_top">자유게시판</div>
@@ -27,12 +29,14 @@
 <div id="reply_container">
   <div id="reply_input">
     <div id="sub_con_input">
+      <input type="hidden" id="linkedPosting" value="{{result._id}}" />
       <input type="text" id="reply_author" value="댓글작성자테스트" readonly />
       <textarea
         name="replyContent"
         id="reply_content"
         cols="30"
         rows="10"
+        maxlength="120"
       ></textarea>
     </div>
     <button id="reply_btn">댓글등록</button>
@@ -42,76 +46,15 @@
     <p id="reply_count">25개</p>
   </div>
   <ul id="reply_list">
+    {%for reply in replyList%}
     <li>
-      <span>작성자 테스트</span>
-      <span>2022-12-12</span>
-      <div>댓글 내용내용 내내용 내용</div>
+      <span>{{reply.alias}}</span>
+      <span>{{reply.date}}</span>
+      <div>{{reply.content}}</div>
       <span class="reply_edit_btn reply_btn">수정</span>
       <span class="reply_del_btn reply_btn">삭제</span>
     </li>
-    <li>
-      <span>작성자 테스트</span>
-      <span>2022-12-12</span>
-      <div>댓글 내용내용 내내용 내용</div>
-      <span class="reply_edit_btn reply_btn">수정</span>
-      <span class="reply_del_btn reply_btn">삭제</span>
-    </li>
-    <li>
-      <span>작성자 테스트</span>
-      <span>2022-12-12</span>
-      <div>댓글 내용내용 내내용 내용</div>
-      <span class="reply_edit_btn reply_btn">수정</span>
-      <span class="reply_del_btn reply_btn">삭제</span>
-    </li>
-    <li>
-      <span>작성자 테스트</span>
-      <span>2022-12-12</span>
-      <div>댓글 내용내용 내내용 내용</div>
-      <span class="reply_edit_btn reply_btn">수정</span>
-      <span class="reply_del_btn reply_btn">삭제</span>
-    </li>
-    <li>
-      <span>작성자 테스트</span>
-      <span>2022-12-12</span>
-      <div>댓글 내용내용 내내용 내용</div>
-      <span class="reply_edit_btn reply_btn">수정</span>
-      <span class="reply_del_btn reply_btn">삭제</span>
-    </li>
-    <li>
-      <span>작성자 테스트</span>
-      <span>2022-12-12</span>
-      <div>댓글 내용내용 내내용 내용</div>
-      <span class="reply_edit_btn reply_btn">수정</span>
-      <span class="reply_del_btn reply_btn">삭제</span>
-    </li>
-    <li>
-      <span>작성자 테스트</span>
-      <span>2022-12-12</span>
-      <div>댓글 내용내용 내내용 내용</div>
-      <span class="reply_edit_btn reply_btn">수정</span>
-      <span class="reply_del_btn reply_btn">삭제</span>
-    </li>
-    <li>
-      <span>작성자 테스트</span>
-      <span>2022-12-12</span>
-      <div>댓글 내용내용 내내용 내용</div>
-      <span class="reply_edit_btn reply_btn">수정</span>
-      <span class="reply_del_btn reply_btn">삭제</span>
-    </li>
-    <li>
-      <span>작성자 테스트</span>
-      <span>2022-12-12</span>
-      <div>댓글 내용내용 내내용 내용</div>
-      <span class="reply_edit_btn reply_btn">수정</span>
-      <span class="reply_del_btn reply_btn">삭제</span>
-    </li>
-    <li>
-      <span>작성자 테스트</span>
-      <span>2022-12-12</span>
-      <div>댓글 내용내용 내내용 내용</div>
-      <span class="reply_edit_btn reply_btn">수정</span>
-      <span class="reply_del_btn reply_btn">삭제</span>
-    </li>
+    {%endfor%}
   </ul>
 </div>
 {% endblock %}

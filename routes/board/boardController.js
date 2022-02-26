@@ -92,7 +92,26 @@ exports.viewGetMid = async (req, res) => {
                ON board.author=user._id 
                WHERE board._id='${index}'`;
     const [result] = await conn.query(sql);
-    res.render('board/view.html', { result: result[0], page, user, admin });
+
+    const replySql = `SELECT
+                      reply._id, reply.content, alias, linkedPosting, DATE_FORMAT(reply.date, '%Y-%m-%d') AS date
+                      FROM reply
+                      JOIN board
+                      ON board._id = reply.linkedPosting
+                      JOIN user
+                      ON reply.author = user._id
+                      WHERE linkedPosting = ${index}
+                      ORDER BY reply._id DESC
+                      LIMIT 5`;
+    const [replyList] = await conn.query(replySql);
+
+    res.render('board/view.html', {
+      result: result[0],
+      page,
+      user,
+      admin,
+      replyList,
+    });
   } catch (error) {
     console.log(error);
   } finally {
