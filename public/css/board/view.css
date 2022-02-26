@@ -162,3 +162,55 @@
   box-sizing: border-box;
   cursor: pointer;
 }
+
+#reply_list_header {
+  margin-top: 30px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: 10px;
+  box-sizing: border-box;
+  font-size: 20px;
+  font-weight: 700;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+}
+
+#reply_list > li {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 30px 10px;
+  box-sizing: border-box;
+}
+
+#reply_list > li > span {
+  font-weight: 600;
+  font-size: 17px;
+}
+
+#reply_list > li > span:nth-child(2) {
+  font-size: 13px;
+  font-weight: 400;
+  margin-left: 10px;
+}
+
+#reply_list > li > div {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+#reply_list > li > span.reply_btn {
+  color: #666;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+#reply_list > li > span.reply_btn:hover {
+  color: #107af2;
+}
+
+#reply_list > li > span.reply_edit_btn::after {
+  color: #666;
+  font-size: 13px;
+  content: '|';
+  margin-left: 5px;
+}
