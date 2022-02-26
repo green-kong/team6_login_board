@@ -214,3 +214,13 @@
   content: '|';
   margin-left: 5px;
 }
+
+#unlogin_text {
+  width: 1000px;
+  display: flex;
+  justify-content: center;
+  color: #666;
+}
+#unlogin_text > p {
+  font-size: 18px;
+}

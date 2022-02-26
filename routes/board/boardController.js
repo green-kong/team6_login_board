@@ -86,11 +86,12 @@ exports.viewGetMid = async (req, res) => {
   const conn = await pool.getConnection();
   try {
     await conn.query(`UPDATE board SET hit=hit+1 WHERE _id=${index}`);
-    const sql = `SELECT board._id, subject, DATE_FORMAT(date,'%Y-%m-%d') AS date, hit, content, alias 
-               FROM board 
-               JOIN user 
-               ON board.author=user._id 
-               WHERE board._id='${index}'`;
+    const sql = `SELECT 
+              board._id, subject, DATE_FORMAT(date,'%Y-%m-%d') AS date, hit, content, alias
+              FROM board 
+              JOIN user 
+              ON board.author=user._id 
+              WHERE board._id='${index}'`;
     const [result] = await conn.query(sql);
 
     const replySql = `SELECT
@@ -104,13 +105,15 @@ exports.viewGetMid = async (req, res) => {
                       ORDER BY reply._id DESC
                       LIMIT 5`;
     const [replyList] = await conn.query(replySql);
-
+    const replyCntSql = `SELECT COUNT(*) AS replyCnt FROM reply WHERE linkedPosting = '${index}'`;
+    const [replyCnt] = await conn.query(replyCntSql);
     res.render('board/view.html', {
       result: result[0],
       page,
       user,
       admin,
       replyList,
+      replyCnt: replyCnt[0],
     });
   } catch (error) {
     console.log(error);
