@@ -3,7 +3,7 @@ const replyControll = require('./replyController.js');
 
 const router = express.Router();
 
-router.get('/read', replyControll.createReply);
+router.get('/read', replyControll.readReply);
 
 router.post('/create', replyControll.createReply);
 

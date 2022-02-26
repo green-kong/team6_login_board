@@ -56,22 +56,26 @@
     </div>
     {%if user or admin%}
     <button id="reply_btn">댓글등록</button>
+    {% else%}
+    <button id="reply_btn" style="display: hidden">댓글등록</button>
     {%endif%}
   </div>
   <div id="reply_list_header">
     <p id="reply_title">댓글</p>
     <p id="reply_count">{{replyCnt.replyCnt}}개</p>
   </div>
-  <ul id="reply_list">
-    {%for reply in replyList%}
-    <li>
-      <span>{{reply.alias}}</span>
-      <span>{{reply.date}}</span>
-      <div>{{reply.content}}</div>
-      <span class="reply_edit_btn reply_btn">수정</span>
-      <span class="reply_del_btn reply_btn">삭제</span>
-    </li>
-    {%endfor%}
-  </ul>
+  <div id="reply_wrap">
+    <ul class="reply_list">
+      {%for reply in replyList%}
+      <li>
+        <span>{{reply.alias}}</span>
+        <span>{{reply.date}}</span>
+        <div>{{reply.content}}</div>
+        <span class="reply_edit_btn reply_btn">수정</span>
+        <span class="reply_del_btn reply_btn">삭제</span>
+      </li>
+      {%endfor%}
+    </ul>
+  </div>
 </div>
 {% endblock %}
