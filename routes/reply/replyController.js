@@ -64,7 +64,36 @@ exports.createReply = async (req, res) => {
 
 exports.editGetReply = (req, res) => {};
 
-exports.editPostReply = (req, res) => {};
+exports.editPostReply = async (req, res) => {
+  const { replyId, editContent, linkedPosting } = req.body;
+  const conn = await pool.getConnection();
+
+  const updateSql = `UPDATE reply 
+                      SET content = '${editContent}'
+                      WHERE _id = '${replyId}'`;
+  const readSql = `SELECT
+                    reply._id, reply.content, alias, linkedPosting, DATE_FORMAT(reply.date, '%Y-%m-%d') AS date
+                    FROM reply
+                    JOIN board
+                    ON board._id = reply.linkedPosting
+                    JOIN user
+                    ON reply.author = user._id
+                    WHERE linkedPosting = ${linkedPosting}
+                    ORDER BY reply._id DESC
+                    LIMIT 5`;
+  const countSql = `SELECT COUNT(*) AS replyCnt FROM reply WHERE linkedPosting = '${linkedPosting}'`;
+  try {
+    await conn.query(updateSql);
+    const [replyList] = await conn.query(readSql);
+    const [replyCnt] = await conn.query(countSql);
+    const cnt = replyCnt[0].replyCnt;
+    res.render('reply/replyList.html', { replyList, cnt });
+  } catch (err) {
+    console.log(err);
+  } finally {
+    conn.release();
+  }
+};
 
 exports.delReply = async (req, res) => {
   const { replyId, linkedPosting } = req.body;

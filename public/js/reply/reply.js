@@ -4,11 +4,22 @@ const replyBtn = document.querySelector('#reply_btn');
 const replyList = document.querySelector('.reply_list');
 const replyWrap = document.querySelector('#reply_wrap');
 const replyDelBtn = document.querySelectorAll('.reply_del_btn');
+const replyEditBtn = document.querySelectorAll('.reply_edit_btn');
 
 let scrollCounter = 0;
 let justCounting = true;
+let isEditing = false;
 
-const resetReplyBtn = () => {};
+const resetBtn = () => {
+  const replyDelBtn = document.querySelectorAll('.reply_del_btn');
+  replyDelBtn.forEach((v) => {
+    v.addEventListener('click', deleteReply);
+  });
+  const replyEditBtn = document.querySelectorAll('.reply_edit_btn');
+  replyEditBtn.forEach((v) => {
+    v.addEventListener('click', editReply);
+  });
+};
 
 const createReply = async () => {
   const replyContent = document.querySelector('#reply_content');
@@ -33,6 +44,8 @@ const createReply = async () => {
   const newReplyCnt = document.querySelector('.reply_cnt_fr_srv').value;
   const replyCnt = document.querySelector('#reply_count');
   replyCnt.innerHTML = `${newReplyCnt}개`;
+
+  resetBtn();
 };
 
 const readMoreReply = async () => {
@@ -60,6 +73,8 @@ const readMoreReply = async () => {
 };
 
 const deleteReply = async (e) => {
+  if (isEditing) isEditing = false;
+
   const replyId = e.target.querySelector('input').value;
   const option = {
     method: 'post',
@@ -77,10 +92,55 @@ const deleteReply = async (e) => {
   const replyCnt = document.querySelector('#reply_count');
   replyCnt.innerHTML = `${newReplyCnt}개`;
 
-  const replyDelBtn = document.querySelectorAll('.reply_del_btn');
-  replyDelBtn.forEach((v) => {
-    v.addEventListener('click', deleteReply);
-  });
+  resetBtn();
+};
+
+const newEditBtnClick = async (e) => {
+  isEditing = false;
+  const editContent = document.querySelector('.reply_edit_content').value;
+  const replyId = e.target.querySelector('input').value;
+
+  const option = {
+    method: 'post',
+    headers: {
+      'Content-type': 'application/json',
+    },
+    body: JSON.stringify({ replyId, editContent, linkedPosting }),
+  };
+
+  const response = await fetch('/reply/edit', option);
+  const data = await response.text();
+  replyList.innerHTML = data;
+
+  resetBtn();
+};
+
+const editReply = (e) => {
+  if (isEditing === true) return alert('이미 변경중인 댓글이 있습니다.');
+  isEditing = true;
+  const replyId = e.target.querySelector('input').value;
+  const contentDiv = e.target.parentNode.querySelector('div');
+  const content = contentDiv.textContent;
+
+  const editInput = document.createElement('textarea');
+  editInput.classList.add('reply_edit_content');
+  editInput.value = content;
+  contentDiv.textContent = '';
+  contentDiv.appendChild(editInput);
+
+  const newEditBtn = document.createElement('span');
+  newEditBtn.innerHTML = '수정하기';
+  newEditBtn.classList.add('new_edit_btn');
+  e.target.parentNode.appendChild(newEditBtn);
+
+  const sendInput = document.createElement('input');
+  sendInput.value = replyId;
+  sendInput.style.display = 'none';
+  newEditBtn.appendChild(sendInput);
+
+  e.target.remove();
+
+  newEditBtn.addEventListener('click', newEditBtnClick);
 };
 
 replyBtn.addEventListener('click', createReply);
@@ -89,4 +149,8 @@ document.addEventListener('scroll', readMoreReply);
 
 replyDelBtn.forEach((v) => {
   v.addEventListener('click', deleteReply);
+});
+
+replyEditBtn.forEach((v) => {
+  v.addEventListener('click', editReply);
 });

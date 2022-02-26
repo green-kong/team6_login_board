@@ -145,6 +145,19 @@
   box-sizing: border-box;
 }
 
+.reply_edit_content {
+  width: 980px;
+  height: 80px;
+  overflow-y: hidden;
+  resize: none;
+  border: 1px solid #e0e0e0;
+  outline: none;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
 #reply_btn {
   width: 90px;
   height: 25px;
@@ -180,6 +193,7 @@
   border-bottom: 1px solid #e0e0e0;
   padding: 30px 10px;
   box-sizing: border-box;
+  position: relative;
 }
 
 .reply_list > li > span {
@@ -223,4 +237,28 @@
 }
 #unlogin_text > p {
   font-size: 18px;
+}
+
+.reply_list > li > .new_edit_btn {
+  width: 70px;
+  height: 20px;
+  font-size: 12px;
+  background-color: #107af2;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  text-align: center;
+  line-height: 20px;
+  box-sizing: border-box;
+  position: absolute;
+  right: 0;
+}
+
+.reply_list > li > .new_edit_btn:hover {
+  color: #107af2;
+  border: 2px solid #107af2;
+  background-color: #fff;
+  box-sizing: border-box;
+  cursor: pointer;
+  line-height: 16px;
 }
