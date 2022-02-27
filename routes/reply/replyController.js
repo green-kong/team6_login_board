@@ -13,10 +13,17 @@ exports.readReply = async (req, res) => {
                     WHERE linkedPosting = ${index}
                     ORDER BY reply._id DESC
                     LIMIT ${pageNum * 5},5`;
+  const cntSql = `SELECT * FROM reply WHERE linkedPosting = ${index}`;
   const conn = await pool.getConnection();
   try {
-    const [replyList] = await conn.query(readSql);
-    res.render('reply/replyList.html', { replyList });
+    const [cnt] = await conn.query(cntSql);
+    const lastPage = Math.ceil(cnt.length / 5);
+    if (lastPage < pageNum) {
+      res.send('false');
+    } else {
+      const [replyList] = await conn.query(readSql);
+      res.render('reply/replyList.html', { replyList });
+    }
   } catch (err) {
     console.log(err);
   } finally {

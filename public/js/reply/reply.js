@@ -53,11 +53,13 @@ const readMoreReply = async () => {
     if (justCounting) {
       justCounting = false;
       scrollCounter += 1;
-
       const url = `/reply/read?page=${scrollCounter}&index=${linkedPosting}`;
 
       const response = await fetch(url);
       const data = await response.text();
+      if (data === 'false') {
+        return;
+      }
 
       const loadedReply = document.createElement('ul');
       loadedReply.classList.add('reply_list');
@@ -91,7 +93,8 @@ const deleteReply = async (e) => {
 
   if (data === 'error1') return alert('로그인 후 이용 가능합니다.');
 
-  if (data === 'error2') return alert('본인이 작성한 글만 수정할 수 있습니다.');
+  if (data === 'error2')
+    return alert('본인이 작성한 댓글만 삭정할 수 있습니다.');
 
   if (data === 'admin') {
     alert('관리자 권한으로 댓글을 삭제했습니다.');
@@ -137,7 +140,8 @@ const editReply = async (e) => {
 
   if (data === 'error1') return alert('로그인 후 이용 가능합니다.');
 
-  if (data === 'error2') return alert('본인이 작성한 글만 수정할 수 있습니다.');
+  if (data === 'error2')
+    return alert('본인이 작성한 댓글만 수정할 수 있습니다.');
 
   if (data === 'admin') alert('관리자 권한으로 댓글을 수정합니다.');
 
