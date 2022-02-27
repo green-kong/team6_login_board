@@ -22,7 +22,7 @@ exports.adminLogin = async (req, res) => {
       res.send(alertmove('/admin', '존재하지 않는 계정입니다.'));
     }
   } catch (error) {
-    throw error;
+    console.log(error);
   } finally {
     conn.release();
   }
@@ -44,7 +44,7 @@ exports.GetUser = async (req, res) => {
     const pageCal = Math.ceil(page / 5);
     res.render('admin/user.html', { result, page, pageCal, admin });
   } catch (error) {
-    throw error;
+    console.log(error);
   } finally {
     conn.release();
   }
@@ -85,7 +85,7 @@ exports.GetUserEdit = async (req, res) => {
       male,
     });
   } catch (error) {
-    throw error;
+    console.log(error);
   } finally {
     conn.release();
   }
@@ -119,7 +119,7 @@ exports.PostUserEdit = async (req, res) => {
       await conn.query(sql);
     }
   } catch (error) {
-    throw error;
+    console.log(error);
   } finally {
     conn.release();
   }
@@ -147,7 +147,7 @@ exports.GetBoard = async (req, res) => {
     const pageCal = Math.ceil(page / 5);
     res.render('admin/board.html', { result, page, pageCal, admin });
   } catch (error) {
-    throw error;
+    console.log(error);
   } finally {
     conn.release();
   }
@@ -160,7 +160,7 @@ exports.GetBoardDelete = async (req, res) => {
     const sql = `DELETE FROM board WHERE _id = ${_id}`;
     await conn.query(sql);
   } catch (error) {
-    throw error;
+    console.log(error);
   } finally {
     conn.release();
   }

@@ -75,3 +75,36 @@ INSERT INTO board
 (subject, content, date, author)
 VALUES
 ('안녕하세요44', '잘부탁드립니다44', current_timestamp, '1');
+
+CREATE TABLE reply (
+_id INT PRIMARY KEY AUTO_INCREMENT,
+content VARCHAR(255) NOT NULL,
+author INT NOT NULL,
+linkedPosting INT NOT NULL,
+date TIMESTAMP NOT NULL
+);
+
+INSERT INTO reply
+(content, author, linkedPosting, date)
+VALUES
+('댓글 테스트', '1', '64', current_timestamp);
+
+INSERT INTO reply
+(content, author, linkedPosting, date)
+VALUES
+('댓글 테스트1', '2', '64',current_timestamp);
+
+INSERT INTO reply
+(content, author, linkedPosting, date)
+VALUES
+('댓글 테스트2', '3', '64',current_timestamp);
+
+INSERT INTO reply
+(content, author, linkedPosting, date)
+VALUES
+('댓글 테스트3', '1', '64',current_timestamp);
+
+INSERT INTO reply
+(content, author, linkedPosting, date)
+VALUES
+('댓글 테스트4', '6', '64',current_timestamp);

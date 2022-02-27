@@ -30,7 +30,7 @@ exports.joincheck = async (req, res) => {
       await conn.query(sql);
     }
   } catch (error) {
-    throw error;
+    console.log(error);
   } finally {
     conn.release();
   }
@@ -72,7 +72,7 @@ exports.logincheck = async (req, res) => {
       res.send(alertmove('/user/login', '존재하지 않는 계정입니다.'));
     }
   } catch (error) {
-    throw error;
+    console.log(error);
   } finally {
     conn.release();
   }
@@ -124,7 +124,7 @@ exports.profile = async (req, res) => {
         res.render('user/profile', { user, mobile, birthdate, male });
       }
     } catch (error) {
-      throw error;
+      console.log(error);
     } finally {
       conn.release();
     }
@@ -162,7 +162,7 @@ exports.profilecheck = async (req, res) => {
       req.session.user = result[0][0];
     }
   } catch (error) {
-    throw error;
+    console.log(error);
   } finally {
     conn.release();
   }
@@ -179,7 +179,7 @@ exports.quit = async (req, res) => {
       const sql = `DELETE FROM user WHERE userid = "${user.userid}"`;
       await conn.query(sql);
     } catch (error) {
-      throw error;
+      console.log(error);
     } finally {
       conn.release();
     }
@@ -197,7 +197,6 @@ exports.welcome = (req, res) => {
 };
 
 exports.idCheck = async (req, res) => {
-  console.log('object');
   const reqJson = req.body;
   const conn = await pool.getConnection();
   try {
@@ -209,7 +208,7 @@ exports.idCheck = async (req, res) => {
       res.send('false');
     }
   } catch (error) {
-    throw error;
+    console.log(error);
   } finally {
     conn.release();
   }

@@ -66,7 +66,6 @@ exports.writePostMid = async (req, res) => {
       const [result] = await conn.query(
         `INSERT INTO board(subject,author,content,date) values('${subject}','${author}','${content}',curdate());`
       );
-      console.log(result);
       res.send(
         alertmove(
           `/board/view?index=${result.insertId}&page=1`,
@@ -87,13 +86,35 @@ exports.viewGetMid = async (req, res) => {
   const conn = await pool.getConnection();
   try {
     await conn.query(`UPDATE board SET hit=hit+1 WHERE _id=${index}`);
-    const sql = `SELECT board._id, subject, DATE_FORMAT(date,'%Y-%m-%d') AS date, hit, content, alias 
-               FROM board 
-               JOIN user 
-               ON board.author=user._id 
-               WHERE board._id='${index}'`;
+    const sql = `SELECT 
+              board._id, subject, DATE_FORMAT(date,'%Y-%m-%d') AS date, hit, content, alias
+              FROM board 
+              JOIN user 
+              ON board.author=user._id 
+              WHERE board._id='${index}'`;
     const [result] = await conn.query(sql);
-    res.render('board/view.html', { result: result[0], page, user, admin });
+
+    const replySql = `SELECT
+                      reply._id, reply.content, alias, linkedPosting, DATE_FORMAT(reply.date, '%Y-%m-%d') AS date
+                      FROM reply
+                      JOIN board
+                      ON board._id = reply.linkedPosting
+                      JOIN user
+                      ON reply.author = user._id
+                      WHERE linkedPosting = ${index}
+                      ORDER BY reply._id DESC
+                      LIMIT 5`;
+    const [replyList] = await conn.query(replySql);
+    const replyCntSql = `SELECT COUNT(*) AS replyCnt FROM reply WHERE linkedPosting = '${index}'`;
+    const [replyCnt] = await conn.query(replyCntSql);
+    res.render('board/view.html', {
+      result: result[0],
+      page,
+      user,
+      admin,
+      replyList,
+      replyCnt: replyCnt[0],
+    });
   } catch (error) {
     console.log(error);
   } finally {
@@ -104,7 +125,6 @@ exports.viewGetMid = async (req, res) => {
 exports.editGetMid = async (req, res) => {
   const { user, admin } = req.session;
   const { index, page } = req.query;
-  console.log(index);
   const conn = await pool.getConnection();
   try {
     const [result] = await conn.query(
