@@ -9,9 +9,9 @@ router.post('/create', replyControll.createReply);
 
 router.get(
   '/edit',
+  replyControll.adminCheck,
   replyControll.checkLogin,
   replyControll.userCheck,
-  replyControll.adminCheck,
   replyControll.editGetReply
 );
 
@@ -19,9 +19,9 @@ router.post('/edit', replyControll.editPostReply);
 
 router.post(
   '/del',
+  replyControll.adminCheck,
   replyControll.checkLogin,
   replyControll.userCheck,
-  replyControll.adminCheck,
   replyControll.delReply
 );
 
