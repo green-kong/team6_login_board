@@ -43,9 +43,11 @@ exports.joincheck = async (req, res) => {
 };
 
 exports.login = (req, res) => {
-  const { user } = req.session;
+  const { user, admin } = req.session;
   if (user !== undefined) {
     res.send(alertmove('/', '로그인된 상태입니다.'));
+  } else if (admin !== undefined) {
+    res.send(alertmove('/', '로그아웃 후 이용해 주세요.'));
   } else {
     res.render('user/login.html');
   }
