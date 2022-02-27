@@ -12,7 +12,7 @@ exports.readReply = async (req, res) => {
                     ON reply.author = user._id
                     WHERE linkedPosting = ${index}
                     ORDER BY reply._id DESC
-                    LIMIT ${(pageNum - 1) * 5},5`;
+                    LIMIT ${pageNum * 5},5`;
   const conn = await pool.getConnection();
   try {
     const [replyList] = await conn.query(readSql);
