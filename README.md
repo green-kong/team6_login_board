@@ -33,6 +33,10 @@
 <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white"/></a>
 <img src="https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white"/></a>
 
+## 🗓  프로젝트 기간 🗓
+
+<img width="600" alt="image" src="https://user-images.githubusercontent.com/96301958/155877277-ca62d45f-0f1f-40d7-b2e1-4901f41c1585.png">
+
 # 📚 Wiki 📚
 
 [**Wiki Home**](https://github.com/green-kong/team6_login_board/wiki)
