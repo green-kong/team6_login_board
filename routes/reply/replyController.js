@@ -140,7 +140,7 @@ exports.userCheck = async (req, res, next) => {
 exports.adminCheck = (req, res, next) => {
   const { admin } = req.session;
 
-  if (admin === undefined) {
+  if (admin !== undefined) {
     res.send('admin');
   } else {
     next();

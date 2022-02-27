@@ -86,14 +86,19 @@ const deleteReply = async (e) => {
     body: JSON.stringify({ replyId, linkedPosting }),
   };
 
-  const response = await fetch('/reply/del', option);
+  const response = await fetch(`/reply/del?reply=${replyId}`, option);
   const data = await response.text();
 
   if (data === 'error1') return alert('로그인 후 이용 가능합니다.');
 
   if (data === 'error2') return alert('본인이 작성한 글만 수정할 수 있습니다.');
 
-  alert('댓글이 삭제되었습니다.');
+  if (data === 'admin') {
+    alert('관리자 권한으로 댓글을 삭제했습니다.');
+  } else {
+    alert('댓글이 삭제되었습니다.');
+  }
+
   e.target.parentNode.remove();
   const replyCnt = document.querySelector('#reply_count');
   const cntNum = replyCnt.textContent.split('')[0];
@@ -116,6 +121,8 @@ const newEditBtnClick = async (e) => {
 
   const response = await fetch('/reply/edit', option);
   const data = await response.text();
+
+  alert('댓글을 수정했습니다.');
   e.target.parentNode.innerHTML = data;
 
   resetBtn();
@@ -131,6 +138,8 @@ const editReply = async (e) => {
   if (data === 'error1') return alert('로그인 후 이용 가능합니다.');
 
   if (data === 'error2') return alert('본인이 작성한 글만 수정할 수 있습니다.');
+
+  if (data === 'admin') alert('관리자 권한으로 댓글을 수정합니다.');
 
   isEditing = true;
   const contentDiv = e.target.parentNode.querySelector('div');
@@ -153,6 +162,7 @@ const editReply = async (e) => {
   newEditBtn.appendChild(sendInput);
 
   e.target.remove();
+  console.log(e.target.nextSibling);
 
   newEditBtn.addEventListener('click', newEditBtnClick);
 };
