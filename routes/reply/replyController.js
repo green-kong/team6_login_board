@@ -65,29 +65,25 @@ exports.createReply = async (req, res) => {
 exports.editGetReply = (req, res) => {};
 
 exports.editPostReply = async (req, res) => {
-  const { replyId, editContent, linkedPosting } = req.body;
+  const { replyId, editContent } = req.body;
   const conn = await pool.getConnection();
 
   const updateSql = `UPDATE reply 
                       SET content = '${editContent}'
                       WHERE _id = '${replyId}'`;
-  const readSql = `SELECT
+  const readSql = ` SELECT
                     reply._id, reply.content, alias, linkedPosting, DATE_FORMAT(reply.date, '%Y-%m-%d') AS date
                     FROM reply
                     JOIN board
                     ON board._id = reply.linkedPosting
                     JOIN user
                     ON reply.author = user._id
-                    WHERE linkedPosting = ${linkedPosting}
-                    ORDER BY reply._id DESC
-                    LIMIT 5`;
-  const countSql = `SELECT COUNT(*) AS replyCnt FROM reply WHERE linkedPosting = '${linkedPosting}'`;
+                    WHERE reply._id = ${replyId}
+                    `;
   try {
     await conn.query(updateSql);
-    const [replyList] = await conn.query(readSql);
-    const [replyCnt] = await conn.query(countSql);
-    const cnt = replyCnt[0].replyCnt;
-    res.render('reply/replyList.html', { replyList, cnt });
+    const [result] = await conn.query(readSql);
+    res.render('reply/replyEdit.html', { reply: result[0] });
   } catch (err) {
     console.log(err);
   } finally {
@@ -96,26 +92,14 @@ exports.editPostReply = async (req, res) => {
 };
 
 exports.delReply = async (req, res) => {
-  const { replyId, linkedPosting } = req.body;
+  const { replyId } = req.body;
   const conn = await pool.getConnection();
   const delSql = `DELETE FROM reply WHERE _id = ${replyId}`;
-  const readSql = `SELECT
-                    reply._id, reply.content, alias, linkedPosting, DATE_FORMAT(reply.date, '%Y-%m-%d') AS date
-                    FROM reply
-                    JOIN board
-                    ON board._id = reply.linkedPosting
-                    JOIN user
-                    ON reply.author = user._id
-                    WHERE linkedPosting = ${linkedPosting}
-                    ORDER BY reply._id DESC
-                    LIMIT 5`;
-  const countSql = `SELECT COUNT(*) AS replyCnt FROM reply WHERE linkedPosting = '${linkedPosting}'`;
+
   try {
     await conn.query(delSql);
-    const [replyList] = await conn.query(readSql);
-    const [replyCnt] = await conn.query(countSql);
-    const cnt = replyCnt[0].replyCnt;
-    res.render('reply/replyList.html', { replyList, cnt });
+
+    res.send(true);
   } catch (err) {
     console.log(err);
   } finally {
