@@ -2,8 +2,8 @@
   
 ![header](https://capsule-render.vercel.app/api?type=waving&color=timeGradient&height=200&section=header&text=안녕하세요!%20Team6입니다.%20🙌&fontSize=36&fontAlign=50&fontAlignY=40)
 
-  <img width="600" alt="image" src="https://user-images.githubusercontent.com/96301958/155890485-8e99fb56-7c3f-4218-b007-3ed06569ea50.png">
-# ✨  <img width="400" alt="image" src="https://user-images.githubusercontent.com/96301958/155890485-8e99fb56-7c3f-4218-b007-3ed06569ea50.png"> ✨
+  
+# ✨  <img width="200" alt="image" src="https://user-images.githubusercontent.com/96301958/155890485-8e99fb56-7c3f-4218-b007-3ed06569ea50.png"> ✨
 
 로그인기능과 게시판 기능 관리자기능이 있는 웹페이지 구현 
   
