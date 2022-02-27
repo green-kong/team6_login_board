@@ -7,9 +7,9 @@
 
 로그인기능과 게시판 기능 관리자기능이 있는 웹페이지 구현 
   
-![mainCap](https://user-images.githubusercontent.com/96301958/155878322-75123ea7-0c12-4ce7-9dae-25d07e46a421.gif)
+[![mainCap](https://user-images.githubusercontent.com/96301958/155878322-75123ea7-0c12-4ce7-9dae-25d07e46a421.gif)](https://youtu.be/Tqr8G8JJrAg)
 
-
+### 위 gif 를 클릭하면 시연영상으로 이동합니다
  
 # 👫 Team Goal 👫
 
