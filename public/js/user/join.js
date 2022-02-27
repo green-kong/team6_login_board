@@ -315,7 +315,7 @@ userMobile1.addEventListener('blur', () => {
   console.log('check123');
   if (userMobile1.value.toString() !== '010') {
     userMobile1.style.background = 'pink';
-    mobileSpan.innerHTML = '올바른 번호 입력해주세요.';
+    mobileSpan.innerHTML = '올바른 번호를 입력해주세요.';
     mobile1Pass = false;
     btnActive();
     return;
@@ -330,7 +330,7 @@ userMobile1.addEventListener('blur', () => {
 userMobile2.addEventListener('blur', () => {
   if (userMobile2.value.length < 4) {
     userMobile2.style.background = 'pink';
-    mobileSpan.innerHTML = '올바른 생일을 입력해주세요.';
+    mobileSpan.innerHTML = '올바른 번호를 입력해주세요.';
     mobile2Pass = false;
     btnActive();
     return;
@@ -345,7 +345,7 @@ userMobile2.addEventListener('blur', () => {
 userMobile3.addEventListener('blur', () => {
   if (userMobile3.value.length < 4) {
     userMobile3.style.background = 'pink';
-    mobileSpan.innerHTML = '올바른 생일을 입력해주세요.';
+    mobileSpan.innerHTML = '올바른 번호를 입력해주세요.';
     mobile3Pass = false;
     btnActive();
     return;

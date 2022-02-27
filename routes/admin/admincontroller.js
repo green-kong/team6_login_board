@@ -42,7 +42,7 @@ exports.GetUser = async (req, res) => {
     const [result] = await conn.query(sql);
     result.forEach((v, i) => {
       const birthYear = v.birthdate.getFullYear();
-      const birthMonth = v.birthdate.getMonth();
+      const birthMonth = v.birthdate.getMonth() + 1;
       const birthDate = v.birthdate.getDate();
       result[i].birthdate = `${birthYear}-${birthMonth}-${birthDate}`;
     });
@@ -75,7 +75,7 @@ exports.GetUserEdit = async (req, res) => {
     mobile.mb3 = result[0].mobile.split('-')[2];
     const birthdate = {};
     birthdate.year = result[0].birthdate.getFullYear();
-    birthdate.month = result[0].birthdate.getMonth();
+    birthdate.month = result[0].birthdate.getMonth() + 1;
     birthdate.date = result[0].birthdate.getDate();
     let male;
 

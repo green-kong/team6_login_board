@@ -105,7 +105,7 @@ exports.profile = async (req, res) => {
       const result = await conn.query(sql);
       let male;
 
-      if (result[0].gender === '남자') {
+      if (result[0][0].gender === '남자') {
         male = 1;
       }
       const mobile = {};
