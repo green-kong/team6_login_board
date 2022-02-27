@@ -53,11 +53,13 @@ const readMoreReply = async () => {
     if (justCounting) {
       justCounting = false;
       scrollCounter += 1;
-
       const url = `/reply/read?page=${scrollCounter}&index=${linkedPosting}`;
 
       const response = await fetch(url);
       const data = await response.text();
+      if (data === 'false') {
+        return;
+      }
 
       const loadedReply = document.createElement('ul');
       loadedReply.classList.add('reply_list');
