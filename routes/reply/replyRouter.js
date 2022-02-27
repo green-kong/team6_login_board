@@ -7,10 +7,22 @@ router.get('/read', replyControll.readReply);
 
 router.post('/create', replyControll.createReply);
 
-router.get('/edit', replyControll.editGetReply);
+router.get(
+  '/edit',
+  replyControll.checkLogin,
+  replyControll.userCheck,
+  replyControll.adminCheck,
+  replyControll.editGetReply
+);
 
 router.post('/edit', replyControll.editPostReply);
 
-router.post('/del', replyControll.delReply);
+router.post(
+  '/del',
+  replyControll.checkLogin,
+  replyControll.userCheck,
+  replyControll.adminCheck,
+  replyControll.delReply
+);
 
 module.exports = router;

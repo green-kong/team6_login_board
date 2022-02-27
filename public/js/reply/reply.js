@@ -88,17 +88,17 @@ const deleteReply = async (e) => {
 
   const response = await fetch('/reply/del', option);
   const data = await response.text();
-  console.log(data);
-  if (data === 'true') {
-    alert('댓글이 삭제되었습니다.');
-    e.target.parentNode.remove();
-    const replyCnt = document.querySelector('#reply_count');
-    const cntNum = replyCnt.textContent.split('')[0];
-    replyCnt.innerHTML = `${cntNum - 1}개`;
-    resetBtn();
-  } else {
-    alert('접근권한이 없습니다.');
-  }
+
+  if (data === 'error1') return alert('로그인 후 이용 가능합니다.');
+
+  if (data === 'error2') return alert('본인이 작성한 글만 수정할 수 있습니다.');
+
+  alert('댓글이 삭제되었습니다.');
+  e.target.parentNode.remove();
+  const replyCnt = document.querySelector('#reply_count');
+  const cntNum = replyCnt.textContent.split('')[0];
+  replyCnt.innerHTML = `${cntNum - 1}개`;
+  resetBtn();
 };
 
 const newEditBtnClick = async (e) => {
@@ -116,7 +116,6 @@ const newEditBtnClick = async (e) => {
 
   const response = await fetch('/reply/edit', option);
   const data = await response.text();
-  console.log(data);
   e.target.parentNode.innerHTML = data;
 
   resetBtn();
@@ -124,12 +123,16 @@ const newEditBtnClick = async (e) => {
 
 const editReply = async (e) => {
   if (isEditing === true) return alert('이미 변경중인 댓글이 있습니다.');
+  const replyId = e.target.querySelector('input').value;
 
-  const response = await fetch('/reply/edit');
+  const response = await fetch(`/reply/edit?reply=${replyId}`);
   const data = await response.text();
 
+  if (data === 'error1') return alert('로그인 후 이용 가능합니다.');
+
+  if (data === 'error2') return alert('본인이 작성한 글만 수정할 수 있습니다.');
+
   isEditing = true;
-  const replyId = e.target.querySelector('input').value;
   const contentDiv = e.target.parentNode.querySelector('div');
   const content = contentDiv.textContent;
 

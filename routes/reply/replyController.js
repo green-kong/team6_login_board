@@ -62,7 +62,9 @@ exports.createReply = async (req, res) => {
   }
 };
 
-exports.editGetReply = (req, res) => {};
+exports.editGetReply = (req, res) => {
+  res.send(true);
+};
 
 exports.editPostReply = async (req, res) => {
   const { replyId, editContent } = req.body;
@@ -104,5 +106,43 @@ exports.delReply = async (req, res) => {
     console.log(err);
   } finally {
     conn.release();
+  }
+};
+
+exports.checkLogin = (req, res, next) => {
+  const { user } = req.session;
+  if (user === undefined) {
+    res.send('error1');
+  } else {
+    next();
+  }
+};
+
+exports.userCheck = async (req, res, next) => {
+  const { user } = req.session;
+  const { reply } = req.query;
+  const conn = await pool.getConnection();
+  const sql = `SELECT author FROM reply WHERE _id = '${reply}'`;
+  try {
+    const [result] = await conn.query(sql);
+    if (result[0].author !== user._id) {
+      res.send('error2');
+    } else {
+      next();
+    }
+  } catch (err) {
+    console.log(err);
+  } finally {
+    conn.release();
+  }
+};
+
+exports.adminCheck = (req, res, next) => {
+  const { admin } = req.session;
+
+  if (admin === undefined) {
+    res.send('admin');
+  } else {
+    next();
   }
 };
