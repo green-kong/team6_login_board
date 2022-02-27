@@ -2,7 +2,12 @@ const pool = require('../../models/db/db.js');
 const { alertmove } = require('../../util/alertmove.js');
 
 exports.admin = (req, res) => {
-  res.render('admin/admin.html');
+  const { user } = req.session;
+  if (user !== undefined) {
+    res.send(alertmove('/', '접근할 수 없습니다.'));
+  } else {
+    res.render('admin/admin.html');
+  }
 };
 
 exports.adminLogin = async (req, res) => {
